@@ -186,26 +186,29 @@ HRESULT CLoader_etc::Loading_Tutorial_Texture()
 		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/SkyBox/space.dds"), 1))))
 		return E_FAIL;
 
+	
+
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Texture_Fire0");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_TUTORIAL, TEXT("Prototype_Component_Texture_Fire0"),
 		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Effect/Sprite/Fire/Fire0(%d).png"), 64))))
 		return E_FAIL;
+
+
 
 	// Owl UI용 텍스쳐
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Texture_InteractionUI");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_InteractionUI"),
 		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/UMap/MapObejct/Owl_UI/interactionUI.dds"), 1))))
 		return E_FAIL;
-
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Texture_message_box_context");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_message_box_context"),
 		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/UMap/MapObejct/Owl_UI/message_box_context.dds"), 1))))
 		return E_FAIL;
-
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Texture_message_box_name");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_message_box_name"),
 		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/UMap/MapObejct/Owl_UI/message_box_name.dds"), 1))))
 		return E_FAIL;
+
 
 	Safe_Release(pGameInstance);
 	return S_OK;
@@ -225,6 +228,20 @@ HRESULT CLoader_etc::Loading_Tutorial_Object()
 		CLightDepth::Create(m_pDevice, m_pDeviceContext))))
 		return E_FAIL;
 
+	lstrcpy(m_szLoading, L"Loader_etc : Prototype_GameObject_Rect_Effect");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Rect_Effect"),
+		CRect_Effect::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoading, L"Loader_etc : Prototype_GameObject_Point_Effect");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Point_Effect"),
+		CPoint_Effect::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoading, L"Loader_etc : Prototype_GameObject_Mesh_Effect");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Mesh_Effect"),
+		CMeshEffect::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
 
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_GameObject_Sky");
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Sky"),

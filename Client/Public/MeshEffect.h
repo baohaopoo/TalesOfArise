@@ -6,7 +6,7 @@ BEGIN(Engine)
 class CShader;
 class CRenderer;
 class CTexture;
-class CSubModel;
+class CModel;
 class CGameObject;
 END
 
@@ -51,7 +51,7 @@ private:
 	CRenderer*		m_pRendererCom = nullptr;
 	CShader*		m_pShaderCom = nullptr;
 	CTexture*		m_pTextureCom = nullptr;
-	CSubModel*		m_pModel = nullptr;
+	CModel*			m_pModel = nullptr;
 	CTransform*		m_Parents_TF = nullptr;
 	CGameObject*	m_Parents_P = nullptr;
 	UNIT_TYPE		m_Unit_Type = UNIT_END;

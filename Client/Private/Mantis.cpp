@@ -90,6 +90,10 @@ void CMantis::Tick(_double TimeDelta)
 		}
 
 		//BattleUI 생성하기
+
+
+
+
 	}
 
 
@@ -103,12 +107,11 @@ void CMantis::Tick(_double TimeDelta)
 			{
 				m_bStart = true;
 
-				m_iMotion = 1;
-				//if (m_iMotion == 6)
-				//	m_iMotion = 0;
+				if (m_iMotion == 6)
+					m_iMotion = 0;
 
-				//else
-				//	m_iMotion++;
+				else
+					m_iMotion++;
 			}
 
 			switch (m_iMotion)
@@ -396,8 +399,8 @@ void CMantis::AttackPattern1()
 	{
 		CRect_Effect* Effect = (CRect_Effect*)pGameInstance->Add_GameObjectToLayer(pGameInstance->Get_LevelIndex(), TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Rect_Effect"), pGameInstance->Get_InstanceEffect_Data(UNIT_MONSTER, 1));
 		Effect->Set_Transform(UNIT_MONSTER, this, m_pTransformCom, _float3(0.f, 0.f, 3.5f));
-	}
 
+	}
 	RELEASE_INSTANCE(CGameInstance);
 }
 
@@ -520,7 +523,6 @@ void CMantis::AttackPattern3()
 		vLook = XMVector3Normalize(vLook) - LookF;
 		m_pTransformCom->Look(vLook);
 	}
-
 	else if (m_iCurrentAnimationIndex == HUM)
 	{
 		m_pTransformCom->Look(NPos);
@@ -573,6 +575,7 @@ void CMantis::AttackPattern3()
 void CMantis::AttackPattern4()
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
 
 	if (!m_bOnce && m_bStart)
 	{
@@ -636,6 +639,7 @@ void CMantis::AttackPattern4()
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
+
 }
 
 void CMantis::AttackPattern5()
