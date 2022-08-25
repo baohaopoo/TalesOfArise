@@ -156,13 +156,13 @@ void CBoar::Tick(_double TimeDelta)
 			if ((m_TimeDelta > 5.0) && (m_bOnce == false))
 			{
 				m_bStart = true;
-				m_iMotion = 2;
+				
 
-				/*if (m_iMotion == 5)
+				if (m_iMotion == 5)
 					m_iMotion = 0;
 
 				else
-					m_iMotion++;*/
+					m_iMotion++;
 
 			}
 
@@ -472,7 +472,7 @@ void CBoar::AttackPattern2()
 		if (m_pModelCom->Get_CurAnimation()->Get_CenterChannel()->Get_CurrentKeyFrameIndex() >= 60 && m_pModelCom->Get_CurAnimation()->Get_CenterChannel()->Get_CurrentKeyFrameIndex() <= 88)
 		{
 			m_bOnAttackCollider = true;
-			m_pAttackSphereCom->Set(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 1.f);
+			m_pAttackSphereCom->Set(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 1.5f);
 		}
 	}
 
@@ -510,7 +510,7 @@ void CBoar::AttackPattern3()
 		if (m_pModelCom->Get_CurAnimation()->Get_CenterChannel()->Get_CurrentKeyFrameIndex() >= 63 && m_pModelCom->Get_CurAnimation()->Get_CenterChannel()->Get_CurrentKeyFrameIndex() <= 90)
 		{
 			m_bOnAttackCollider = true;
-			m_pAttackSphereCom->Set(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 1.f);
+			m_pAttackSphereCom->Set(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 1.5f);
 		}
 	}
 
@@ -599,8 +599,8 @@ void CBoar::AttackPattern4()
 	{
 		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 0));
 		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
-		(Effect->Get_Transfrom())->Scaled(_float3(2.f, 2.f, 2.f));
-		(Effect->Get_Transfrom())->GO_RUL(_float3(-1.f, 0.f, 1.f));
+		(Effect->Get_Transfrom())->Scaled(_float3(1.5f, 1.5f, 1.5f));
+		(Effect->Get_Transfrom())->GO_RUL(_float3(0.f, 0.5f, 1.f));
 	}
 
 
@@ -1039,8 +1039,8 @@ HRESULT CBoar::SetUp_Components()
 		return E_FAIL;
 
 	/* For.Com_SPHERE */
-	ColliderDesc.vPosition = _float3(0.f, 0.5f, 0.f);
-	ColliderDesc.fRadius = 2.f;
+	ColliderDesc.vPosition = _float3(0.f, 0.5f, 0.5f);
+	ColliderDesc.fRadius = 1.5f;
 
 	if (FAILED(__super::SetUp_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;
