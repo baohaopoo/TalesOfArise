@@ -39,9 +39,9 @@ HRESULT CCamera_Default::NativeConstruct(void * pArg)
 	//구면좌표계 관련
 	m_fCameraLookatPlayerHeight = 0.4f;	//카메라가 플레이어 높이 어디 처다볼지
 	m_fMouseSensitivity = 0.5f;			//마우스 민감도
-	m_fRadius = 3.f;
+	m_fRadius = 6.f;
 	m_minRadius = 0.1f;
-	m_maxRadius = 6.f;
+	m_maxRadius = 10.f;
 	m_minAzimuth = 0.f;
 	m_maxAzimuth = 360.f;
 	m_minElevation = 0.f;
@@ -69,10 +69,10 @@ void CCamera_Default::Tick(_double TimeDelta)
 		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		m_bSphericalStart = true;
 		SphericalCoordinates(vPos, vPlayerPos);
-		m_fAzimuth = XMConvertToRadians(-90.f);
+		m_fAzimuth = XMConvertToRadians(-90.f);   //
 		m_fElevation = XMConvertToRadians(38.5f);
 		//m_fRadius = 6.f;
-		m_fRadius = 3.f;
+		m_fRadius = 6.f;
 		_vector vCameraPos = toCartesian() + vPlayerPos;
 		XMStoreFloat3(&m_vPrePlayerPos, vPlayerPos);
 		XMStoreFloat3(&m_vCurPlayerPos, vPlayerPos);
@@ -99,8 +99,11 @@ void CCamera_Default::Tick(_double TimeDelta)
 	case Client::CCamera_Default::CAMERA_STATE_FIELD:
 		Camera_Field(TimeDelta);
 		break;
+	case Client::CCamera_Default::CAMERA_STATE_BATTLE_ENTER:
+		Camera_BattleEnter(TimeDelta);
+		break;
 	case Client::CCamera_Default::CAMERA_STATE_BATTLE:
-		Camera_Battle(TimeDelta);
+		Follow_Camera(TimeDelta);
 		break;
 	case Client::CCamera_Default::CAMERA_STATE_CHANGE:
 		break;
@@ -392,7 +395,7 @@ void CCamera_Default::Camera_Field(_double TimeDelta)
 	SphericalCoordinatesTranslateRadius((_float)MouseMoveWheel*1.2f*(_float)TimeDelta*0.2f);
 	SphericalCoordinatesRotate((_float)MouseMoveX*(_float)TimeDelta*m_fMouseSensitivity, (_float)MouseMoveY*(_float)TimeDelta*m_fMouseSensitivity);
 	vCameraPos = toCartesian() + vPlayerPos;
-	XMStoreFloat3(&m_vCameraEye,vPlayerPos);
+	XMStoreFloat3(&m_vCameraEye, vCameraPos);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetW(vCameraPos, 1.f));
 	m_pTransformCom->LookAt(XMVectorSetY(vPlayerPos, XMVectorGetY(vPlayerPos) + m_fCameraLookatPlayerHeight));
 	XMStoreFloat3(&m_vCameraAt, XMVectorSetY(vPlayerPos, XMVectorGetY(vPlayerPos) + m_fCameraLookatPlayerHeight));
@@ -415,7 +418,17 @@ void CCamera_Default::Camera_Battle(_double TimeDelta)
 	_vector vCameraPos;
 
 	_vector vPlayerPos = m_pPlayer_Manager->Get_MainPlayer()->Get_PlayerPos();
-	_vector vTargetPos = m_pPlayer_Manager->Get_MainPlayer()->Get_TargetPos(); 
+	_vector vTargetPos = m_pPlayer_Manager->Get_MainPlayer()->Get_TargetPos();
+
+	_vector vDir = vTargetPos - vPlayerPos;  // 실제 타깃과 플레이어와의 방향 (노말라이즈하지 않으면 실제 거리값을 가지고있는다);
+	_vector vOriginDir = vDir;
+	_float fDistance = XMVectorGetX(XMVector3Length(vDir));
+
+	vDir = XMVectorSetY(vDir, 0.f);
+	// 이거리 값을 이용해 실제 카메라의 반지름 을 구한다. (타깃이 멀리있으면 반지름을 멀리 가까이있으면  가깝게.
+
+
+
 
 	if (!m_bBattleStart)
 	{
@@ -433,23 +446,212 @@ void CCamera_Default::Camera_Battle(_double TimeDelta)
 		m_bBattleStart = true;
 	}
 
-	 _float fSpeed = XMVectorGetX(XMVector3Length(m_pPlayer_Manager->Get_MainPlayer()->Get_PlayerPos() - m_pTransformCom->Get_State(CTransform::STATE_POSITION)));
-	 
-	 
-	 m_fEyeLerp += TimeDelta *pow(fSpeed, 1.5)*0.5f;
+	_float fSpeed = XMVectorGetX(XMVector3Length(m_pPlayer_Manager->Get_MainPlayer()->Get_PlayerPos() - m_pTransformCom->Get_State(CTransform::STATE_POSITION)));
+
+
+
+	m_fEyeLerp += TimeDelta *pow(fSpeed, 1.5)*0.4f;
 	if (m_fEyeLerp >= 1.f)
-	 {
+	{
 		m_fEyeLerp = 0.f;
 		m_vPreCameraEye = m_vCurCameraEye;
-		 XMStoreFloat3(&m_vCurCameraEye, vPlayerPos); //현재 프레임의 알펜 위치저장 
+		XMStoreFloat3(&m_vCurCameraEye, vPlayerPos - XMVector3Normalize(vDir)*4.f + XMVectorSet(0.f, 1.f, 0.f, 1.f)* m_fCameraLookatPlayerHeight*4.f);//현재 프레임의 알펜 위치저장 
 
-	 }
+	}
 
 
 
-	fSpeed = XMVectorGetX(XMVector3Length(m_pPlayer_Manager->Get_MainPlayer()->Get_TargetPos() -  XMLoadFloat3(&m_vCameraAt)));
 
-	m_fAtLerp += TimeDelta *pow(fSpeed, 1.5)*0.2f;
+	//fSpeed = XMVectorGetX(XMVector3Length(m_pPlayer_Manager->Get_MainPlayer()->Get_TargetPos() - XMLoadFloat3(&m_vCameraAt)));
+
+	m_fAtLerp += TimeDelta *pow(fSpeed, 1.5)*0.4f;
+	if (m_fAtLerp >= 1.f)
+	{
+		m_fAtLerp = 0.f;
+		m_vPreCameraAt = m_vCurCameraAt;
+		XMStoreFloat3(&m_vCurCameraAt, vPlayerPos + vDir*0.2f); //현재 프레임의 알펜 위치저장 
+
+	}
+
+
+
+
+
+
+
+	//_float fSpeed = XMVectorGetX(XMVector3Length(vPlayerPos - m_pTransformCom->Get_State(CTransform::STATE_POSITION)));
+	//m_fPlayerPosLerp += TimeDelta *pow(fSpeed, 1.5);
+	//if (m_fPlayerPosLerp >= 1.f)
+	//{
+	// m_fPlayerPosLerp = 0.f;
+	// m_vPrePlayerPos = m_vCurPlayerPos;   //전프레임의 알펜 저장 
+	// XMStoreFloat3(&m_vCurPlayerPos, vPlayerPos); //현재 프레임의 알펜 위치저장 
+
+	//}
+
+
+
+	if (m_pGameInstance->Key_Pressing(CInput_Device::DIMB_RBUTTON))
+	{
+
+		if (MouseMoveX = -m_pGameInstance->Get_DIMMoveState(CInput_Device::DIMM_X))
+		{
+
+
+		}
+		if (MouseMoveY = m_pGameInstance->Get_DIMMoveState(CInput_Device::DIMM_Y))
+		{
+
+		}
+		if (MouseMoveWheel = -m_pGameInstance->Get_DIMMoveState(CInput_Device::DIMM_WHEEL))
+		{
+
+		}
+		SphericalCoordinatesTranslateRadius((_float)MouseMoveWheel*1.2f*(_float)TimeDelta*0.2f);
+		SphericalCoordinatesRotate((_float)MouseMoveX*(_float)TimeDelta*m_fMouseSensitivity, (_float)MouseMoveY*(_float)TimeDelta*m_fMouseSensitivity);
+
+	}
+
+	vCameraPos = /*toCartesian() +*/ XMQuaternionSlerp(XMLoadFloat3(&m_vPreCameraEye), XMLoadFloat3(&m_vCurCameraEye), m_fEyeLerp);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetW(vCameraPos, 1.f));
+	//m_pTransformCom->LookAt(XMVectorSetW(XMVectorLerp(XMLoadFloat3(&m_vPreCameraAt), XMLoadFloat3(&m_vCurCameraAt), m_fAtLerp),1.f));
+	m_pTransformCom->LookAt(XMVectorSetW(XMQuaternionSlerp(XMLoadFloat3(&m_vPreCameraAt), XMLoadFloat3(&m_vCurCameraAt), m_fAtLerp), 1.f));
+
+	XMStoreFloat3(&m_vCameraAt, XMQuaternionSlerp(XMLoadFloat3(&m_vPreCameraAt), XMLoadFloat3(&m_vCurCameraAt), m_fAtLerp));
+
+}
+
+void CCamera_Default::Camera_BattleEnter(_double TimeDelta)
+{
+	if (!m_bStartScene)
+	{
+		SnapToBattleStart();
+		m_vVelocity = _float3(0.f, 0.f, 0.f);
+		m_vVelocityAt = _float3(0.f, 0.f, 0.f);
+		m_bStartScene = true;
+	}
+
+	// 스프링 상숫값으로부터 감쇄 인자값 계산
+	_float dampeningAt = 2.0f *sqrtf(m_fSpringConstantAt);
+
+	_vector vPlayerPos = m_pPlayer_Manager->Get_MainPlayer()->Get_PlayerPos();
+	_vector vTargetPos = m_pPlayer_Manager->Get_MainPlayer()->Get_TargetPos();
+
+	_vector vDir = vTargetPos - vPlayerPos;  // 실제 타깃과 플레이어와의 방향 (노말라이즈하지 않으면 실제 거리값을 가지고있는다);
+	_vector vOriginDir = vDir;
+	vDir = XMVectorSetY(vDir, 0.f);
+
+	_vector idealAt = vPlayerPos + vDir*0.5f;
+	_vector diffAt = XMLoadFloat3(&m_vActualAt) - idealAt;
+	_vector acelAt = -m_fSpringConstantAt * diffAt - dampeningAt * XMLoadFloat3(&m_vVelocityAt);
+	// 속도를 갱신
+	XMStoreFloat3(&m_vVelocityAt, XMLoadFloat3(&m_vVelocityAt) + acelAt * TimeDelta);
+	// 실제 카메라의 위치를 갱신
+	XMStoreFloat3(&m_vActualAt, XMLoadFloat3(&m_vActualAt) + XMLoadFloat3(&m_vVelocityAt) * TimeDelta);
+
+	_float dampening = 2.0f *sqrtf(m_fSpringConstantAt);
+
+	_float fDistance = XMVectorGetX(XMVector3Length(vDir));
+
+
+
+
+
+
+
+	// 이상적인 위치 계산
+	_vector idealPos = ComputeCameraPos();
+	// 이상적인 위치와 실제 위치의 차를 계산
+	_vector diff = XMLoadFloat3(&m_vActualPos) - idealPos;
+	// 스프링의 가속도를 계산한다.
+	_vector acel = -m_fSpringConstant * diff - dampening * XMLoadFloat3(&m_vVelocity);
+
+	if (XMVectorGetX(XMVector3Length(diff)) < 0.15f)
+	{
+		m_eCameraState = CAMERA_STATE_BATTLE;
+		m_bStartScene = false;
+		return;
+	}
+
+	// 속도를 갱신
+	XMStoreFloat3(&m_vVelocity, XMLoadFloat3(&m_vVelocity) + acel * TimeDelta);
+	// 실제 카메라의 위치를 갱신
+	XMStoreFloat3(&m_vActualPos, XMLoadFloat3(&m_vActualPos) + XMLoadFloat3(&m_vVelocity) * TimeDelta);
+
+
+
+	// 타깃은 소유자 앞에 있는 대상을 의미
+	_vector  vtarget = m_pPlayer_Manager->Get_MainPlayer()->Get_PlayerPos() + m_pPlayer_Manager->Get_MainPlayer()->Get_PlayerLook() * m_fTargetDist;
+	// 카메라가 뒤집혀지는 경우는 없기에 위쪽 방향은 항상 UnitZ이다
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetW(XMLoadFloat3(&m_vActualPos), 1.f));
+	m_pTransformCom->LookAt(XMVectorSetW(XMLoadFloat3(&m_vActualAt), 1.f));
+
+}
+
+void CCamera_Default::TagetChange()
+{
+
+
+
+
+}
+
+_vector CCamera_Default::ComputeCameraPos()
+{
+
+	CPlayer* pMainPlayer = m_pPlayer_Manager->Get_MainPlayer();
+	_vector vPlayerPos = pMainPlayer->Get_PlayerPos();
+	_vector vTargetPos = pMainPlayer->Get_TargetPos();
+
+	_vector vDir = vTargetPos - vPlayerPos;  // 실제 타깃과 플레이어와의 방향 (노말라이즈하지 않으면 실제 거리값을 가지고있는다);
+	_vector vOriginDir = vDir;
+	vDir = XMVectorSetY(vDir, 0.f);
+
+	_vector cameraPos = pMainPlayer->Get_PlayerPos();
+	cameraPos -= XMVector3Normalize(vDir) * m_fHorzDist*2.f;
+	cameraPos += XMVectorSet(0.f, 1.f, 0.f, 0.f)* m_fVertDist*1.5f;
+	return cameraPos;
+}
+
+void CCamera_Default::Follow_Camera(_double TimeDelta)
+{
+
+
+	// 스프링 상숫값으로부터 감쇄 인자값 계산
+	_float dampeningAt = 2.0f *sqrtf(m_fSpringConstantAt);
+
+	_vector vPlayerPos = m_pPlayer_Manager->Get_MainPlayer()->Get_PlayerPos();
+	_vector vTargetPos = m_pPlayer_Manager->Get_MainPlayer()->Get_TargetPos();
+
+	_vector vDir = vTargetPos - vPlayerPos;  // 실제 타깃과 플레이어와의 방향 (노말라이즈하지 않으면 실제 거리값을 가지고있는다);
+	_vector vOriginDir = vDir;
+	vDir = XMVectorSetY(vDir, 0.f);
+
+	_vector idealAt = vPlayerPos + vDir*0.5f;
+	_vector diffAt = XMLoadFloat3(&m_vActualAt) - idealAt;
+	_vector acelAt = -m_fSpringConstantAt * diffAt - dampeningAt * XMLoadFloat3(&m_vVelocityAt);
+	// 속도를 갱신
+	XMStoreFloat3(&m_vVelocityAt, XMLoadFloat3(&m_vVelocityAt) + acelAt * TimeDelta);
+	// 실제 카메라의 위치를 갱신
+	XMStoreFloat3(&m_vActualAt, XMLoadFloat3(&m_vActualAt) + XMLoadFloat3(&m_vVelocityAt) * TimeDelta);
+
+
+
+	_float fDistance = XMVectorGetX(XMVector3Length(vDir));
+
+	if (!m_bBattleStart)
+	{
+		m_bBattleStart = true;
+		SnapToIdeal();
+
+		m_vPreCameraAt = m_vCameraAt;
+		m_vPreCameraEye = m_vCameraEye;
+		m_vCurCameraAt = m_vCameraAt;
+		m_vCurCameraEye = m_vCameraEye;
+	}
+
+
+	m_fAtLerp += TimeDelta*1.2f;
 	if (m_fAtLerp >= 1.f)
 	{
 		m_fAtLerp = 0.f;
@@ -458,52 +660,76 @@ void CCamera_Default::Camera_Battle(_double TimeDelta)
 
 	}
 
-    
+	_float dampening = 2.0f *sqrtf(m_fSpringConstant);
+	// 이상적인 위치 계산
+	_vector idealPos = ComputeCameraPos();
+	// 이상적인 위치와 실제 위치의 차를 계산
+	_vector diff = XMLoadFloat3(&m_vActualPos) - idealPos;
+	// 스프링의 가속도를 계산한다.
+	_vector acel = -m_fSpringConstant * diff - dampening * XMLoadFloat3(&m_vVelocity);
+
+	// 속도를 갱신
+	XMStoreFloat3(&m_vVelocity, XMLoadFloat3(&m_vVelocity) + acel * TimeDelta);
+	// 실제 카메라의 위치를 갱신
+	XMStoreFloat3(&m_vActualPos, XMLoadFloat3(&m_vActualPos) + XMLoadFloat3(&m_vVelocity) * TimeDelta);
 
 
 
-	
-
-	 //_float fSpeed = XMVectorGetX(XMVector3Length(vPlayerPos - m_pTransformCom->Get_State(CTransform::STATE_POSITION)));
-	 //m_fPlayerPosLerp += TimeDelta *pow(fSpeed, 1.5);
-	 //if (m_fPlayerPosLerp >= 1.f)
-	 //{
-		// m_fPlayerPosLerp = 0.f;
-		// m_vPrePlayerPos = m_vCurPlayerPos;   //전프레임의 알펜 저장 
-		// XMStoreFloat3(&m_vCurPlayerPos, vPlayerPos); //현재 프레임의 알펜 위치저장 
-
-	 //}
-
-	 
-
-	
-
-	if (MouseMoveX = -m_pGameInstance->Get_DIMMoveState(CInput_Device::DIMM_X))
-	{
-
-
-	}
-	if (MouseMoveY = m_pGameInstance->Get_DIMMoveState(CInput_Device::DIMM_Y))
-	{
-
-	}
-	if (MouseMoveWheel = -m_pGameInstance->Get_DIMMoveState(CInput_Device::DIMM_WHEEL))
-	{
-
-	}
-	SphericalCoordinatesTranslateRadius((_float)MouseMoveWheel*1.2f*(_float)TimeDelta*0.2f);
-	SphericalCoordinatesRotate((_float)MouseMoveX*(_float)TimeDelta*m_fMouseSensitivity, (_float)MouseMoveY*(_float)TimeDelta*m_fMouseSensitivity);
-	vCameraPos = toCartesian() + XMVectorLerp(XMLoadFloat3(&m_vPreCameraEye), XMLoadFloat3(&m_vCurCameraEye), m_fEyeLerp);
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetW(vCameraPos, 1.f));
-	//m_pTransformCom->LookAt(XMVectorLerp(XMLoadFloat3(&m_vPreCameraAt), XMLoadFloat3(&m_vCurCameraAt), m_fAtLerp));
-	m_pTransformCom->LookAt(vPlayerPos);
-
-	XMStoreFloat3(&m_vCameraAt, XMVectorLerp(XMLoadFloat3(&m_vPreCameraAt), XMLoadFloat3(&m_vCurCameraAt), m_fAtLerp));
+	// 타깃은 소유자 앞에 있는 대상을 의미
+	_vector  vtarget = m_pPlayer_Manager->Get_MainPlayer()->Get_PlayerPos() + m_pPlayer_Manager->Get_MainPlayer()->Get_PlayerLook() * m_fTargetDist;
+	// 카메라가 뒤집혀지는 경우는 없기에 위쪽 방향은 항상 UnitZ이다
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetW(XMLoadFloat3(&m_vActualPos), 1.f));
+	m_pTransformCom->LookAt(XMVectorSetW(XMLoadFloat3(&m_vActualAt), 1.f));
 
 }
 
-void CCamera_Default::TagetChange()
+void CCamera_Default::SnapToIdeal()
 {
+	CPlayer* pMainPlayer = m_pPlayer_Manager->Get_MainPlayer();
+	_vector vPlayerPos = pMainPlayer->Get_PlayerPos();
+	_vector vTargetPos = pMainPlayer->Get_TargetPos();
+
+	_vector vDir = vTargetPos - vPlayerPos;  // 실제 타깃과 플레이어와의 방향 (노말라이즈하지 않으면 실제 거리값을 가지고있는다);
+	_vector vOriginDir = vDir;
+	vDir = XMVectorSetY(vDir, 0.f);
+	_vector idealAt = vPlayerPos + vDir*0.5f;
+
+	m_fSpringConstant = 96.f;
+
+
+	// 실제 위치를 이상적인 위치로 설정
+	XMStoreFloat3(&m_vActualPos, ComputeCameraPos());
+	XMStoreFloat3(&m_vActualAt, idealAt);
+	// 속도를 0으로 초기화
+	m_vVelocity = _float3(0.f, 0.f, 0.f);
+	m_vVelocityAt = _float3(0.f, 0.f, 0.f);
+	// 타깃 지점과 뷰 행렬을 계산
+	_vector  vtarget = pMainPlayer->Get_PlayerPos() + pMainPlayer->Get_PlayerLook() * m_fTargetDist;
+	//	_matrix CameraWolrdMatrix =XMMatrixLookAtLH(XMLoadFloat3(&m_vActualPos), vtarget, XMVectorSet(0.f, 0.f, 1.f, 0.f));
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetW(XMLoadFloat3(&m_vActualPos), 1.f));
+	m_pTransformCom->LookAt(vPlayerPos);
+
+	//m_pTransformCom->Set_WorldMatrix(CameraWolrdMatrix);
+}
+
+void CCamera_Default::SnapToBattleStart()
+{
+
+	CPlayer* pMainPlayer = m_pPlayer_Manager->Get_MainPlayer();
+	_vector vPlayerPos = pMainPlayer->Get_PlayerPos();
+	_vector vPlayerLook = pMainPlayer->Get_PlayerLook();
+	m_fSpringConstant = 16.f;
+
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPlayerPos - vPlayerLook + XMVectorSet(0.f, 0.4f, 0.f, 0.f));
+
+	XMStoreFloat3(&m_vActualPos, vPlayerPos - vPlayerLook + XMVectorSet(0.f, 0.4f, 0.f, 0.f));
+
+	m_pTransformCom->LookAt(vPlayerPos + XMVectorSet(0.f, 0.1f, 0.f, 0.f));
+	XMStoreFloat3(&m_vActualAt, vPlayerPos + XMVectorSet(0.f, 0.1f, 0.f, 0.f));
+
+
 }
 
 CCamera_Default * CCamera_Default::Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)

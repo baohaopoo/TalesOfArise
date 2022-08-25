@@ -15,7 +15,7 @@ BEGIN(Client)
 class CCamera_Default final : public CCamera
 {
 public:
-	enum CAMERA_STATE { CAMERA_STATE_FIELD, CAMERA_STATE_BATTLE, CAMERA_STATE_BATTLE_ENTER, CAMERA_STATE_BATTLE_END,CAMERA_STATE_CHANGE, CAMERA_STATE_END };
+	enum CAMERA_STATE { CAMERA_STATE_FIELD, CAMERA_STATE_BATTLE, CAMERA_STATE_BATTLE_ENTER, CAMERA_STATE_BATTLE_END, CAMERA_STATE_CHANGE, CAMERA_STATE_END };
 
 private:
 	explicit CCamera_Default(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut);
@@ -34,6 +34,7 @@ public:
 	/*	구면좌표계	*/
 	void SphericalCoordinates(_fvector vCamerapos, _fvector vTargetPos);
 	void SphericalCoordinatesRotate(_float newAzimuth, _float newElevation);
+	void SphericalCoordinatesRotateFixed(_float newAzimuth, _float newElevation);
 	void SphericalCoordinatesTranslateRadius(_float newRadius);
 	_vector toCartesian();
 	void CartesianToLocal(_fvector vTargetPos);
@@ -50,6 +51,7 @@ public:
 	/* 게임환경에 따른 카메라필드 */
 	void Camera_Field(_double TimeDelta);
 	void Camera_Battle(_double TimeDelta);
+	void Camera_BattleEnter(_double TimeDelta);
 	void Set_CameraState(CAMERA_STATE eCameraState) { m_eCameraState = eCameraState; }
 
 
@@ -65,6 +67,20 @@ public:
 
 
 public:
+	//새로운카메라 도전
+	_vector ComputeCameraPos();
+	void Follow_Camera(_double TimeDelta);
+	void Set_HorzDist(_float dist) { m_fHorzDist = dist; }
+	void Set_VertDist(_float dist) { m_fVertDist = dist; }
+	void Set_TargetDist(_float dist) { m_fTargetDist = dist; }
+	void Set_SpringConstant(_float spring) { m_fSpringConstant = spring; }
+	void SnapToIdeal();
+	void SnapToBattleStart();
+
+
+
+
+public:
 	//전투관련
 	void Set_PreTargetPos(_fvector vPos) { XMStoreFloat3(&m_vPreTargetPos, vPos); }
 
@@ -75,10 +91,6 @@ public:
 
 private:
 	CAMERA_STATE m_eCameraState = CAMERA_STATE_FIELD;
-
-
-
-
 
 	_float m_fRadius = 0.f;  //구면좌표계 반지름
 	_float m_fAzimuth = 0.f; //방위각 x
@@ -102,6 +114,7 @@ private:
 
 
 	_bool m_bChange = false;
+	_bool m_bStartScene = false;
 
 
 
@@ -156,13 +169,37 @@ private:
 
 	//카메라 배틀 관련
 	_bool m_bBattleStart = false;
-	
-	
 
 
-	//배틀 시작
 
 
+
+
+
+	//새로운 카메라
+
+
+	// 카메라의 실제 위치
+	_float3 m_vActualPos;
+	// 실제 카메라의 속도
+	_float3 m_vVelocity;
+
+	// 카메라의 At 실제 위치
+	_float3 m_vActualAt;
+	// 실제 카메라의 At 속도
+	_float3 m_vVelocityAt;
+
+	// 수평거리
+	_float m_fHorzDist = 3.5f;
+	// 수직거리
+	_float m_fVertDist = 1.5f;
+	// 타겟까지 거리
+	_float m_fTargetDist = 5.f;
+	// 스프링 상수(높을 수록 복원력이 강하다)
+	_float m_fSpringConstant = 64.f;
+
+	// 스프링 상수(높을 수록 복원력이 강하다)
+	_float m_fSpringConstantAt = 16.f;
 
 };
 
