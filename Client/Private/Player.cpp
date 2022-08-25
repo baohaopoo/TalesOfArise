@@ -87,7 +87,7 @@ void CPlayer::Tick(_double TimeDelta)
 		/*	_vector vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 		_vector vAxis = XMVectorSet(0.f, 0.f, 1.f, 0.f);*/
 
-		_matrix		BoneMatrix = WorldMatrix;
+		_matrix      BoneMatrix = WorldMatrix;
 
 		BoneMatrix.r[0] = XMVector3Normalize(BoneMatrix.r[0]);
 		BoneMatrix.r[1] = XMVector3Normalize(BoneMatrix.r[1]);
@@ -98,18 +98,11 @@ void CPlayer::Tick(_double TimeDelta)
 		MoveVector = XMVector3TransformCoord(MoveVector, BoneMatrix);// *fLength;
 
 
-
-		////m_pTransformCom->Set_WorldMatrix(WorldMatrix);
-		//if (nullptr != m_pNaviCom) {
-
-		//	m_pNaviCom->Move_OnNavigation(XMVectorSetW(m_pTransformCom->Get_State(CTransform::STATE_POSITION) + MoveVector, 1.f))
-
-		//}
-		//else{
-
-
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetW(m_pTransformCom->Get_State(CTransform::STATE_POSITION) + MoveVector, 1.f));
+		if (!m_bBattle)
+			m_pTransformCom->Anim_Move(XMVectorSetW(MoveVector, 0.f), m_pNaviCom);
+		else {
+			m_pTransformCom->Anim_Move(XMVectorSetW(MoveVector, 0.f), nullptr);
+		}
 
 	}
 

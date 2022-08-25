@@ -96,6 +96,43 @@ HRESULT CTransform::NativeConstruct_Prototype(void* pArg)
 
 }
 
+HRESULT CTransform::Anim_Move(_fvector vMoveVector, CNavigation * pNavigation)
+{
+	_vector      vPosition = Get_State(CTransform::STATE_POSITION);
+	_vector      vLook = Get_State(CTransform::STATE_LOOK);
+
+	vPosition += vMoveVector;
+
+	if (nullptr == pNavigation)
+	{
+		Set_State(CTransform::STATE_POSITION, vPosition);
+		return S_OK;
+	}
+
+	if (true == pNavigation->Move_OnNavigation(vPosition)) {
+		Set_State(CTransform::STATE_POSITION, vPosition);
+
+		// ÇöÀç ¼¿ Á¤º¸
+		CCell* pCurCell = pNavigation->Get_CurCell();
+
+		if (nullptr != pCurCell)
+		{
+			_float3* pPoints = pCurCell->Get_Points();
+
+			_vector vPlane = XMPlaneFromPoints(XMLoadFloat3(&pPoints[0]), XMLoadFloat3(&pPoints[1]), XMLoadFloat3(&pPoints[2]));
+			_float A = XMVectorGetX(vPlane);
+			_float B = XMVectorGetY(vPlane);
+			_float C = XMVectorGetZ(vPlane);
+			_float D = XMVectorGetW(vPlane);
+
+			// AX + BY + CZ + D = 0;
+			// Y = -(AX + CZ + D) / B;
+		}
+	}
+
+	return S_OK;
+}
+
 HRESULT CTransform::Bind_WorldMatrixOnShader(CShader * pShader, const char * pConstantName)
 {
 	if (nullptr == pShader)

@@ -52,6 +52,7 @@ public:
 	HRESULT Bind_WorldMatrixOnShader(class CShader* pShader, const char* pConstantName);
 
 public:
+	HRESULT Anim_Move(_fvector vMoveVector, CNavigation * pNavigation);
 	HRESULT Go_Straight(_double TimeDelta, CNavigation* pNavigation = nullptr);
 	HRESULT Go_Left(_double TimeDelta);
 	HRESULT Go_Right(_double TimeDelta);
