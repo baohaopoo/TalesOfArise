@@ -379,7 +379,6 @@ void CFire_Avatar::RockFalling(_double TimeDelta)
 		}
 	}
 
-
 	else if ((m_iCurrentAnimationIndex == ATTACK_ROCK_THROW) && (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 594) && m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() <= 605)
 	{
 		if (!m_bCrashRock)
@@ -401,7 +400,6 @@ void CFire_Avatar::RockFalling(_double TimeDelta)
 		m_bCreateSmallRock = true;
 		}*/
 	}
-
 
 	RELEASE_INSTANCE(CGameInstance);
 }

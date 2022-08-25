@@ -540,6 +540,9 @@
     <ClInclude Include="..\Public\Dot.h">
       <Filter>96. Imgui\02. Dot</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Level_BossLevel1.h">
+      <Filter>01. Levels\04. BossLevel1</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -826,6 +829,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Dot.cpp">
       <Filter>96. Imgui\02. Dot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_BossLevel1.cpp">
+      <Filter>01. Levels\04. BossLevel1</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -206,6 +206,7 @@
     <ClInclude Include="..\Public\imstb_textedit.h" />
     <ClInclude Include="..\Public\imstb_truetype.h" />
     <ClInclude Include="..\Public\InfoFadeUI.h" />
+    <ClInclude Include="..\Public\Level_BossLevel1.h" />
     <ClInclude Include="..\Public\Level_Tutorial.h" />
     <ClInclude Include="..\Public\Level_Loading.h" />
     <ClInclude Include="..\public\Level_Lobby.h" />
@@ -321,6 +322,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Private\InfoFadeUI.cpp" />
+    <ClCompile Include="..\Private\Level_BossLevel1.cpp" />
     <ClCompile Include="..\Private\Level_Tutorial.cpp" />
     <ClCompile Include="..\Private\Level_Loading.cpp" />
     <ClCompile Include="..\private\Level_Lobby.cpp" />
