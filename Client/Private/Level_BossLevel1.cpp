@@ -20,11 +20,11 @@ HRESULT CLevel_BossLevel1::NativeConstruct()
 	//if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 	//	return E_FAIL;
 
-	//if (FAILED(Ready_Layer_Balseph(TEXT("Layer_Balseph"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_Balseph(TEXT("Layer_Balseph"))))
+		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_FireAvatar(TEXT("Layer_FireAvatar"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_FireAvatar(TEXT("Layer_FireAvatar"))))
+		return E_FAIL;
 
 }
 

@@ -191,11 +191,11 @@ HRESULT CFire_Avatar::SetUp_Components()
 		return E_FAIL;
 
 	/* For.Com_Model */
-	if (FAILED(__super::SetUp_Components(TEXT("Com_Model"), LEVEL_TUTORIAL, TEXT("Prototype_Component_Model_FireAvatar"), (CComponent**)&m_pModelCom)))
+	if (FAILED(__super::SetUp_Components(TEXT("Com_Model"), LEVEL_BOSS1, TEXT("Prototype_Component_Model_FireAvatar"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
 	/* For.Com_ModelSKL */
-	if (FAILED(__super::SetUp_Components(TEXT("Com_AvatarSKL"), LEVEL_TUTORIAL, TEXT("Prototype_Component_Model_FireAvatarSKL"), (CComponent**)&m_pModelSKL)))
+	if (FAILED(__super::SetUp_Components(TEXT("Com_AvatarSKL"), LEVEL_BOSS1, TEXT("Prototype_Component_Model_FireAvatarSKL"), (CComponent**)&m_pModelSKL)))
 		return E_FAIL;
 
 	/* For.Com_Collider */
@@ -369,10 +369,10 @@ void CFire_Avatar::RockFalling(_double TimeDelta)
 			CSword::SOCKETDESC			SocketDesc;
 			ZeroMemory(&SocketDesc, sizeof(CSword::SOCKETDESC));
 
-			SocketDesc.pModelCom = (CModel*)pGameInstance->Get_Component(LEVEL_TUTORIAL, TEXT("Layer_FireAvatar"), TEXT("Com_AvatarSKL"));
+			SocketDesc.pModelCom = (CModel*)pGameInstance->Get_Component(LEVEL_BOSS1, TEXT("Layer_FireAvatar"), TEXT("Com_AvatarSKL"));
 			SocketDesc.pBoneName = "KK_R";
 
-			if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, TEXT("Layer_FireAvatar_Rock"), TEXT("Prototype_GameObject_FireAvatar_Rock"), &SocketDesc)))
+			if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_BOSS1, TEXT("Layer_FireAvatar_Rock"), TEXT("Prototype_GameObject_FireAvatar_Rock"), &SocketDesc)))
 				return;
 
 			m_bCreateRock = true;
@@ -384,7 +384,7 @@ void CFire_Avatar::RockFalling(_double TimeDelta)
 	{
 		if (!m_bCrashRock)
 		{
-			CGameObject* pRock = pGameInstance->Get_GameObject(LEVEL_TUTORIAL, TEXT("Layer_FireAvatar_Rock"), 0);
+			CGameObject* pRock = pGameInstance->Get_GameObject(LEVEL_BOSS1, TEXT("Layer_FireAvatar_Rock"), 0);
 			m_vStorePos = dynamic_cast<CFireAvatar_Rock*>(pRock)->Get_Position();
 		}
 		m_bCrashRock = true;
