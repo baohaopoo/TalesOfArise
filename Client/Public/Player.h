@@ -126,7 +126,7 @@ public:
 
 
 	PLAYERINFO Get_PlayerInfo() { return m_tPlayerInfo; }
-
+	_int Get_Hp() { return m_tPlayerInfo.m_iCurrentHp; }
 	vector<CEnemy*>::iterator Get_Targeting() { return m_iter; }
 	CEnemy* Get_TargetEnemy() { return m_pTargetEnemy; }
 
@@ -139,8 +139,6 @@ public:
 	void Set_KnockBackDir(_fvector vDir) { XMStoreFloat3(&m_vKnockBackDir, vDir); }
 
 protected:
-
-
 
 	CPlayer_Manager* m_pPlayer_Manager = nullptr;
 	CTime_Manager* m_pTime_Manager = nullptr;
@@ -188,8 +186,6 @@ protected:
 	_uint m_iAbleAirEvadeCount = 1;
 	_uint m_iAbleAirAttackCount = 1;
 
-
-	_int Get_Hp() {return m_tPlayerInfo.m_iCurrentHp; }
 
 	//충돌처리 관련 변수들
 

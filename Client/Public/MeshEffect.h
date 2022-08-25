@@ -6,7 +6,8 @@ BEGIN(Engine)
 class CShader;
 class CRenderer;
 class CTexture;
-class CModel;
+class CSubModel;
+class CGameObject;
 END
 
 BEGIN(Client)
@@ -35,21 +36,30 @@ public:
 	_float				Get_Time() { return m_Time; }
 	_bool				Get_Finish() { return m_bFinish; }
 	_float				Get_TimeSpeed() { return m_MultipleTime; }
+	CTransform*			Get_Transfrom() { return m_pTransformCom; }
 
-	void				Set_ParentsMatrix(_matrix ParentsMatrix) { return XMStoreFloat4x4(&m_ParentsMatrix, ParentsMatrix); }
+	void				Set_ParentsMatrix(_matrix ParentsMatrix) { m_pTransformCom->Set_WorldMatrix(ParentsMatrix); }
 	void				Set_Time(_float Time) { m_Time = Time; }
 	void				Set_TimeSpeed(_float TimeSpeed) { m_MultipleTime = TimeSpeed; }
+	void				Set_Transform(UNIT_TYPE Type, CGameObject* OBJ, CTransform* TF, _float3 RUL);
+	void				Set_Finish_Dead(_bool b) { m_bFinish_Dead = b; }
+
+	void				Set_LocalMatrix(_matrix LocalMatrix) { XMStoreFloat4x4(&m_LocalMatrix, LocalMatrix); }
+	_matrix				Get_LocalMatrix() { return XMLoadFloat4x4(&m_LocalMatrix); }
 
 private:
 	CRenderer*		m_pRendererCom = nullptr;
 	CShader*		m_pShaderCom = nullptr;
 	CTexture*		m_pTextureCom = nullptr;
-	CModel*			m_pModel = nullptr;
-	
+	CSubModel*		m_pModel = nullptr;
+	CTransform*		m_Parents_TF = nullptr;
+	CGameObject*	m_Parents_P = nullptr;
+	UNIT_TYPE		m_Unit_Type = UNIT_END;
+	_float3			m_Parents_RUL = { 0.f, 0.f, 0.f };
+
 	EFFECTDESC_MESH m_EffectDesc_Mesh;
 	_uint			m_iNumMeshContainers = 1;
 	_bool			m_bFinish = false;
-
 
 	_float			m_Time = 0.f;
 	_float			m_PassTime = 0;
@@ -57,7 +67,9 @@ private:
 	_float			Alpha = 1.f;
 	_float3			m_Shader;
 	_float4x4		m_LocalMatrix;
-	_float4x4		m_ParentsMatrix;
+
+	_bool			m_bFinish_Dead = true;
+
 public:
 	static CMeshEffect* Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut);
 	virtual CBlendObject* Clone(void* pArg) override;

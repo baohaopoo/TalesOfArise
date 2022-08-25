@@ -32,9 +32,11 @@ public:
 
 	EFFECTDESC*	Get_CreateDesc() { return m_EffectDesc; }
 	_bool		Get_Finish() { return m_bFinish; }
+	CTransform* Get_Transfrom() { return m_pTransformCom; }
 
-	void Set_Pos(_float4 Pos) { m_EffectDesc->vPostion = Pos; }
-	void				Set_TimeSpeed(_float TimeSpeed) { m_fmultipleTime = TimeSpeed; }
+	void		Set_Pos(_vector Pos) { XMStoreFloat4(&m_EffectDesc->vPostion, Pos); }
+	void		Set_ParentsMatrix(_matrix ParentsMatrix) { m_pTransformCom->Set_WorldMatrix(ParentsMatrix); }
+	void		Set_TimeSpeed(_float TimeSpeed) { m_fmultipleTime = TimeSpeed; }
 private:
 	CRenderer*					m_pRendererCom = nullptr;
 	CShader*					m_pShaderCom = nullptr;
@@ -47,9 +49,17 @@ private:
 	_float						m_PassTime = 0;
 	_float						m_fmultipleTime = 1.f;
 	EFFECTDESC*					m_EffectDesc = nullptr;
+	UNIT_TYPE		m_Unit_Type = UNIT_END;
+	CGameObject*	m_Parents_P = nullptr;
+	CTransform*		m_Parents_TF = nullptr;
+	_float3			m_Parents_RUL = { 0.f, 0.f, 0.f };
+
 private:
 	HRESULT SetUp_Components(void* pArg);
 	HRESULT SetUp_ConstantTable();
+
+public:
+	void Set_Transform(UNIT_TYPE Type, CGameObject * OBJ, CTransform * TF, _float3 RUL);
 
 public:
 	static CRect_Effect* Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut);

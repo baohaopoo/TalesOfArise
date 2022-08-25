@@ -118,8 +118,8 @@ HRESULT CLoader_Monster::Loading_ForTutorialLevel()
 	if (FAILED(Loading_Tutorial_Model()))
 		return E_FAIL;
 
-	if (FAILED(Loading_Tutorial_Texture()))
-		return E_FAIL;
+	//if (FAILED(Loading_Tutorial_Texture()))
+	//	return E_FAIL;
 
 	if (FAILED(Loading_Tutorial_Object()))
 		return E_FAIL;
@@ -168,26 +168,28 @@ HRESULT CLoader_Monster::Loading_Tutorial_Model()
 		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/FireAvatar/", "fireavatarSKL.fbx", PivotMatrix))))
 		return E_FAIL;
 
+	lstrcpy(m_szLoading, L"Loader_Monster : Prototype_Component_Model_EFRRock");
+	PivotMatrix = XMMatrixScaling(1.5f, 1.5f, 1.5f) * XMMatrixRotationX(XMConvertToRadians(180.f));
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BOSS1, TEXT("Prototype_Component_Model_EFRRock"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/FireAvatar/", "efrrock.fbx", PivotMatrix))))
+		return E_FAIL;
+
 	lstrcpy(m_szLoading, L"Loader_Monster : Prototype_Component_Model_Boar");
-	PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	PivotMatrix = XMMatrixScaling(0.015f, 0.015f, 0.015f) * XMMatrixRotationY(XMConvertToRadians(180.f));
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_TUTORIAL, TEXT("Prototype_Component_Model_Boar"),
 		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Boar/", "boar.fbx", PivotMatrix))))
 		return E_FAIL;
 
 	lstrcpy(m_szLoading, L"Loader_Monster : Prototype_Component_Model_Mantis");
+	PivotMatrix = XMMatrixScaling(0.015f, 0.015f, 0.015f) * XMMatrixRotationY(XMConvertToRadians(180.f));
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_TUTORIAL, TEXT("Prototype_Component_Model_Mantis"),
 		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Mantis/", "mantis1.fbx", PivotMatrix))))
 		return E_FAIL;
 
 	lstrcpy(m_szLoading, L"Loader_Monster : Prototype_Component_Model_Punisher");
+	PivotMatrix = XMMatrixScaling(0.015f, 0.015f, 0.015f) * XMMatrixRotationY(XMConvertToRadians(180.f));
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_TUTORIAL, TEXT("Prototype_Component_Model_Punisher"),
 		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/punisher/", "punisher.fbx", PivotMatrix))))
-		return E_FAIL;
-
-	lstrcpy(m_szLoading, L"Loader_Monster : Prototype_Component_Model_EFRRock");
-	PivotMatrix = XMMatrixScaling(1.5f, 1.5f, 1.5f) * XMMatrixRotationX(XMConvertToRadians(180.f));
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BOSS1, TEXT("Prototype_Component_Model_EFRRock"),
-		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/FireAvatar/", "efrrock.fbx", PivotMatrix))))
 		return E_FAIL;
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -195,10 +197,10 @@ HRESULT CLoader_Monster::Loading_Tutorial_Model()
 	return S_OK;
 }
 
-HRESULT CLoader_Monster::Loading_Tutorial_Texture()
-{
-	return S_OK;
-}
+//HRESULT CLoader_Monster::Loading_Tutorial_Texture()
+//{
+//	return S_OK;
+//}
 
 HRESULT CLoader_Monster::Loading_Tutorial_Object()
 {

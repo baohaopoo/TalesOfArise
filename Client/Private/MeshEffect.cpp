@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "..\Public\MeshEffect.h"
+#include "GameObject.h"
 #include "GameInstance.h"
+#include "Enemy.h"
+#include "Player.h"
 
 CMeshEffect::CMeshEffect(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
 	: CBlendObject(pDeviceOut, pDeviceContextOut)
@@ -30,13 +33,13 @@ HRESULT CMeshEffect::NativeConstruct(void * pArg)
 	}
 
 	XMStoreFloat4x4(&m_LocalMatrix, XMMatrixIdentity());
-	XMStoreFloat4x4(&m_ParentsMatrix, XMMatrixIdentity());
+
 	if (FAILED(__super::NativeConstruct(pArg)))
 		return E_FAIL;
 
 	if (FAILED(SetUp_Components()))
-		return E_FAIL;	
-	
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -47,15 +50,36 @@ void CMeshEffect::Tick(_double TimeDelta)
 	m_Time += (_float)TimeDelta*m_MultipleTime;
 
 	_float Ratio = 0.f;
+	if (m_Parents_P)
+	{
+		if (m_Unit_Type == UNIT_MONSTER)
+		{
+			if (((CEnemy*)m_Parents_P)->Get_Hp() <= 0)
+				m_bDead = true;
+		}
+		else if (m_Unit_Type == UNIT_PLAYER)
+		{
+			if (((CPlayer*)m_Parents_P)->Get_Hp() <= 0)
+				m_bDead = true;
+		}
+		else if (m_Unit_Type == UNIT_BOSS)
+		{
+			if (((CEnemy*)m_Parents_P)->Get_Hp() <= 0)
+				m_bDead = true;
+		}
+	}
 
 
-	
-	
+
+
 	if (m_EffectDesc_Mesh.fMaxTime < m_Time)
 	{
-		//m_bFinish = true;
+		m_bFinish = true;
 		m_Time = m_EffectDesc_Mesh.fMaxTime;
-		m_bDead = true;
+
+		if (m_bFinish_Dead)
+			m_bDead = true;
+
 		return;
 	}
 
@@ -63,101 +87,101 @@ void CMeshEffect::Tick(_double TimeDelta)
 	_vector vSourShader, vSourScale, vSourRotation, vSourPosition;
 	_vector vDestShader, vDestScale, vDestRotation, vDestPosition;
 
-	
-	
-		if (m_EffectDesc_Mesh.KeyFram_1_TimeEnd >= m_Time)
-		{
-			Ratio = m_Time / m_EffectDesc_Mesh.KeyFram_1_TimeEnd;
-			Alpha = m_EffectDesc_Mesh.KeyFram_0_Alpha + (m_EffectDesc_Mesh.KeyFram_1_Alpha - m_EffectDesc_Mesh.KeyFram_0_Alpha) * Ratio;
 
-			vSourShader = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_0_Shader);
-			vSourScale = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_0_Scale);
-			vSourRotation = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_0_Rotation);
-			vSourPosition = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_0_Position);
 
-			vDestShader = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_1_Shader);
-			vDestScale = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_1_Scale);
-			vDestRotation = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_1_Rotation);
-			vDestPosition = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_1_Position);
+	if (m_EffectDesc_Mesh.KeyFram_1_TimeEnd >= m_Time)
+	{
+		Ratio = m_Time / m_EffectDesc_Mesh.KeyFram_1_TimeEnd;
+		Alpha = m_EffectDesc_Mesh.KeyFram_0_Alpha + (m_EffectDesc_Mesh.KeyFram_1_Alpha - m_EffectDesc_Mesh.KeyFram_0_Alpha) * Ratio;
 
-			vShader = XMVectorLerp(vSourShader, vDestShader, Ratio);
-			vScale = XMVectorLerp(vSourScale, vDestScale, Ratio);
-			vRotation = XMVectorLerp(vSourRotation, vDestRotation, Ratio);
-			//vRotation = XMQuaternionSlerp(vSourRotation, vDestRotation, Ratio);
-			vPosition = XMVectorLerp(vSourPosition, vDestPosition, Ratio);
-			vPosition = XMVectorSetW(vPosition, 1.f);
-		}
-		else if (m_EffectDesc_Mesh.KeyFram_2_TimeEnd >= m_Time)
-		{
-			Ratio = (m_Time - m_EffectDesc_Mesh.KeyFram_1_TimeEnd) / (m_EffectDesc_Mesh.KeyFram_2_TimeEnd - m_EffectDesc_Mesh.KeyFram_1_TimeEnd);
-			Alpha = m_EffectDesc_Mesh.KeyFram_1_Alpha + (m_EffectDesc_Mesh.KeyFram_2_Alpha - m_EffectDesc_Mesh.KeyFram_1_Alpha) * Ratio;
+		vSourShader = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_0_Shader);
+		vSourScale = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_0_Scale);
+		vSourRotation = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_0_Rotation);
+		vSourPosition = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_0_Position);
 
-			vSourShader = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_1_Shader);
-			vSourScale = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_1_Scale);
-			vSourRotation = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_1_Rotation);
-			vSourPosition = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_1_Position);
+		vDestShader = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_1_Shader);
+		vDestScale = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_1_Scale);
+		vDestRotation = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_1_Rotation);
+		vDestPosition = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_1_Position);
 
-			vDestShader = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_2_Shader);
-			vDestScale = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_2_Scale);
-			vDestRotation = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_2_Rotation);
-			vDestPosition = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_2_Position);
+		vShader = XMVectorLerp(vSourShader, vDestShader, Ratio);
+		vScale = XMVectorLerp(vSourScale, vDestScale, Ratio);
+		vRotation = XMVectorLerp(vSourRotation, vDestRotation, Ratio);
+		//vRotation = XMQuaternionSlerp(vSourRotation, vDestRotation, Ratio);
+		vPosition = XMVectorLerp(vSourPosition, vDestPosition, Ratio);
+		vPosition = XMVectorSetW(vPosition, 1.f);
+	}
+	else if (m_EffectDesc_Mesh.KeyFram_2_TimeEnd >= m_Time)
+	{
+		Ratio = (m_Time - m_EffectDesc_Mesh.KeyFram_1_TimeEnd) / (m_EffectDesc_Mesh.KeyFram_2_TimeEnd - m_EffectDesc_Mesh.KeyFram_1_TimeEnd);
+		Alpha = m_EffectDesc_Mesh.KeyFram_1_Alpha + (m_EffectDesc_Mesh.KeyFram_2_Alpha - m_EffectDesc_Mesh.KeyFram_1_Alpha) * Ratio;
 
-			vShader = XMVectorLerp(vSourShader, vDestShader, Ratio);
-			vScale = XMVectorLerp(vSourScale, vDestScale, Ratio);
-			vRotation = XMVectorLerp(vSourRotation, vDestRotation, Ratio);
-			//vRotation = XMQuaternionSlerp(vSourRotation, vDestRotation, Ratio);
-			vPosition = XMVectorLerp(vSourPosition, vDestPosition, Ratio);
-			vPosition = XMVectorSetW(vPosition, 1.f);
-		}
-		else if (m_EffectDesc_Mesh.KeyFram_3_TimeEnd >= m_Time)
-		{
-			Ratio = (m_Time - m_EffectDesc_Mesh.KeyFram_2_TimeEnd) / (m_EffectDesc_Mesh.KeyFram_3_TimeEnd - m_EffectDesc_Mesh.KeyFram_2_TimeEnd);
-			Alpha = m_EffectDesc_Mesh.KeyFram_2_Alpha + (m_EffectDesc_Mesh.KeyFram_3_Alpha - m_EffectDesc_Mesh.KeyFram_2_Alpha) * Ratio;
+		vSourShader = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_1_Shader);
+		vSourScale = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_1_Scale);
+		vSourRotation = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_1_Rotation);
+		vSourPosition = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_1_Position);
 
-			vSourShader = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_2_Shader);
-			vSourScale = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_2_Scale);
-			vSourRotation = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_2_Rotation);
-			vSourPosition = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_2_Position);
+		vDestShader = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_2_Shader);
+		vDestScale = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_2_Scale);
+		vDestRotation = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_2_Rotation);
+		vDestPosition = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_2_Position);
 
-			vDestShader = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_3_Shader);
-			vDestScale = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_3_Scale);
-			vDestRotation = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_3_Rotation);
-			vDestPosition = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_3_Position);
+		vShader = XMVectorLerp(vSourShader, vDestShader, Ratio);
+		vScale = XMVectorLerp(vSourScale, vDestScale, Ratio);
+		vRotation = XMVectorLerp(vSourRotation, vDestRotation, Ratio);
+		//vRotation = XMQuaternionSlerp(vSourRotation, vDestRotation, Ratio);
+		vPosition = XMVectorLerp(vSourPosition, vDestPosition, Ratio);
+		vPosition = XMVectorSetW(vPosition, 1.f);
+	}
+	else if (m_EffectDesc_Mesh.KeyFram_3_TimeEnd >= m_Time)
+	{
+		Ratio = (m_Time - m_EffectDesc_Mesh.KeyFram_2_TimeEnd) / (m_EffectDesc_Mesh.KeyFram_3_TimeEnd - m_EffectDesc_Mesh.KeyFram_2_TimeEnd);
+		Alpha = m_EffectDesc_Mesh.KeyFram_2_Alpha + (m_EffectDesc_Mesh.KeyFram_3_Alpha - m_EffectDesc_Mesh.KeyFram_2_Alpha) * Ratio;
 
-			vShader = XMVectorLerp(vSourShader, vDestShader, Ratio);
-			vScale = XMVectorLerp(vSourScale, vDestScale, Ratio);
-			vRotation = XMVectorLerp(vSourRotation, vDestRotation, Ratio);
-			//vRotation = XMQuaternionSlerp(vSourRotation, vDestRotation, Ratio);
-			vPosition = XMVectorLerp(vSourPosition, vDestPosition, Ratio);
-			vPosition = XMVectorSetW(vPosition, 1.f);
-		}
-		else if (m_EffectDesc_Mesh.KeyFram_4_TimeEnd >= m_Time)
-		{
-			Ratio = (m_Time - m_EffectDesc_Mesh.KeyFram_3_TimeEnd) / (m_EffectDesc_Mesh.KeyFram_4_TimeEnd - m_EffectDesc_Mesh.KeyFram_3_TimeEnd);
-			Alpha = m_EffectDesc_Mesh.KeyFram_3_Alpha + (m_EffectDesc_Mesh.KeyFram_4_Alpha - m_EffectDesc_Mesh.KeyFram_3_Alpha) * Ratio;
+		vSourShader = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_2_Shader);
+		vSourScale = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_2_Scale);
+		vSourRotation = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_2_Rotation);
+		vSourPosition = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_2_Position);
 
-			vSourShader = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_3_Shader);
-			vSourScale = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_3_Scale);
-			vSourRotation = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_3_Rotation);
-			vSourPosition = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_3_Position);
+		vDestShader = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_3_Shader);
+		vDestScale = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_3_Scale);
+		vDestRotation = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_3_Rotation);
+		vDestPosition = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_3_Position);
 
-			vDestShader = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_4_Shader);
-			vDestScale = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_4_Scale);
-			vDestRotation = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_4_Rotation);
-			vDestPosition = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_4_Position);
+		vShader = XMVectorLerp(vSourShader, vDestShader, Ratio);
+		vScale = XMVectorLerp(vSourScale, vDestScale, Ratio);
+		vRotation = XMVectorLerp(vSourRotation, vDestRotation, Ratio);
+		//vRotation = XMQuaternionSlerp(vSourRotation, vDestRotation, Ratio);
+		vPosition = XMVectorLerp(vSourPosition, vDestPosition, Ratio);
+		vPosition = XMVectorSetW(vPosition, 1.f);
+	}
+	else if (m_EffectDesc_Mesh.KeyFram_4_TimeEnd >= m_Time)
+	{
+		Ratio = (m_Time - m_EffectDesc_Mesh.KeyFram_3_TimeEnd) / (m_EffectDesc_Mesh.KeyFram_4_TimeEnd - m_EffectDesc_Mesh.KeyFram_3_TimeEnd);
+		Alpha = m_EffectDesc_Mesh.KeyFram_3_Alpha + (m_EffectDesc_Mesh.KeyFram_4_Alpha - m_EffectDesc_Mesh.KeyFram_3_Alpha) * Ratio;
 
-			vShader = XMVectorLerp(vSourShader, vDestShader, Ratio);
-			vScale = XMVectorLerp(vSourScale, vDestScale, Ratio);
-			vRotation = XMVectorLerp(vSourRotation, vDestRotation, Ratio);
-			//vRotation = XMQuaternionSlerp(vSourRotation, vDestRotation, Ratio);
-			vRotation = XMVectorLerp(vSourRotation, vDestRotation, Ratio);
-			vPosition = XMVectorLerp(vSourPosition, vDestPosition, Ratio);
-			vPosition = XMVectorSetW(vPosition, 1.f);
-		}
+		vSourShader = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_3_Shader);
+		vSourScale = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_3_Scale);
+		vSourRotation = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_3_Rotation);
+		vSourPosition = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_3_Position);
 
-	
-	
-		
+		vDestShader = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_4_Shader);
+		vDestScale = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_4_Scale);
+		vDestRotation = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_4_Rotation);
+		vDestPosition = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_4_Position);
+
+		vShader = XMVectorLerp(vSourShader, vDestShader, Ratio);
+		vScale = XMVectorLerp(vSourScale, vDestScale, Ratio);
+		vRotation = XMVectorLerp(vSourRotation, vDestRotation, Ratio);
+		//vRotation = XMQuaternionSlerp(vSourRotation, vDestRotation, Ratio);
+		vRotation = XMVectorLerp(vSourRotation, vDestRotation, Ratio);
+		vPosition = XMVectorLerp(vSourPosition, vDestPosition, Ratio);
+		vPosition = XMVectorSetW(vPosition, 1.f);
+	}
+
+
+
+
 	XMStoreFloat3(&m_Shader, vShader);
 	_matrix PivotMatrix;// = XMMatrixIdentity();
 	PivotMatrix = XMMatrixScalingFromVector(vScale);
@@ -168,28 +192,28 @@ void CMeshEffect::Tick(_double TimeDelta)
 	//PivotMatrix = PivotMatrix * XMMatrixRotationAxis(PivotMatrix.r[2], XMConvertToRadians(XMVectorGetZ(vRotation)));
 	//PivotMatrix = PivotMatrix * XMMatrixRotationAxis(PivotMatrix.r[0], XMConvertToRadians(XMVectorGetX(vRotation)));
 	//PivotMatrix = PivotMatrix * XMMatrixRotationAxis(PivotMatrix.r[1], XMConvertToRadians(XMVectorGetY(vRotation)));
-	
-	
+
+
 	PivotMatrix.r[3] = XMVectorAdd(PivotMatrix.r[3], vPosition);
-	
+
 	//PivotMatrix = XMMatrixAffineTransformation(vScale, XMVectorSet(0.f, 0.f, 0.f, 1.f), vRotation, vPosition);
-	
+
 
 
 	XMStoreFloat4x4(&m_LocalMatrix, PivotMatrix);
-	
+
 }
 
 void CMeshEffect::LateTick(_double TimeDelta)
 {
 	__super::LateTick(TimeDelta);
-	
+
 	if (nullptr != m_pRendererCom && m_PassTime <= 0)
 	{
 		Compute_CamDistance();
 		m_pRendererCom->Add_RenderGroup(CRenderer::GROUP_NONLIGHT, this);
 	}
-		
+
 }
 
 HRESULT CMeshEffect::Render()
@@ -216,14 +240,15 @@ HRESULT CMeshEffect::Render()
 		//if (FAILED(m_pTextureCom->SetUp_ShaderResourceView(m_pShaderCom, "g_NormalTexture", m_EffectDesc_Mesh.iTexture2)))
 		//	return E_FAIL;
 	}
-	
-	
+
+
+
 	if (FAILED(m_pModel->Render(m_pShaderCom, "g_BoneMatrices", m_EffectDesc_Mesh.iMesh, m_EffectDesc_Mesh.iShader)))
 	{
 		MSG_BOX(L"Failed To CModel_Object : Render : m_pModel->Render");
 		return E_FAIL;
 	}
-	
+
 	return S_OK;
 }
 
@@ -246,23 +271,35 @@ HRESULT CMeshEffect::SetUp_Components()
 	/* For.Com_Texture */
 	//if (FAILED(__super::SetUp_Component(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_MeshEffect"), (CComponent**)&m_pTextureCom)))
 	//	return E_FAIL;
-	
+
 	/* For.Com_Model */
 	if (FAILED(__super::SetUp_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Prototype_Component_Model_Effect1"), (CComponent**)&m_pModel)))
 		return E_FAIL;
 
 	//if (FAILED(m_pTextureCom->SetUp_ShaderResourceView(m_pShaderCom, "g_DissolveTexture", 64)))
 	//	return E_FAIL;
-	
+
 	return S_OK;
 }
 
 HRESULT CMeshEffect::SetUp_ConstantTable()
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	m_LocalMatrix.m[3][3] = 1.f;
 
 	_float4x4 WorldMatrix;
-	XMStoreFloat4x4(&WorldMatrix, XMMatrixTranspose(XMLoadFloat4x4(&m_LocalMatrix) * XMLoadFloat4x4(&m_ParentsMatrix)));
+	if (m_Parents_P == nullptr)
+	{
+		XMStoreFloat4x4(&WorldMatrix, XMMatrixTranspose(XMLoadFloat4x4(&m_LocalMatrix) * m_pTransformCom->Get_WorldMatrix()));
+	}
+	else
+	{
+		_matrix	MX = m_Parents_TF->Get_WorldMatrix();
+		MX.r[3] += (MX.r[0] * m_Parents_RUL.x) + (MX.r[1] * m_Parents_RUL.y) + (MX.r[2] * m_Parents_RUL.z);
+		XMStoreFloat4x4(&WorldMatrix, XMMatrixTranspose(XMLoadFloat4x4(&m_LocalMatrix) * MX));
+
+	}
+
 	//XMMatrixTranspose
 	if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &WorldMatrix, sizeof(_float4x4))))
 		return E_FAIL;
@@ -270,14 +307,14 @@ HRESULT CMeshEffect::SetUp_ConstantTable()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
 		return E_FAIL;
-	
+
 	if (FAILED(m_pShaderCom->Set_RawValue("g_Color1", &m_EffectDesc_Mesh.vColor1, sizeof(_float4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_Color2", &m_EffectDesc_Mesh.vColor2, sizeof(_float4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_Shader", &m_Shader, sizeof(_float3))))
 		return E_FAIL;
-	
+
 	if (FAILED(m_pShaderCom->Set_RawValue("g_UVMax", &m_EffectDesc_Mesh.fMaxUv, sizeof(_float))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_SubUV", &m_EffectDesc_Mesh.fmultipleTime, sizeof(_float))))
@@ -285,7 +322,7 @@ HRESULT CMeshEffect::SetUp_ConstantTable()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_Dissolve", &Alpha, sizeof(_float))))
 		return E_FAIL;
 
-	
+
 
 
 
@@ -297,7 +334,7 @@ HRESULT CMeshEffect::SetUp_ConstantTable()
 void CMeshEffect::Reset()
 {
 	m_EffectDesc_Mesh.bBillboard = false;
-	
+
 	float			fmultipleTime = 1.f;
 
 	float			KeyFram_0_Alpha = 0.f;
@@ -338,10 +375,18 @@ void CMeshEffect::Reset()
 void CMeshEffect::KeyFram_Reset()
 {
 	m_EffectDesc_Mesh.KeyFram_0_TimeEnd = 0.f;
-	m_EffectDesc_Mesh.KeyFram_1_TimeEnd = (m_EffectDesc_Mesh.fMaxTime * 1) / 4; 
-	m_EffectDesc_Mesh.KeyFram_2_TimeEnd = (m_EffectDesc_Mesh.fMaxTime * 2) / 4; 
+	m_EffectDesc_Mesh.KeyFram_1_TimeEnd = (m_EffectDesc_Mesh.fMaxTime * 1) / 4;
+	m_EffectDesc_Mesh.KeyFram_2_TimeEnd = (m_EffectDesc_Mesh.fMaxTime * 2) / 4;
 	m_EffectDesc_Mesh.KeyFram_3_TimeEnd = (m_EffectDesc_Mesh.fMaxTime * 3) / 4;
 	m_EffectDesc_Mesh.KeyFram_4_TimeEnd = (m_EffectDesc_Mesh.fMaxTime * 4) / 4;
+}
+
+void CMeshEffect::Set_Transform(UNIT_TYPE Type, CGameObject* OBJ, CTransform * TF, _float3 RUL)
+{
+	m_Unit_Type = Type;
+	m_Parents_P = OBJ;
+	m_Parents_TF = TF;
+	m_Parents_RUL = RUL;
 }
 
 CMeshEffect * CMeshEffect::Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)

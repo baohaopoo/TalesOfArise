@@ -16,6 +16,7 @@ CBoar::CBoar(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
 CBoar::CBoar(const CBoar & rhs)
 	: CEnemy(rhs)
 {
+
 }
 
 HRESULT CBoar::NativeConstruct_Prototype()
@@ -45,8 +46,7 @@ HRESULT CBoar::NativeConstruct(void * pArg)
 	//vPos = XMVectorSetY(vPos, 0.f);
 
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(20.f, 0.f, 10.f, 1.f));
-
+	/*m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(-85.0, -4.5, 3.0, 1.f));*/
 	m_bOnce = false;
 	m_bStart = true;
 	m_bBattle = false;
@@ -157,13 +157,15 @@ void CBoar::Tick(_double TimeDelta)
 			{
 				m_bStart = true;
 
-
+				m_iMotion = 2;
+				/*
 				if (m_iMotion == 5)
-					m_iMotion = 0;
+				m_iMotion = 0;
 
 				else
-					m_iMotion++;
+				m_iMotion++;*/
 			}
+
 
 
 			switch (m_iMotion)
@@ -259,7 +261,6 @@ void CBoar::LateTick(_double TimeDelta)
 		m_dAnimSpeed = 1.5;
 	}
 
-
 	if (!m_bAttackRevenge)
 	{
 		if (m_iEnemyInfo.m_iHp > 0 && !m_bAfterColAnim)
@@ -272,7 +273,7 @@ void CBoar::LateTick(_double TimeDelta)
 
 				if (!(m_pTransformCom->FrontPlayer(vPos)))
 				{
-					m_iDuration = 10.0;
+					m_iDuration = 1.5;
 					m_bCutAnimation = false;
 					m_iNextAnimationIndex = DOWN_B;
 					m_bOnce = false;
@@ -280,7 +281,7 @@ void CBoar::LateTick(_double TimeDelta)
 
 				else
 				{
-					m_iDuration = 10.0;
+					m_iDuration = 1.5;
 					m_bCutAnimation = false;
 					m_iNextAnimationIndex = DOWN_F;
 					m_bOnce = false;
@@ -451,6 +452,15 @@ void CBoar::AttackPattern1(_double TimeDelta)
 		m_bAttackRevenge = false;
 	}
 
+	if ((((_uint)m_pModelCom->Get_Animation(RUSH_LOOP)->Get_TimeAcc()) == 1) || (((_uint)m_pModelCom->Get_Animation(RUSH_LOOP)->Get_TimeAcc()) == 15) || (((_uint)m_pModelCom->Get_Animation(RUSH_LOOP)->Get_TimeAcc()) == 30)/*&& m_bEffectOnlyOnce*/)
+	{
+		CMeshEffect* Effect1 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 31));
+		CMeshEffect* Effect2 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 32));
+		Effect1->Set_Transform(UNIT_MONSTER, this, m_pTransformCom, _float3(0.f, 1.f, 1.f));
+		Effect2->Set_Transform(UNIT_MONSTER, this, m_pTransformCom, _float3(0.f, 1.f, 1.f));
+		//m_bEffectOnlyOnce = false;
+	}
+
 	RELEASE_INSTANCE(CGameInstance);
 }
 
@@ -533,20 +543,43 @@ void CBoar::AttackPattern4()
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
+	CTransform*		pPlayerTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform"));
+	if (nullptr == pPlayerTransform)
+		return;
+
+	_vector vPlayerPos = pPlayerTransform->Get_State(CTransform::STATE_POSITION);
+	_vector vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	//_vector vTargetPos = pPlayerTransform->Get_State(CTransform::STATE_POSITION);
+	_vector Pos = vPlayerPos - vPos;
+	_vector NLook = XMVector3Normalize(vLook);
+	_vector NPos = XMVector3Normalize(Pos);
+	_vector Look = NLook - NPos;
+
 	if (m_iCurrentAnimationIndex == RUSH_SHORT)
 	{
 		if (m_pModelCom->Get_CurAnimation()->Get_CenterChannel()->Get_CurrentKeyFrameIndex() >= 177 && m_pModelCom->Get_CurAnimation()->Get_CenterChannel()->Get_CurrentKeyFrameIndex() <= 195)
 		{
 			m_bOnAttackCollider = true;
-			m_pAttackSphereCom->Set(m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*0.8f, 1.f);
+			m_pAttackSphereCom->Set(m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*1.5f, 1.f);
 		}
 	}
 
+	if ((m_iCurrentAnimationIndex == RUSH_SHORT) && (0.09f < XMVectorGetX(XMVector3Length(Look))))
+	{
+		_vector LookF = XMVector3Normalize(Look) * 0.08f;
+		vLook = XMVector3Normalize(vLook) - LookF;
+		m_pTransformCom->Look(vLook);
+	}
+	else if (m_iCurrentAnimationIndex == RUSH_SHORT)
+	{
+		m_pTransformCom->Look(NPos);
+	}
 
 	if (!m_bOnce && m_bStart)
 	{
 		m_dAnimSpeed = 2.0;
-		m_iDuration = 5.0;
+		m_iDuration = 1.0;
 		m_bStart = false;
 		m_bOnce = true;
 		m_bCutAnimation = false;
@@ -555,12 +588,25 @@ void CBoar::AttackPattern4()
 
 	else if ((m_iCurrentAnimationIndex == RUSH_SHORT) && (m_pModelCom->Get_CurAnimation()->Get_MainChannel()->Get_CurrentKeyFrameIndex() >= m_pModelCom->Get_CurAnimation()->Get_MainChannel()->Get_NumeKeyFrames() - 1))
 	{
+		m_iNextAnimationIndex = MOVE_IDLE;
 
 		m_bCutAnimation = true;
-		m_iNextAnimationIndex = MOVE_IDLE;
 		m_bOnce = false;
 		m_TimeDelta = 0.0;
 		m_bAttackRevenge = false;
+		m_bEffectOnlyOnce = true;
+	}
+
+
+	if (178 == (_uint)m_pModelCom->Get_Animation(RUSH_SHORT)->Get_TimeAcc() && m_bEffectOnlyOnce)
+	{
+		CMeshEffect* Effect0 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 0));
+
+		Effect0->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		CTransform* pT1 = Effect0->Get_Transfrom();
+		pT1->Go_Down(-1.f);
+		pT1->Go_Straight(1.f);
+		m_bEffectOnlyOnce = false;
 	}
 
 
@@ -600,7 +646,7 @@ void CBoar::AttackPattern5(_double TimeDelta)
 	if (!m_bOnce && m_bStart)
 	{
 		m_dAnimSpeed = 2.0;
-		m_iDuration = 5.0;
+		m_iDuration = 1.0;
 		m_bStart = false;
 		m_bOnce = true;
 		m_bCutAnimation = false;
@@ -626,6 +672,7 @@ void CBoar::AttackPattern5(_double TimeDelta)
 		m_bOnce = false;
 		m_TimeDelta = 0.0;
 		m_bAttackRevenge = false;
+		m_bEffectOnlyOnce = true;
 	}
 
 	if (m_iCurrentAnimationIndex == GIGANT_RUSH_LOOP)
@@ -634,6 +681,30 @@ void CBoar::AttackPattern5(_double TimeDelta)
 		m_pAttackSphereCom->Set(m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*0.5f, 1.f);
 	}
 
+	if ((((_uint)m_pModelCom->Get_Animation(GIGANT_RUSH_LOOP)->Get_TimeAcc()) == 1) || (((_uint)m_pModelCom->Get_Animation(GIGANT_RUSH_LOOP)->Get_TimeAcc()) == 20) || (((_uint)m_pModelCom->Get_Animation(GIGANT_RUSH_LOOP)->Get_TimeAcc()) == 40)/*&& m_bEffectOnlyOnce*/)
+	{
+		CMeshEffect* Effect1 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 31));
+		CMeshEffect* Effect2 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 32));
+		Effect1->Set_Transform(UNIT_MONSTER, this, m_pTransformCom, _float3(0.f, 1.f, 1.f));
+		Effect2->Set_Transform(UNIT_MONSTER, this, m_pTransformCom, _float3(0.f, 1.f, 1.f));
+
+		//Effect1->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		//Effect2->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		//CTransform* pT1 = Effect1->Get_Transfrom();
+		//CTransform* pT2 = Effect2->Get_Transfrom();
+		//pT1->Go_Down(-1.5f);
+		//pT1->Go_Straight(0.5f);
+		//pT2->Go_Down(-1.5f);
+		//pT2->Go_Straight(0.5f);
+		//m_bEffectOnlyOnce = false;
+	}
+
+
+	if ((((_uint)m_pModelCom->Get_Animation(GIGANT_RUSH_END)->Get_TimeAcc()) == 136))
+	{
+		CRect_Effect* Effect = (CRect_Effect*)pGameInstance->Add_GameObjectToLayer(pGameInstance->Get_LevelIndex(), TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Rect_Effect"), pGameInstance->Get_InstanceEffect_Data(UNIT_MONSTER, 0));
+		Effect->Set_Transform(UNIT_MONSTER, this, m_pTransformCom, _float3(0.f, 0.f, 1.f));
+	}
 	RELEASE_INSTANCE(CGameInstance);
 }
 
@@ -642,7 +713,7 @@ void CBoar::FallToGround()
 	if (!m_bOnce && m_bStart)
 	{
 		m_dAnimSpeed = 2.0;
-		m_iDuration = 5.0;
+		m_iDuration = 1.0;
 		m_bStart = false;
 		m_bOnce = true;
 		m_bCutAnimation = false;
@@ -674,7 +745,7 @@ void CBoar::HitPattern1()
 	if (m_bSky /* && y축으로 계속 증가할 때 */)		//안에 조건식 다시 짜야한다
 	{
 		m_dAnimSpeed = 2.0;
-		m_iDuration = 5.0;
+		m_iDuration = 1.0;
 		m_bOnce = true;
 		m_bCutAnimation = true;
 		m_iNextAnimationIndex = DAMAGE_AIR_LOOP;
@@ -706,7 +777,7 @@ void CBoar::HitPattern2()
 	if (!m_bOnce)
 	{
 		m_dAnimSpeed = 2.0;
-		m_iDuration = 5.0;
+		m_iDuration = 1.0;
 		m_bStart = false;
 		m_bOnce = true;
 		m_bCutAnimation = false;
@@ -727,7 +798,7 @@ void CBoar::HitPattern3()
 	if (!m_bOnce)
 	{
 		m_dAnimSpeed = 2.0;
-		m_iDuration = 5.0;
+		m_iDuration = 1.0;
 		m_bStart = false;
 		m_bOnce = true;
 		m_bCutAnimation = false;
@@ -775,7 +846,7 @@ void CBoar::NothingAnim()
 	if (!m_bOnce && m_bStart)
 	{
 		m_dAnimSpeed = 2.0;
-		m_iDuration = 5.0;
+		m_iDuration = 1.0;
 		m_bStart = false;
 		m_bOnce = true;
 		m_bCutAnimation = false;
@@ -831,7 +902,7 @@ void CBoar::WaitPlayer1()
 	if (!m_bOnce && m_bStart)
 	{
 		m_dAnimSpeed = 2.0;
-		m_iDuration = 3.0;
+		m_iDuration = 1.0;
 		m_bStart = false;
 		m_bOnce = true;
 		m_bCutAnimation = false;
@@ -862,7 +933,7 @@ void CBoar::WaitPlayer2()
 	if (!m_bOnce && m_bStart)
 	{
 		m_dAnimSpeed = 2.0;
-		m_iDuration = 3.0;
+		m_iDuration = 1.0;
 		m_bStart = false;
 		m_bOnce = true;
 		m_bCutAnimation = false;
@@ -894,7 +965,7 @@ void CBoar::WaitPlayer3()
 	if (!m_bOnce && m_bStart)
 	{
 		m_dAnimSpeed = 2.0;
-		m_iDuration = 3.0;
+		m_iDuration = 1.0;
 		m_bStart = false;
 		m_bOnce = true;
 		m_bCutAnimation = false;
@@ -939,6 +1010,11 @@ HRESULT CBoar::Render()
 			return E_FAIL;
 	}
 
+	if (m_bOnAttackCollider)
+	{
+		m_pAttackSphereCom->Render();
+	}
+
 	return S_OK;
 }
 
@@ -971,7 +1047,7 @@ HRESULT CBoar::SetUp_Components()
 
 	/* For.Com_SPHERE */
 	ColliderDesc.vPosition = _float3(0.f, 0.5f, 0.f);
-	ColliderDesc.fRadius = 1.f;
+	ColliderDesc.fRadius = 2.f;
 
 	if (FAILED(__super::SetUp_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;

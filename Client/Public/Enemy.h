@@ -3,6 +3,8 @@
 #include "GameObject.h"
 #include "Battle_Manager.h"
 #include "Player_Manager.h"
+#include "MeshEffect.h"
+#include "Rect_Effect.h"
 
 BEGIN(Engine)
 class CShader;
@@ -151,7 +153,7 @@ protected:
 
 	_bool m_isBoss = false;
 	_bool m_bStartScene = false;
-
+	_bool m_bEffectOnlyOnce = true;
 
 
 public:

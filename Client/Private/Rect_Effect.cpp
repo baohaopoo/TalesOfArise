@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "..\Public\Rect_Effect.h"
 #include "GameInstance.h"
+#include "Enemy.h"
+#include "Player.h"
 
 CRect_Effect::CRect_Effect(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
 	: CBlendObject(pDeviceOut, pDeviceContextOut)
@@ -41,6 +43,27 @@ HRESULT CRect_Effect::NativeConstruct(void * pArg)
 void CRect_Effect::Tick(_double TimeDelta)
 {
 	m_bDead = m_bFinish;
+
+	if (m_Parents_P)
+	{
+		if (m_Unit_Type == UNIT_MONSTER)
+		{
+			if (((CEnemy*)m_Parents_P)->Get_Hp() <= 0)
+				m_bDead = true;
+		}
+		else if (m_Unit_Type == UNIT_PLAYER)
+		{
+			if (((CPlayer*)m_Parents_P)->Get_Hp() <= 0)
+				m_bDead = true;
+		}
+		else if (m_Unit_Type == UNIT_BOSS)
+		{
+			if (((CEnemy*)m_Parents_P)->Get_Hp() <= 0)
+				m_bDead = true;
+		}
+	}
+
+
 
 	__super::Tick(TimeDelta);
 	m_PassTime -= TimeDelta * m_fmultipleTime;
@@ -129,6 +152,14 @@ HRESULT CRect_Effect::SetUp_ConstantTable()
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
+	if (m_Parents_P != nullptr)
+	{
+		_matrix	MX = m_Parents_TF->Get_WorldMatrix();
+		MX.r[3] += (MX.r[0] * m_Parents_RUL.x) + (MX.r[1] * m_Parents_RUL.y) + (MX.r[2] * m_Parents_RUL.z);
+		//XMStoreFloat4x4(&WorldMatrix, XMMatrixTranspose(XMLoadFloat4x4(&m_LocalMatrix) * MX));
+		m_pTransformCom->Set_WorldMatrix(MX);
+	}
+
 	if (FAILED(m_pTransformCom->Bind_WorldMatrixOnShader(m_pShaderCom, "g_WorldMatrix")))
 		return E_FAIL;
 
@@ -153,6 +184,14 @@ HRESULT CRect_Effect::SetUp_ConstantTable()
 	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
+}
+
+void CRect_Effect::Set_Transform(UNIT_TYPE Type, CGameObject* OBJ, CTransform * TF, _float3 RUL)
+{
+	m_Unit_Type = Type;
+	m_Parents_P = OBJ;
+	m_Parents_TF = TF;
+	m_Parents_RUL = RUL;
 }
 
 CRect_Effect * CRect_Effect::Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)

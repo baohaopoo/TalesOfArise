@@ -99,7 +99,7 @@ HRESULT CBalsephAxe::SetUp_Components()
 		return E_FAIL;
 
 	/* For.Com_Model */
-	if (FAILED(__super::SetUp_Components(TEXT("Com_Model"), LEVEL_TUTORIAL, TEXT("Prototype_Component_Model_BalsephAXE"), (CComponent**)&m_pModelCom)))
+	if (FAILED(__super::SetUp_Components(TEXT("Com_Model"), LEVEL_BOSS1, TEXT("Prototype_Component_Model_BalsephAXE"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
 	return S_OK;
@@ -120,7 +120,7 @@ HRESULT CBalsephAxe::SetUp_ConstantTable()
 	BoneMatrix.r[1] = XMVector3Normalize(BoneMatrix.r[1]);
 	BoneMatrix.r[2] = XMVector3Normalize(BoneMatrix.r[2]);
 
-	/*CTransform*		pPlayerTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_TUTORIAL, TEXT("Layer_Balseph"), CGameObject::m_pTransformTag, 0);
+	/*CTransform*		pPlayerTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_BOSS1, TEXT("Layer_Balseph"), CGameObject::m_pTransformTag, 0);
 	if (nullptr == pPlayerTransform)
 	return E_FAIL;*/
 

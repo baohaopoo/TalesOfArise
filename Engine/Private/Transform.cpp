@@ -96,6 +96,50 @@ HRESULT CTransform::NativeConstruct_Prototype(void* pArg)
 
 }
 
+HRESULT CTransform::Turn_Angle(_vector vAxis, _float fRadian)
+{
+	_vector		vRight = Get_State(CTransform::STATE_RIGHT);
+	_vector		vUp = Get_State(CTransform::STATE_UP);
+	_vector		vLook = Get_State(CTransform::STATE_LOOK);
+
+	_matrix		RotationMatrix;
+	RotationMatrix = XMMatrixRotationAxis(vAxis, fRadian);
+
+	vRight = XMVector3TransformNormal(vRight, RotationMatrix);
+	vUp = XMVector3TransformNormal(vUp, RotationMatrix);
+	vLook = XMVector3TransformNormal(vLook, RotationMatrix);
+
+	Set_State(CTransform::STATE_RIGHT, vRight);
+	Set_State(CTransform::STATE_UP, vUp);
+	Set_State(CTransform::STATE_LOOK, vLook);
+
+	return S_OK;
+}
+
+HRESULT CTransform::GO_RUL(_float3 vNum)
+{
+	_vector vPosition = Get_State(CTransform::STATE_POSITION);
+	_vector vRight = Get_State(CTransform::STATE_RIGHT);
+	_vector vUp = Get_State(CTransform::STATE_UP);
+	_vector vLook = Get_State(CTransform::STATE_LOOK);
+
+
+	vPosition += XMVector3Normalize(vRight) * vNum.x;
+	vPosition += XMVector3Normalize(vUp) * vNum.y;
+	vPosition += XMVector3Normalize(vLook) * vNum.z;
+
+	Set_State(CTransform::STATE_POSITION, vPosition);
+
+	//_vector		vPosition = Get_State(CTransform::STATE_POSITION);
+	//_float		fRight = XMVectorGetX(vPosition) + vNum.x;
+	//_float		fUp = XMVectorGetY(vPosition) + vNum.y;
+	//_float		fLook = XMVectorGetZ(vPosition) + vNum.z;
+
+	//Set_State(CTransform::STATE_POSITION, XMVectorSet(fRight, fUp, fLook, 1.f));
+
+	return S_OK;
+}
+
 HRESULT CTransform::Anim_Move(_fvector vMoveVector, CNavigation * pNavigation)
 {
 	_vector      vPosition = Get_State(CTransform::STATE_POSITION);

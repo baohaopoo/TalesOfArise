@@ -40,7 +40,7 @@ HRESULT CLord_Balseph::NativeConstruct(void * pArg)
 	if (FAILED(SetUp_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(20.f, 0.f, 10.f, 1.f));
+	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(20.f, 0.f, 10.f, 1.f));
 	m_pModelCom->Set_AnimationIndex(MOVE_IDLE);
 	m_pModelFaceCom->Set_AnimationIndex(MOVE_IDLE);
 	m_pModelSKL->Set_AnimationIndex(MOVE_IDLE);
@@ -527,7 +527,35 @@ void CLord_Balseph::AttackPattern1(_double TimeDelta)
 		}
 	}
 
+	if (((_uint)m_pModelCom->Get_Animation(ATTACK_MOUNTAIN_BUSTER_LOOP)->Get_TimeAcc()) == 1 || ((_uint)m_pModelCom->Get_Animation(ATTACK_MOUNTAIN_BUSTER_LOOP)->Get_TimeAcc()) == 3 || ((_uint)m_pModelCom->Get_Animation(ATTACK_MOUNTAIN_BUSTER_LOOP)->Get_TimeAcc()) == 10)
+	{
+		CRect_Effect* Effect = (CRect_Effect*)pGameInstance->Add_GameObjectToLayer(pGameInstance->Get_LevelIndex(), TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Rect_Effect"), pGameInstance->Get_InstanceEffect_Data(UNIT_MONSTER, 3));
+		Effect->Set_Transform(UNIT_MONSTER, this, m_pTransformCom, _float3(1.7f, 0.f, -0.5f));
+		(Effect->Get_Transfrom())->Scaled(_float3(0.1f, 1.f, 0.1f));
+		Effect->Set_TimeSpeed(9.f);
+		/*CMeshEffect* Effect0 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 28));
+		Effect0->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect0->Get_Transfrom())->Scaled(_float3(4.f, 4.f, 4.f));
+		(Effect0->Get_Transfrom())->GO_RUL(_float3(1.5f, 0.f, 0.f));
+		Effect0->Set_Finish_Dead(false);
+		(Effect0->Get_Transfrom())->Turn_Angle((Effect0->Get_Transfrom())->Get_State(CTransform::STATE_UP), XMConvertToRadians(180.f));
+		Effect0->Set_TimeSpeed(1.f);*/
+	}
 
+	if (((_uint)m_pModelCom->Get_Animation(ATTACK_MOUNTAIN_BUSTER_END)->Get_TimeAcc()) == 40)
+	{
+		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 10));
+		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect->Get_Transfrom())->Scaled(_float3(5.f, 5.f, 5.f));
+		(Effect->Get_Transfrom())->GO_RUL(_float3(1.7f, 0.f, 0.f));
+		(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_UP), XMConvertToRadians(-2.f));
+
+		CMeshEffect* Effect1 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 28));
+		Effect1->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect1->Get_Transfrom())->Scaled(_float3(20.f, 20.f, 20.f));
+		(Effect1->Get_Transfrom())->GO_RUL(_float3(1.7f, 0.f, 0.f));
+		(Effect1->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_UP), XMConvertToRadians(-2.f));
+	}
 	RELEASE_INSTANCE(CGameInstance);
 }
 
@@ -577,6 +605,48 @@ void CLord_Balseph::AttackPattern2(_double TimeDelta)
 		}
 	}
 
+	if (((_uint)m_pModelCom->Get_Animation(ATTACK_POWER_WAVE)->Get_TimeAcc()) == 82)
+	{
+		CMeshEffect* Effect0 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 21));
+		Effect0->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect0->Get_Transfrom())->Scaled(_float3(5.f, 5.f, 5.f));
+		(Effect0->Get_Transfrom())->GO_RUL(_float3(0.f, 0.2f, 0.f));
+		Effect0->Set_TimeSpeed(1.3f);
+		(Effect0->Get_Transfrom())->Turn_Angle((Effect0->Get_Transfrom())->Get_State(CTransform::STATE_UP), XMConvertToRadians(50.f));
+
+
+		CMeshEffect* Effect1 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 21));
+		Effect1->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect1->Get_Transfrom())->Scaled(_float3(5.f, 5.f, 5.f));
+		(Effect1->Get_Transfrom())->GO_RUL(_float3(0.f, 0.2f, 0.f));
+		Effect1->Set_TimeSpeed(1.3f);
+
+		CMeshEffect* Effect2 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 17));
+		Effect2->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect2->Get_Transfrom())->Scaled(_float3(4.f, 4.f, 4.f));
+		(Effect2->Get_Transfrom())->GO_RUL(_float3(0.f, 0.1f, 0.f));
+		Effect2->Set_TimeSpeed(1.3f);
+
+		CMeshEffect* Effect3 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 18));
+		Effect3->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect3->Get_Transfrom())->Scaled(_float3(4.f, 4.f, 4.f));
+		(Effect3->Get_Transfrom())->GO_RUL(_float3(0.f, 0.1f, 0.f));
+		Effect3->Set_TimeSpeed(1.3f);
+
+		CMeshEffect* Effect4 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 19));
+		Effect4->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect4->Get_Transfrom())->Scaled(_float3(4.f, 4.f, 4.f));
+		(Effect4->Get_Transfrom())->GO_RUL(_float3(0.f, 0.1f, 0.f));
+		Effect4->Set_TimeSpeed(1.3f);
+
+		CMeshEffect* Effect5 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 20));
+		Effect5->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect5->Get_Transfrom())->Scaled(_float3(5.f, 5.f, 5.f));
+		(Effect5->Get_Transfrom())->GO_RUL(_float3(0.f, 0.2f, 0.f));
+		Effect5->Set_TimeSpeed(1.3f);
+		(Effect5->Get_Transfrom())->Turn_Angle((Effect5->Get_Transfrom())->Get_State(CTransform::STATE_UP), XMConvertToRadians(90.f));
+
+	}
 
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -653,10 +723,37 @@ void CLord_Balseph::AttackPattern3(_double TimeDelta)
 		if ((m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 75) && (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() <= 95))
 		{
 			m_bOnAttackCollider = true;
-			m_pAttackSphereCom->Set(m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*5.f, 2.f);
+			m_pAttackSphereCom->Set(m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*4.5f, 3.f);
 		}
 	}
 
+	if (((_uint)m_pModelCom->Get_Animation(ATTACK_JUMP_CRUSH)->Get_TimeAcc()) == 75)
+	{
+		CMeshEffect* Effect0 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 22));
+		Effect0->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect0->Get_Transfrom())->Scaled(_float3(5.f, 5.f, 5.f));
+		(Effect0->Get_Transfrom())->GO_RUL(_float3(0.f, 0.0f, 5.5f));
+		Effect0->Set_TimeSpeed(1.3f);
+
+
+		CMeshEffect* Effect1 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 23));
+		Effect1->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect1->Get_Transfrom())->Scaled(_float3(4.f, 5.f, 4.f));
+		(Effect1->Get_Transfrom())->GO_RUL(_float3(0.f, 0.f, 5.5f));
+		Effect1->Set_TimeSpeed(1.3f);
+
+		CMeshEffect* Effect2 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 18));
+		Effect2->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect2->Get_Transfrom())->Scaled(_float3(5.f, 5.f, 5.f));
+		(Effect2->Get_Transfrom())->GO_RUL(_float3(0.f, 0.0f, 5.5f));
+		Effect2->Set_TimeSpeed(1.3f);
+
+		CMeshEffect* Effect3 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 19));
+		Effect3->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect3->Get_Transfrom())->Scaled(_float3(5.f, 5.f, 5.f));
+		(Effect3->Get_Transfrom())->GO_RUL(_float3(0.f, 0.0f, 5.5f));
+		Effect3->Set_TimeSpeed(1.3f);
+	}
 
 	RELEASE_INSTANCE(CGameInstance);
 }
@@ -717,13 +814,12 @@ void CLord_Balseph::AttackPattern4(_double TimeDelta)
 		m_bAttackRevenge = false;
 	}
 
-
 	if (m_iCurrentAnimationIndex == ATTACK_CRUSH)
 	{
 		if ((m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 87) && (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() <= 120))
 		{
 			m_bOnAttackCollider = true;
-			m_pAttackSphereCom->Set(m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*5.f, 1.5f);
+			m_pAttackSphereCom->Set(m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*4.5f, 3.f);
 		}
 	}
 
@@ -736,6 +832,50 @@ void CLord_Balseph::AttackPattern4(_double TimeDelta)
 		}
 	}
 
+	if (((_uint)m_pModelCom->Get_Animation(ATTACK_CRUSH)->Get_TimeAcc()) == 88)
+	{
+		CMeshEffect* Effect0 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 22));
+		Effect0->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect0->Get_Transfrom())->Scaled(_float3(5.f, 5.f, 5.f));
+		(Effect0->Get_Transfrom())->GO_RUL(_float3(0.f, 0.0f, 5.5f));
+		Effect0->Set_TimeSpeed(1.3f);
+
+
+		CMeshEffect* Effect1 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 23));
+		Effect1->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect1->Get_Transfrom())->Scaled(_float3(4.f, 5.f, 4.f));
+		(Effect1->Get_Transfrom())->GO_RUL(_float3(0.f, 0.f, 5.5f));
+		Effect1->Set_TimeSpeed(1.3f);
+
+		CMeshEffect* Effect2 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 18));
+		Effect2->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect2->Get_Transfrom())->Scaled(_float3(5.f, 5.f, 5.f));
+		(Effect2->Get_Transfrom())->GO_RUL(_float3(0.f, 0.0f, 5.5f));
+		Effect2->Set_TimeSpeed(1.3f);
+
+		CMeshEffect* Effect3 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 19));
+		Effect3->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect3->Get_Transfrom())->Scaled(_float3(5.f, 5.f, 5.f));
+		(Effect3->Get_Transfrom())->GO_RUL(_float3(0.f, 0.0f, 5.5f));
+		Effect3->Set_TimeSpeed(1.3f);
+	}
+
+	if (((_uint)m_pModelCom->Get_Animation(ATTACK_SWING)->Get_TimeAcc()) == 70)
+	{
+		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 25));
+		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect->Get_Transfrom())->Scaled(_float3(4.f, 3.f, 4.f));
+		(Effect->Get_Transfrom())->GO_RUL(_float3(0.f, 1.5f, 0.f));
+		(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_RIGHT), XMConvertToRadians(1.f));
+		Effect->Set_TimeSpeed(1.3f);
+
+		CMeshEffect* Effect1 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 26));
+		Effect1->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect1->Get_Transfrom())->Scaled(_float3(4.f, 3.f, 4.f));
+		(Effect1->Get_Transfrom())->GO_RUL(_float3(0.f, 1.5f, 0.f));
+		(Effect1->Get_Transfrom())->Turn_Angle((Effect1->Get_Transfrom())->Get_State(CTransform::STATE_RIGHT), XMConvertToRadians(1.f));
+		Effect1->Set_TimeSpeed(1.3f);
+	}
 
 	RELEASE_INSTANCE(CGameInstance);
 }
@@ -801,9 +941,35 @@ void CLord_Balseph::AttackPattern5(_double TimeDelta)
 		}
 	}
 
+	if (((_uint)m_pModelCom->Get_Animation(ATTACK_CRUSH)->Get_TimeAcc()) == 88)
+	{
+		CMeshEffect* Effect0 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 22));
+		Effect0->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect0->Get_Transfrom())->Scaled(_float3(5.f, 5.f, 5.f));
+		(Effect0->Get_Transfrom())->GO_RUL(_float3(0.f, 0.0f, 5.5f));
+		Effect0->Set_TimeSpeed(1.3f);
+
+
+		CMeshEffect* Effect1 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 23));
+		Effect1->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect1->Get_Transfrom())->Scaled(_float3(4.f, 5.f, 4.f));
+		(Effect1->Get_Transfrom())->GO_RUL(_float3(0.f, 0.f, 5.5f));
+		Effect1->Set_TimeSpeed(1.3f);
+
+		CMeshEffect* Effect2 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 18));
+		Effect2->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect2->Get_Transfrom())->Scaled(_float3(5.f, 5.f, 5.f));
+		(Effect2->Get_Transfrom())->GO_RUL(_float3(0.f, 0.0f, 5.5f));
+		Effect2->Set_TimeSpeed(1.3f);
+
+		CMeshEffect* Effect3 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 19));
+		Effect3->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect3->Get_Transfrom())->Scaled(_float3(5.f, 5.f, 5.f));
+		(Effect3->Get_Transfrom())->GO_RUL(_float3(0.f, 0.0f, 5.5f));
+		Effect3->Set_TimeSpeed(1.3f);
+	}
 	RELEASE_INSTANCE(CGameInstance);
 }
-
 
 void CLord_Balseph::AttackPattern6(_double TimeDelta)
 {
@@ -838,6 +1004,16 @@ void CLord_Balseph::AttackPattern6(_double TimeDelta)
 		}
 	}
 
+	if (((_uint)m_pModelCom->Get_Animation(ATTACK_JUMP_PRESS)->Get_TimeAcc()) == 68)
+	{
+		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 18));
+		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect->Get_Transfrom())->Scaled(_float3(3.f, 2.f, 3.f));
+
+		CMeshEffect* Effect1 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 8));
+		Effect1->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect1->Get_Transfrom())->Scaled(_float3(4.f, 0.3f, 4.f));
+	}
 	RELEASE_INSTANCE(CGameInstance);
 }
 
@@ -920,6 +1096,35 @@ void CLord_Balseph::AttackPattern7(_double TimeDelta)
 		m_pAttackSphereCom->Set(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 3.f);
 	}
 
+
+	if (((_uint)m_pModelCom->Get_Animation(MASTER_CORE_LOOP)->Get_TimeAcc()) == 1 ||
+		((_uint)m_pModelCom->Get_Animation(MASTER_CORE_LOOP)->Get_TimeAcc()) == 20 ||
+		((_uint)m_pModelCom->Get_Animation(MASTER_CORE_LOOP)->Get_TimeAcc()) == 40 ||
+		((_uint)m_pModelCom->Get_Animation(MASTER_CORE_LOOP)->Get_TimeAcc()) == 60 ||
+		((_uint)m_pModelCom->Get_Animation(MASTER_CORE_LOOP)->Get_TimeAcc()) == 80 ||
+		((_uint)m_pModelCom->Get_Animation(MASTER_CORE_LOOP)->Get_TimeAcc()) == 100)
+
+	{
+		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 30));
+		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect->Get_Transfrom())->Scaled(_float3(5.f, 5.f, 5.f));
+		(Effect->Get_Transfrom())->GO_RUL(_float3(0.2f, 1.7f, 1.f));
+		Effect->Set_TimeSpeed(1.f);
+	}
+
+	if (((_uint)m_pModelCom->Get_Animation(MASTER_CORE_LOOP)->Get_TimeAcc()) == 10 ||
+		((_uint)m_pModelCom->Get_Animation(MASTER_CORE_LOOP)->Get_TimeAcc()) == 30 ||
+		((_uint)m_pModelCom->Get_Animation(MASTER_CORE_LOOP)->Get_TimeAcc()) == 50 ||
+		((_uint)m_pModelCom->Get_Animation(MASTER_CORE_LOOP)->Get_TimeAcc()) == 70 ||
+		((_uint)m_pModelCom->Get_Animation(MASTER_CORE_LOOP)->Get_TimeAcc()) == 90)
+	{
+		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 30));
+		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect->Get_Transfrom())->Scaled(_float3(15.f, 15.f, 15.f));
+		(Effect->Get_Transfrom())->GO_RUL(_float3(0.2f, 1.7f, 1.f));
+		(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(30.f));
+		Effect->Set_TimeSpeed(1.5f);
+	}
 	RELEASE_INSTANCE(CGameInstance);
 }
 

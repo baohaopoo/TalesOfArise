@@ -30,8 +30,9 @@ public:
 	HRESULT Loading_ForTutorialLevel();
 private:
 	HRESULT Loading_Tutorial_Model();
-	HRESULT Loading_Tutorial_Texture();
 	HRESULT Loading_Tutorial_Object();
+	//HRESULT Loading_Tutorial_Texture();
+
 public:
 	HRESULT Loading_ForBoss1Level();
 private:

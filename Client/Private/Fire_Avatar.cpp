@@ -394,7 +394,7 @@ void CFire_Avatar::RockFalling(_double TimeDelta)
 		for (int k = 0; k < 5; ++k)
 		{
 		m_vStorePos = XMVectorSet(i, 5.91f, j, 0.f);
-		if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, TEXT("Layer_Falling_Rock"), TEXT("Prototype_GameObject_Falling_Rock"), &m_vStorePos)))
+		if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_BOSS1, TEXT("Layer_Falling_Rock"), TEXT("Prototype_GameObject_Falling_Rock"), &m_vStorePos)))
 		return;
 		}
 		m_bCreateSmallRock = true;
