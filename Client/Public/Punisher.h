@@ -61,6 +61,8 @@ public:
 	//private:
 	//	void Compute_Collider();
 
+	CMeshEffect* HE[6] = { nullptr };
+
 private:
 	_double	m_TimeDelta = 0.0;
 	_bool m_bTime = false;
@@ -71,6 +73,7 @@ private:
 	_uint m_iMotion = 0;
 	_uint m_iHitMotion = 0;
 	_uint m_Cnt = 0;
+	_uint m_iAnimCount = 0;
 };
 
 END

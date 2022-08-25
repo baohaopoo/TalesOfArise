@@ -156,17 +156,15 @@ void CBoar::Tick(_double TimeDelta)
 			if ((m_TimeDelta > 5.0) && (m_bOnce == false))
 			{
 				m_bStart = true;
-
 				m_iMotion = 2;
-				/*
-				if (m_iMotion == 5)
-				m_iMotion = 0;
+
+				/*if (m_iMotion == 5)
+					m_iMotion = 0;
 
 				else
-				m_iMotion++;*/
+					m_iMotion++;*/
+
 			}
-
-
 
 			switch (m_iMotion)
 			{
@@ -597,18 +595,13 @@ void CBoar::AttackPattern4()
 		m_bEffectOnlyOnce = true;
 	}
 
-
-	if (178 == (_uint)m_pModelCom->Get_Animation(RUSH_SHORT)->Get_TimeAcc() && m_bEffectOnlyOnce)
+	if (((_uint)m_pModelCom->Get_Animation(RUSH_SHORT)->Get_TimeAcc()) == 178)
 	{
-		CMeshEffect* Effect0 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 0));
-
-		Effect0->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
-		CTransform* pT1 = Effect0->Get_Transfrom();
-		pT1->Go_Down(-1.f);
-		pT1->Go_Straight(1.f);
-		m_bEffectOnlyOnce = false;
+		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 0));
+		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect->Get_Transfrom())->Scaled(_float3(2.f, 2.f, 2.f));
+		(Effect->Get_Transfrom())->GO_RUL(_float3(-1.f, 0.f, 1.f));
 	}
-
 
 
 	RELEASE_INSTANCE(CGameInstance);

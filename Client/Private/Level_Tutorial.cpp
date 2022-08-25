@@ -76,14 +76,14 @@ HRESULT CLevel_Tutorial::NativeConstruct()
 	//if (FAILED(Ready_Layer_FireAvatar(TEXT("Layer_FireAvatar"))))
 	//	return E_FAIL;
 
-	if (FAILED(Ready_Layer_Mantis(TEXT("Layer_Mantis"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_Mantis(TEXT("Layer_Mantis"))))
+	//	return E_FAIL;
 
 	//if (FAILED(Ready_Layer_Punisher(TEXT("Layer_Punisher"))))
 	//	return E_FAIL;
 
-	//if (FAILED(Ready_Layer_Boar(TEXT("Layer_Boar"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_Boar(TEXT("Layer_Boar"))))
+		return E_FAIL;
 
 	//if (FAILED(Ready_Layer_Practice(TEXT("Layer_Practice"))))
 	//	return E_FAIL;
@@ -1556,13 +1556,33 @@ CLevel_Tutorial * CLevel_Tutorial::Create(ID3D11Device* pDeviceOut, ID3D11Device
 
 HRESULT CLevel_Tutorial::Ready_Layer_Boar(const _tchar * pLayerTag)
 {
-	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, pLayerTag, TEXT("Prototype_GameObject_Boar")))
+	CEnemy::EnemyDesc Desc;
+
+	Desc.vPos = XMVectorSet(0.f, 0.f, 5.f, 1.f);
+	Desc.eMapType = MAP_BATTLE02;
+
+	CEnemy* pEnemy = dynamic_cast<CEnemy*>(pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, pLayerTag, TEXT("Prototype_GameObject_Boar"), &Desc));
+
+	if (nullptr == pEnemy)
 		return E_FAIL;
 
-	Safe_Release(pGameInstance);
+	// 튜토리얼 맵에 네비를 타게 함.
+	CNavigation* pNavigation = pEnemy->SetUp_Navigation(TEXT("Prototype_Component_Navigation_Map_Tutorial"));
+
+	// 특정 위치로 움직이게 설정
+	CTransform* pEnemyTransform = dynamic_cast<CTransform*>(pEnemy->Get_Component(TEXT("Com_Transform")));
+	pEnemyTransform->Move(-130.25f, -6.7f, -22.5f);
+
+	// 현재 있는 셀 정보 수정
+	pNavigation->Find_My_Cell(DirectX::XMVectorSet(-130.25f, -6.7f, -22.5f, 1.f));
+
+	// y값 수정
+	pEnemyTransform->Move(-130.25f, pEnemyTransform->Get_Height(pNavigation), -22.5f);
+
+	RELEASE_INSTANCE(CGameInstance);
+
 	return S_OK;
 }
 
@@ -1579,22 +1599,6 @@ HRESULT CLevel_Tutorial::Ready_Layer_Practice(const _tchar * pLayerTag)
 	return S_OK;
 }
 
-
-
-HRESULT CLevel_Tutorial::Ready_Layer_Punisher(const _tchar * pLayerTag)
-{
-	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	_vector vPos = XMVectorSet(10.f, 0.f, 0.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, pLayerTag, TEXT("Prototype_GameObject_Punisher"), &vPos))
-		return E_FAIL;
-
-	Safe_Release(pGameInstance);
-	return S_OK;
-}
-
-
 HRESULT CLevel_Tutorial::Ready_Layer_FireAvatar(const _tchar * pLayerTag)
 {
 	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
@@ -1604,6 +1608,38 @@ HRESULT CLevel_Tutorial::Ready_Layer_FireAvatar(const _tchar * pLayerTag)
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
+	return S_OK;
+}
+
+HRESULT CLevel_Tutorial::Ready_Layer_Punisher(const _tchar * pLayerTag)
+{
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CEnemy::EnemyDesc Desc;
+
+	Desc.vPos = XMVectorSet(0.f, 0.f, 5.f, 1.f);
+	Desc.eMapType = MAP_BATTLE02;
+
+	CEnemy* pEnemy = dynamic_cast<CEnemy*>(pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, pLayerTag, TEXT("Prototype_GameObject_Punisher"), &Desc));
+
+	if (nullptr == pEnemy)
+		return E_FAIL;
+
+	// 튜토리얼 맵에 네비를 타게 함.
+	CNavigation* pNavigation = pEnemy->SetUp_Navigation(TEXT("Prototype_Component_Navigation_Map_Tutorial"));
+
+	// 특정 위치로 움직이게 설정
+	CTransform* pEnemyTransform = dynamic_cast<CTransform*>(pEnemy->Get_Component(TEXT("Com_Transform")));
+	pEnemyTransform->Move(-130.25f, -6.7f, -22.5f);
+
+	// 현재 있는 셀 정보 수정
+	pNavigation->Find_My_Cell(DirectX::XMVectorSet(-130.25f, -6.7f, -22.5f, 1.f));
+
+	// y값 수정
+	pEnemyTransform->Move(-130.25f, pEnemyTransform->Get_Height(pNavigation), -22.5f);
+
+	RELEASE_INSTANCE(CGameInstance);
+
 	return S_OK;
 }
 

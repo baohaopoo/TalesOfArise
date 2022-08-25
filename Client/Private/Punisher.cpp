@@ -4,7 +4,7 @@
 #include "Model.h"
 #include "Animation.h"
 #include "Channel.h"
-
+#include "Sword.h"
 CPunisher::CPunisher(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
 	: CEnemy(pDeviceOut, pDeviceContextOut)
 {
@@ -51,6 +51,124 @@ void CPunisher::Tick(_double TimeDelta)
 {
 	m_bOnAttackCollider = false;
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	_matrix BoneMatrix0, BoneMatrix1, BoneMatrix2, BoneMatrix3, BoneMatrix4, BoneMatrix5;
+
+
+
+	for (_int i = 0; i < 6; ++i)
+	{
+		if (HE[i] != nullptr)
+		{
+			_float4x4 m_PivotMatrix = m_pModelCom->Get_PivotMatrix4x4();
+
+			switch (i)
+			{
+
+			case 0:
+				BoneMatrix0 = XMLoadFloat4x4(m_pModelCom->Get_CombinedTransformationMatrix("HAND_R"));
+
+				BoneMatrix0.r[0] = XMVector3Normalize(BoneMatrix0.r[0]);
+				BoneMatrix0.r[1] = XMVector3Normalize(BoneMatrix0.r[1]);
+				BoneMatrix0.r[2] = XMVector3Normalize(BoneMatrix0.r[2]);
+
+				HE[0]->Set_ParentsMatrix(BoneMatrix0 * XMLoadFloat4x4(&m_PivotMatrix) * m_pTransformCom->Get_WorldMatrix());
+
+				(HE[0]->Get_Transfrom())->GO_RUL(_float3(0.f, 0.f, 1.f));
+				(HE[0]->Get_Transfrom())->Turn_Angle(HE[0]->Get_Transfrom()->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(180.f));
+				(HE[0]->Get_Transfrom())->Turn_Angle(HE[0]->Get_Transfrom()->Get_State(CTransform::STATE_RIGHT), XMConvertToRadians(-90.f));
+
+
+				//(HE[0]->Get_Transfrom())->Turn_Angle(HE[0]->Get_Transfrom()->Get_State(CTransform::STATE_UP), XMConvertToRadians(0.f));
+				break;
+
+			case 1:
+				BoneMatrix1 = XMLoadFloat4x4(m_pModelCom->Get_CombinedTransformationMatrix("HAND2_R"));
+
+				BoneMatrix1.r[0] = XMVector3Normalize(BoneMatrix1.r[0]);
+				BoneMatrix1.r[1] = XMVector3Normalize(BoneMatrix1.r[1]);
+				BoneMatrix1.r[2] = XMVector3Normalize(BoneMatrix1.r[2]);
+
+				HE[1]->Set_ParentsMatrix(BoneMatrix1 * XMLoadFloat4x4(&m_PivotMatrix) * m_pTransformCom->Get_WorldMatrix());
+
+				(HE[1]->Get_Transfrom())->GO_RUL(_float3(0.f, 0.f, -1.f));
+				(HE[1]->Get_Transfrom())->Turn_Angle(HE[1]->Get_Transfrom()->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(180.f));
+				(HE[1]->Get_Transfrom())->Turn_Angle(HE[1]->Get_Transfrom()->Get_State(CTransform::STATE_RIGHT), XMConvertToRadians(90.f));
+				break;
+
+
+			case 2:
+				BoneMatrix2 = XMLoadFloat4x4(m_pModelCom->Get_CombinedTransformationMatrix("HAND3_R"));
+
+				BoneMatrix2.r[0] = XMVector3Normalize(BoneMatrix2.r[0]);
+				BoneMatrix2.r[1] = XMVector3Normalize(BoneMatrix2.r[1]);
+				BoneMatrix2.r[2] = XMVector3Normalize(BoneMatrix2.r[2]);
+
+				HE[2]->Set_ParentsMatrix(BoneMatrix2 * XMLoadFloat4x4(&m_PivotMatrix) * m_pTransformCom->Get_WorldMatrix());
+
+				(HE[2]->Get_Transfrom())->GO_RUL(_float3(0.f, 0.f, -1.f));
+				(HE[2]->Get_Transfrom())->Turn_Angle(HE[2]->Get_Transfrom()->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(0.f));
+				(HE[2]->Get_Transfrom())->Turn_Angle(HE[2]->Get_Transfrom()->Get_State(CTransform::STATE_RIGHT), XMConvertToRadians(90.f));
+				(HE[2]->Get_Transfrom())->Turn_Angle(HE[2]->Get_Transfrom()->Get_State(CTransform::STATE_UP), XMConvertToRadians(170.f));
+				break;
+
+
+			case 3:
+				BoneMatrix3 = XMLoadFloat4x4(m_pModelCom->Get_CombinedTransformationMatrix("HAND3_L"));
+
+				BoneMatrix3.r[0] = XMVector3Normalize(BoneMatrix3.r[0]);
+				BoneMatrix3.r[1] = XMVector3Normalize(BoneMatrix3.r[1]);
+				BoneMatrix3.r[2] = XMVector3Normalize(BoneMatrix3.r[2]);
+
+				HE[3]->Set_ParentsMatrix(BoneMatrix3 * XMLoadFloat4x4(&m_PivotMatrix) * m_pTransformCom->Get_WorldMatrix());
+
+				(HE[3]->Get_Transfrom())->GO_RUL(_float3(0.f, 0.f, 1.3f));
+				(HE[3]->Get_Transfrom())->Turn_Angle(HE[3]->Get_Transfrom()->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(0.f));
+				(HE[3]->Get_Transfrom())->Turn_Angle(HE[3]->Get_Transfrom()->Get_State(CTransform::STATE_RIGHT), XMConvertToRadians(270.f));
+				(HE[3]->Get_Transfrom())->Turn_Angle(HE[3]->Get_Transfrom()->Get_State(CTransform::STATE_UP), XMConvertToRadians(0.f));
+				break;
+
+			case 4:
+				BoneMatrix4 = XMLoadFloat4x4(m_pModelCom->Get_CombinedTransformationMatrix("HAND2_L"));
+
+				BoneMatrix4.r[0] = XMVector3Normalize(BoneMatrix4.r[0]);
+				BoneMatrix4.r[1] = XMVector3Normalize(BoneMatrix4.r[1]);
+				BoneMatrix4.r[2] = XMVector3Normalize(BoneMatrix4.r[2]);
+
+				HE[4]->Set_ParentsMatrix(BoneMatrix4 * XMLoadFloat4x4(&m_PivotMatrix) * m_pTransformCom->Get_WorldMatrix());
+
+				(HE[4]->Get_Transfrom())->GO_RUL(_float3(0.f, 0.f, 1.3f));
+				(HE[4]->Get_Transfrom())->Turn_Angle(HE[4]->Get_Transfrom()->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(0.f));
+				(HE[4]->Get_Transfrom())->Turn_Angle(HE[4]->Get_Transfrom()->Get_State(CTransform::STATE_RIGHT), XMConvertToRadians(270.f));
+
+				break;
+
+			case 5:
+				BoneMatrix5 = XMLoadFloat4x4(m_pModelCom->Get_CombinedTransformationMatrix("HAND_L"));
+
+				BoneMatrix5.r[0] = XMVector3Normalize(BoneMatrix5.r[0]);
+				BoneMatrix5.r[1] = XMVector3Normalize(BoneMatrix5.r[1]);
+				BoneMatrix5.r[2] = XMVector3Normalize(BoneMatrix5.r[2]);
+
+				HE[5]->Set_ParentsMatrix(BoneMatrix5 * XMLoadFloat4x4(&m_PivotMatrix) * m_pTransformCom->Get_WorldMatrix());
+
+				(HE[5]->Get_Transfrom())->GO_RUL(_float3(0.f, 0.f, 1.f));
+				(HE[5]->Get_Transfrom())->Turn_Angle(HE[5]->Get_Transfrom()->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(0.f));
+				(HE[5]->Get_Transfrom())->Turn_Angle(HE[5]->Get_Transfrom()->Get_State(CTransform::STATE_RIGHT), XMConvertToRadians(270.f));
+				break;
+			}
+
+
+			(HE[i]->Get_Transfrom())->Scaled(_float3(4.f, 4.f, 4.f));
+
+
+			if (HE[i]->Get_Finish())
+			{
+				HE[i]->Set_Dead(true);
+				HE[i] = nullptr;
+			}
+		}
+	}
+
 
 
 	CTransform*		pPlayerTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform"));
@@ -91,6 +209,7 @@ void CPunisher::Tick(_double TimeDelta)
 
 			if ((m_TimeDelta > 5.0) && (m_bOnce == false))
 			{
+
 				m_bStart = true;
 
 				if (m_iMotion == 8)
@@ -336,6 +455,32 @@ HRESULT CPunisher::Render()
 
 void CPunisher::AttackPattern1()
 {
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CTransform*		pPlayerTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform"));
+	if (nullptr == pPlayerTransform)
+		return;
+
+	_vector vPlayerPos = pPlayerTransform->Get_State(CTransform::STATE_POSITION);
+	_vector vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	//_vector vTargetPos = pPlayerTransform->Get_State(CTransform::STATE_POSITION);
+	_vector Pos = vPlayerPos - vPos;
+	_vector NLook = XMVector3Normalize(vLook);
+	_vector NPos = XMVector3Normalize(Pos);
+	_vector Look = NLook - NPos;
+
+	if ((m_iCurrentAnimationIndex == IN_OUT_UPPER) && (0.10f < XMVectorGetX(XMVector3Length(Look))))
+	{
+		_vector LookF = XMVector3Normalize(Look) * 0.08f;
+		vLook = XMVector3Normalize(vLook) - LookF;
+		m_pTransformCom->Look(vLook);
+	}
+	else if (m_iCurrentAnimationIndex == IN_OUT_UPPER)
+	{
+		m_pTransformCom->Look(NPos);
+	}
+
 	if (!m_bOnce && m_bStart)
 	{
 		m_dAnimSpeed = 2.5;
@@ -375,6 +520,30 @@ void CPunisher::AttackPattern1()
 			m_pAttackSphereCom->Set(m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK) + XMVectorSet(0.f, 3.f, 0.f, 0.f), 1.8f);
 		}
 	}
+
+	if (((_uint)m_pModelCom->Get_Animation(IN_OUT_UPPER)->Get_TimeAcc()) == 66)
+	{
+		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 14));
+		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect->Get_Transfrom())->Scaled(_float3(3.f, 3.f, 3.f));
+		(Effect->Get_Transfrom())->GO_RUL(_float3(0.f, 2.3f, 0.f));
+		(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(230.f));
+
+		Effect->Set_TimeSpeed(2.5f);
+	}
+
+	if (((_uint)m_pModelCom->Get_Animation(IN_OUT_UPPER)->Get_TimeAcc()) == 194)
+	{
+		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 14));
+		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect->Get_Transfrom())->Scaled(_float3(3.f, 3.f, 3.f));
+		(Effect->Get_Transfrom())->GO_RUL(_float3(-2.f, 2.3f, 0.f));
+		(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(150.f));
+
+		Effect->Set_TimeSpeed(2.5f);
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 void CPunisher::AttackPattern2()
@@ -438,17 +607,27 @@ void CPunisher::AttackPattern2()
 			|| (m_pModelCom->Get_CurAnimation()->Get_CenterChannel()->Get_CurrentKeyFrameIndex() >= 212 && m_pModelCom->Get_CurAnimation()->Get_CenterChannel()->Get_CurrentKeyFrameIndex() <= 220))
 		{
 			m_bOnAttackCollider = true;
-			m_pAttackSphereCom->Set(m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK), 1.8f);
+			m_pAttackSphereCom->Set(m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK) * 4.5f, 1.8f);
 		}
 
 		else if ((m_pModelCom->Get_CurAnimation()->Get_CenterChannel()->Get_CurrentKeyFrameIndex() >= 280 && m_pModelCom->Get_CurAnimation()->Get_CenterChannel()->Get_CurrentKeyFrameIndex() <= 310))
 		{
 			m_bOnAttackCollider = true;
-			m_pAttackSphereCom->Set(m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*1.3f, 1.f);
+			m_pAttackSphereCom->Set(m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*4.5f, 1.f);
 		}
 
 	}
 
+	if (((_uint)m_pModelCom->Get_Animation(MULTI)->Get_TimeAcc()) == 2)
+	{
+
+		for (int i = 0; i < 6; ++i)
+		{
+			HE[i] = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 11));
+			HE[i]->Set_Finish_Dead(false);
+			HE[i]->Set_TimeSpeed(1.2f);
+		}
+	}
 	RELEASE_INSTANCE(CGameInstance);
 }
 
@@ -526,6 +705,21 @@ void CPunisher::AttackPattern3(_double TimeDelta)
 			m_bOnce = false;
 			m_TimeDelta = 0.0;
 			m_bAttackRevenge = false;
+			for (int i = 0; i < 6; ++i)
+			{
+				HE[i]->Set_TimeSpeed(2.f);
+			}
+		}
+	}
+
+
+	if (((_uint)m_pModelCom->Get_Animation(RUSH_START)->Get_TimeAcc()) == 123)
+	{
+		for (int i = 0; i < 6; ++i)
+		{
+			HE[i] = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 12));
+			HE[i]->Set_Finish_Dead(false);
+			HE[i]->Set_TimeSpeed(1.f);
 		}
 	}
 
@@ -534,6 +728,7 @@ void CPunisher::AttackPattern3(_double TimeDelta)
 
 void CPunisher::AttackPattern4()
 {
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 	if (m_iCurrentAnimationIndex == HANDSTAND_FOOTPRESS)
 	{
@@ -543,7 +738,6 @@ void CPunisher::AttackPattern4()
 			m_pAttackSphereCom->Set(m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK), 4.f);
 		}
 	}
-
 
 	if (!m_bOnce && m_bStart)
 	{
@@ -564,10 +758,24 @@ void CPunisher::AttackPattern4()
 		m_TimeDelta = 0.0;
 		m_bAttackRevenge = false;
 	}
+
+	if (((_uint)m_pModelCom->Get_Animation(HANDSTAND_FOOTPRESS)->Get_TimeAcc()) == 1)
+	{
+		for (int i = 0; i < 6; ++i)
+		{
+			HE[i] = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 11));
+			HE[i]->Set_Finish_Dead(false);
+			HE[i]->Set_TimeSpeed(0.9f);
+		}
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 void CPunisher::AttackPattern5()
 {
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
 	if (!m_bOnce && m_bStart)
 	{
 		m_dAnimSpeed = 2.5;
@@ -576,6 +784,7 @@ void CPunisher::AttackPattern5()
 		m_bOnce = true;
 		m_bCutAnimation = false;
 		m_iNextAnimationIndex = SWING_START;
+		m_iAnimCount = 0;
 	}
 
 	else if ((m_iCurrentAnimationIndex == SWING_START) && (m_pModelCom->Get_CurAnimation()->Get_MainChannel()->Get_CurrentKeyFrameIndex() >= m_pModelCom->Get_CurAnimation()->Get_MainChannel()->Get_NumeKeyFrames() - 1))
@@ -585,7 +794,13 @@ void CPunisher::AttackPattern5()
 
 	else if ((m_iCurrentAnimationIndex == SWING_LOOP) && (m_pModelCom->Get_CurAnimation()->Get_MainChannel()->Get_CurrentKeyFrameIndex() >= m_pModelCom->Get_CurAnimation()->Get_MainChannel()->Get_NumeKeyFrames() - 1))
 	{
-		m_iNextAnimationIndex = SWING_END;
+		if (m_iAnimCount != 3)
+		{
+			m_pModelCom->Get_CurAnimation()->Reset_MonsterAnimation();
+			m_iAnimCount += 1;
+		}
+		else
+			m_iNextAnimationIndex = SWING_END;
 	}
 
 	else if ((m_iCurrentAnimationIndex == SWING_END) && (m_pModelCom->Get_CurAnimation()->Get_MainChannel()->Get_CurrentKeyFrameIndex() >= m_pModelCom->Get_CurAnimation()->Get_MainChannel()->Get_NumeKeyFrames() - 1))
@@ -617,7 +832,68 @@ void CPunisher::AttackPattern5()
 			m_bOnAttackCollider = true;
 			m_pAttackSphereCom->Set(m_pTransformCom->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_RIGHT), 3.f);
 		}
+
 	}
+
+
+	if (((_uint)m_pModelCom->Get_Animation(SWING_START)->Get_TimeAcc()) == 98)
+	{
+		for (int i = 0; i < 3; ++i)
+		{
+			HE[i] = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 12));
+			HE[i]->Set_Finish_Dead(false);
+			HE[i]->Set_TimeSpeed(1.f);
+		}
+
+		for (int i = 3; i < 6; ++i)
+		{
+			HE[i] = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 11));
+			HE[i]->Set_Finish_Dead(false);
+			HE[i]->Set_TimeSpeed(1.f);
+		}
+	}
+
+
+	if (((_uint)m_pModelCom->Get_Animation(SWING_LOOP)->Get_TimeAcc()) == 22)
+	{
+		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 15));
+		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect->Get_Transfrom())->Scaled(_float3(3.f, 3.f, 3.f));
+		(Effect->Get_Transfrom())->GO_RUL(_float3(0.f, 5.f, 2.5f));
+		(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_RIGHT), XMConvertToRadians(45.f));
+		//(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_UP), XMConvertToRadians(-45.f));
+		(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(90.f));
+		Effect->Set_TimeSpeed(3.f);
+	}
+
+	if (((_uint)m_pModelCom->Get_Animation(SWING_LOOP)->Get_TimeAcc()) == 35)
+	{
+		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 15));
+		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect->Get_Transfrom())->Scaled(_float3(3.f, 3.f, 3.f));
+		(Effect->Get_Transfrom())->GO_RUL(_float3(0.f, 5.f, 5.f));
+		(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_RIGHT), XMConvertToRadians(45.f));
+		//(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_UP), XMConvertToRadians(-45.f));
+		(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(90.f));
+
+		Effect->Set_TimeSpeed(3.f);
+	}
+
+	if (((_uint)m_pModelCom->Get_Animation(SWING_LOOP)->Get_TimeAcc()) == 48)
+	{
+		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 15));
+		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect->Get_Transfrom())->Scaled(_float3(3.f, 3.f, 3.f));
+		(Effect->Get_Transfrom())->GO_RUL(_float3(0.f, 5.f, 6.5f));
+		(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_RIGHT), XMConvertToRadians(45.f));
+		//(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_UP), XMConvertToRadians(-45.f));
+		(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(90.f));
+		Effect->Set_TimeSpeed(3.f);
+	}
+
+
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 void CPunisher::AttackPattern6()
@@ -679,6 +955,28 @@ void CPunisher::AttackPattern6()
 			m_pAttackSphereCom->Set(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 5.f);
 		}
 	}
+
+	if (((_uint)m_pModelCom->Get_Animation(SWING_360)->Get_TimeAcc()) == 65)
+	{
+		for (int i = 0; i < 6; ++i)
+		{
+			HE[i] = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 12));
+			HE[i]->Set_Finish_Dead(false);
+			HE[i]->Set_TimeSpeed(2.f);
+		}
+	}
+
+	if (((_uint)m_pModelCom->Get_Animation(SWING_360)->Get_TimeAcc()) == 119)
+	{
+		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 33));
+		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect->Get_Transfrom())->Scaled(_float3(3.f, 3.f, 3.f));
+		(Effect->Get_Transfrom())->GO_RUL(_float3(0.f, 2.3f, 3.f));
+		(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(50.f));
+
+		Effect->Set_TimeSpeed(2.5f);
+	}
+
 
 	RELEASE_INSTANCE(CGameInstance);
 }
@@ -743,6 +1041,27 @@ void CPunisher::AttackPattern7()
 		}
 	}
 
+	if (((_uint)m_pModelCom->Get_Animation(SWORD_720_FIRST)->Get_TimeAcc()) == 65)
+	{
+		for (int i = 0; i < 6; ++i)
+		{
+			HE[i] = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 12));
+			HE[i]->Set_Finish_Dead(false);
+			HE[i]->Set_TimeSpeed(2.f);
+		}
+	}
+
+	if (((_uint)m_pModelCom->Get_Animation(SWORD_720_FIRST)->Get_TimeAcc()) == 100)
+	{
+		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_MONSTER, 35));
+		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect->Get_Transfrom())->Scaled(_float3(3.f, 3.f, 3.f));
+		(Effect->Get_Transfrom())->GO_RUL(_float3(0.f, 2.3f, 3.f));
+		(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_RIGHT), XMConvertToRadians(25.f));
+
+		Effect->Set_TimeSpeed(3.5f);
+	}
+
 	RELEASE_INSTANCE(CGameInstance);
 }
 
@@ -765,6 +1084,7 @@ void CPunisher::NothingAnim1()
 	_vector Pos = vPlayerPos - vPos;
 	_vector NLook = XMVector3Normalize(vLook);
 	_vector NPos = XMVector3Normalize(Pos);
+
 	_vector Look = NLook - NPos;
 
 
@@ -979,8 +1299,8 @@ HRESULT CPunisher::SetUp_Components()
 		return E_FAIL;
 
 	/* For.Com_SPHERE */
-	ColliderDesc.vPosition = _float3(0.f, 0.5f, 0.f);
-	ColliderDesc.fRadius = 1.f;
+	ColliderDesc.vPosition = _float3(0.f, 3.f, 0.f);
+	ColliderDesc.fRadius = 3.f;
 
 	if (FAILED(__super::SetUp_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;
