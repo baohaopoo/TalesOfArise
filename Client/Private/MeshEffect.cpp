@@ -241,8 +241,6 @@ HRESULT CMeshEffect::Render()
 		//	return E_FAIL;
 	}
 
-
-
 	if (FAILED(m_pModel->Render(m_pShaderCom, "g_BoneMatrices", m_EffectDesc_Mesh.iMesh, m_EffectDesc_Mesh.iShader)))
 	{
 		MSG_BOX(L"Failed To CModel_Object : Render : m_pModel->Render");
@@ -251,7 +249,6 @@ HRESULT CMeshEffect::Render()
 
 	return S_OK;
 }
-
 
 
 HRESULT CMeshEffect::SetUp_Components()
@@ -321,10 +318,6 @@ HRESULT CMeshEffect::SetUp_ConstantTable()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_Dissolve", &Alpha, sizeof(_float))))
 		return E_FAIL;
-
-
-
-
 
 	RELEASE_INSTANCE(CGameInstance);
 

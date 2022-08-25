@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "..\Public\Loader_Effect.h"
 #include "GameInstance.h"
+#include "Rect_Effect.h"
+#include "Point_Effect.h"
+#include "MeshEffect.h"
 
 CLoader_Effect::CLoader_Effect(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext)
 	:m_pDevice(pDevice), m_pDeviceContext(pDeviceContext)
@@ -123,28 +126,57 @@ HRESULT CLoader_Effect::Loading_ForTutorialLevel()
 
 HRESULT CLoader_Effect::Loading_Tutorial_Model()
 {
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	_matrix PivotMatrix, PivotAxeMatrix;
+	_matrix			PivotMatrix, PivotAxeMatrix;
 
-	lstrcpy(m_szLoading, L"Loader_Effect : Prototype_Component_Model_Effect1");
-	PivotMatrix = XMMatrixScaling(10.f, 10.f, 10.f)*XMMatrixRotationX(XMConvertToRadians(90.f));
+	PivotMatrix = XMMatrixScaling(3.f, 3.f, 3.f)*XMMatrixRotationX(XMConvertToRadians(90.f));
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Effect1",
 		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_EFFECT, "../Bin/Resources/Model/Effect/", "0.fbx", PivotMatrix))))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 
+
 	return S_OK;
 }
 
 HRESULT CLoader_Effect::Loading_Tutorial_Texture()
 {
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Mesh"),
+		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Effect/Mesh/Mesh(%d).png"), 421))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect"),
+		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Effect/Effect(%d).png"), 29))))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
 	return S_OK;
 }
 
 HRESULT CLoader_Effect::Loading_Tutorial_Object()
 {
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	lstrcpy(m_szLoading, L"Loader_etc : Prototype_GameObject_Rect_Effect");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Rect_Effect"),
+		CRect_Effect::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoading, L"Loader_etc : Prototype_GameObject_Point_Effect");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Point_Effect"),
+		CPoint_Effect::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoading, L"Loader_etc : Prototype_GameObject_Mesh_Effect");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Mesh_Effect"),
+		CMeshEffect::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
 	return S_OK;
 }
 
