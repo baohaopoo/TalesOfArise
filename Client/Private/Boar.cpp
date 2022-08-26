@@ -156,14 +156,12 @@ void CBoar::Tick(_double TimeDelta)
 			if ((m_TimeDelta > 5.0) && (m_bOnce == false))
 			{
 				m_bStart = true;
-				
-
-				m_iMotion = 3;
-				/*if (m_iMotion == 5)
+		
+				if (m_iMotion == 5)
 					m_iMotion = 0;
 
 				else
-					m_iMotion++;*/
+					m_iMotion++;
 
 			}
 
@@ -604,7 +602,6 @@ void CBoar::AttackPattern4()
 		(Effect->Get_Transfrom())->GO_RUL(_float3(0.f, 0.5f, 1.f));
 	}
 
-
 	RELEASE_INSTANCE(CGameInstance);
 }
 
@@ -624,7 +621,6 @@ void CBoar::AttackPattern5(_double TimeDelta)
 	_vector NLook = XMVector3Normalize(vLook);
 	_vector NPos = XMVector3Normalize(Pos);
 	_vector Look = NLook - NPos;
-
 
 	if ((m_iCurrentAnimationIndex == GIGNAT_RUSH_START) && (0.16f < XMVectorGetX(XMVector3Length(Look))))
 	{

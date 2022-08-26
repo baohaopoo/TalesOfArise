@@ -19,6 +19,8 @@ float3		g_Shader;
 float4		g_Color1;
 float4		g_Color2;
 
+float2		g_Blur;
+
 
 sampler DefaultSampler = sampler_state {
 	filter = min_mag_mip_linear;
@@ -113,8 +115,8 @@ PS_OUT PS_MAIN_MODEL(PS_IN_MODEL In)
 		discard;
 	else
 	{
-		Out.vDiffuse = vMtrlDiffuse;
-		Out.vBlur = vMtrlDiffuse;
+		Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+		Out.vBlur = vMtrlDiffuse * g_Blur.y;
 	}
 	
 
@@ -136,8 +138,8 @@ PS_OUT PS_BLACKCUT_DISSOLVE(PS_IN_MODEL In)
 		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
 	}
 
-	Out.vDiffuse = vMtrlDiffuse;
-	Out.vBlur = vMtrlDiffuse;
+	Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+	Out.vBlur = vMtrlDiffuse * g_Blur.y;
 	
 	return Out;
 }
@@ -156,8 +158,8 @@ PS_OUT PS_BLACKCUT(PS_IN_MODEL In)
 		discard;
 	else
 	{
-		Out.vDiffuse = vMtrlDiffuse;
-		Out.vBlur = vMtrlDiffuse;
+		Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+		Out.vBlur = vMtrlDiffuse * g_Blur.y;
 	}
 	return Out;
 }
@@ -176,8 +178,8 @@ PS_OUT PS_MAIN_MODEL_UV(PS_IN_MODEL In)
 			discard;
 		else
 		{
-			Out.vDiffuse = vMtrlDiffuse;
-			Out.vBlur = vMtrlDiffuse;
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
 		}
 	}
 	else
@@ -204,8 +206,8 @@ PS_OUT PS_BLACKCUT_DISSOLVE_UV(PS_IN_MODEL In)
 			discard;
 		else
 		{
-			Out.vDiffuse = vMtrlDiffuse;
-			Out.vBlur = vMtrlDiffuse;
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
 		}
 
 	}
@@ -231,8 +233,8 @@ PS_OUT PS_BLACKCUT_UV(PS_IN_MODEL In)
 			discard;
 		else
 		{
-			Out.vDiffuse = vMtrlDiffuse;
-			Out.vBlur = vMtrlDiffuse;
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
 		}
 	}
 	else
@@ -259,8 +261,8 @@ PS_OUT PS_BLACKCUT_UVx(PS_IN_MODEL In)
 			discard;
 		else
 		{
-			Out.vDiffuse = vMtrlDiffuse;
-			Out.vBlur = vMtrlDiffuse;
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
 		}
 	}
 	else
@@ -287,8 +289,8 @@ PS_OUT PS_BLACKCUT_UVy(PS_IN_MODEL In)
 			discard;
 		else
 		{
-			Out.vDiffuse = vMtrlDiffuse;
-			Out.vBlur = vMtrlDiffuse;
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
 		}
 	}
 	else
@@ -316,8 +318,8 @@ PS_OUT PS_BLACKCUT_UV_x(PS_IN_MODEL In)
 			discard;
 		else
 		{
-			Out.vDiffuse = vMtrlDiffuse;
-			Out.vBlur = vMtrlDiffuse;
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
 		}
 	}
 	else
@@ -343,8 +345,8 @@ PS_OUT PS_BLACKCUT_UV_y(PS_IN_MODEL In)
 			discard;
 		else
 		{
-			Out.vDiffuse = vMtrlDiffuse;
-			Out.vBlur = vMtrlDiffuse;
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
 		}
 	}
 	else
@@ -368,8 +370,8 @@ PS_OUT PS_BLACKCUT_DISSOLVE_UVMX(PS_IN_MODEL In)
 		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
 	}
 
-	Out.vDiffuse = vMtrlDiffuse;
-	Out.vBlur = vMtrlDiffuse;
+	Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+	Out.vBlur = vMtrlDiffuse * g_Blur.y;
 
 	return Out;
 }
@@ -389,8 +391,8 @@ PS_OUT PS_BLACKCUT_DISSOLVE_UVMY(PS_IN_MODEL In)
 		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
 	}
 
-	Out.vDiffuse = vMtrlDiffuse;
-	Out.vBlur = vMtrlDiffuse;
+	Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+	Out.vBlur = vMtrlDiffuse * g_Blur.y;
 
 	return Out;
 }
@@ -412,8 +414,8 @@ PS_OUT PS_BLACKCUT_DISSOLVE_TEX(PS_IN_MODEL In)
 			discard;
 		else
 		{
-			Out.vDiffuse = vMtrlDiffuse;
-			Out.vBlur = vMtrlDiffuse;
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
 		}
 
 	}
@@ -441,8 +443,8 @@ PS_OUT PS_BLACKCUT_MASK_TEX(PS_IN_MODEL In)
 			discard;
 		else
 		{
-			Out.vDiffuse = vMtrlDiffuse;
-			Out.vBlur = vMtrlDiffuse;
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
 		}
 
 	}
@@ -467,8 +469,8 @@ PS_OUT PS_BLACKCUT_DISSOLVE_UVMXY(PS_IN_MODEL In)
 		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
 	}
 
-	Out.vDiffuse = vMtrlDiffuse;
-	Out.vBlur = vMtrlDiffuse;
+	Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+	Out.vBlur = vMtrlDiffuse * g_Blur.y;
 
 	return Out;
 }
@@ -492,8 +494,8 @@ PS_OUT PS_BLACKCUT_UV_x_NOA(PS_IN_MODEL In)
 		else
 		{
 			vMtrlDiffuse.a = 1.f;
-			Out.vDiffuse = vMtrlDiffuse;
-			Out.vBlur = vMtrlDiffuse;
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
 		}
 	}
 	else
@@ -520,8 +522,8 @@ PS_OUT PS_BLACKCUT_UV_y_NOA(PS_IN_MODEL In)
 		else
 		{
 			vMtrlDiffuse.a = 1.f;
-			Out.vDiffuse = vMtrlDiffuse;
-			Out.vBlur = vMtrlDiffuse;
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
 		}
 	}
 	else
@@ -546,8 +548,8 @@ PS_OUT PS_BLACKCUT_DISSOLVE_UVMX_TEX(PS_IN_MODEL In)
 			vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
 		}
 
-		Out.vDiffuse = vMtrlDiffuse;
-		Out.vBlur = vMtrlDiffuse;
+		Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+		Out.vBlur = vMtrlDiffuse * g_Blur.y;
 	}
 	else
 		discard;
@@ -572,8 +574,8 @@ PS_OUT PS_BLACKCUT_DISSOLVE_UVMY_TEX(PS_IN_MODEL In)
 			vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
 		}
 
-		Out.vDiffuse = vMtrlDiffuse;
-		Out.vBlur = vMtrlDiffuse;
+		Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+		Out.vBlur = vMtrlDiffuse * g_Blur.y;
 	}
 	else
 		discard;
@@ -598,11 +600,972 @@ PS_OUT PS_BLACKCUT_DISSOLVE_UVMY_TEX(PS_IN_MODEL In)
 //		discard;
 //	else
 //	{
-//		Out.vDiffuse = vMtrlDiffuse1;
-//		Out.vBlur = vMtrlDiffuse1;
+//		Out.vDiffuse = vMtrlDiffuse * g_Blur.x1;
+//		Out.vBlur = vMtrlDiffuse * g_Blur.y1;
 //	}
 //	return Out;
 //}
+
+PS_OUT NONEBLUR_PS_MAIN_MODEL(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+
+	vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+	vMtrlDiffuse.a = vMtrlDiffuse.a * g_Color1.a * g_Shader.z;
+
+
+	if (vMtrlDiffuse.a == 0.f)
+		discard;
+	else
+	{
+		Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+		
+	}
+
+
+	return Out;
+}
+
+PS_OUT NONEBLUR_PS_BLACKCUT_DISSOLVE(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+
+	vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+	//vector		vDissolve = g_DissolveTexture.Sample(DefaultSampler, In.vTexUV);
+
+	if (vMtrlDiffuse.r <= g_Dissolve)
+		discard;
+	else
+	{
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
+	}
+
+	Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+	
+
+	return Out;
+}
+
+PS_OUT NONEBLUR_PS_BLACKCUT(PS_IN_MODEL In)
+{
+
+	PS_OUT			Out = (PS_OUT)0;
+
+	vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+
+	vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+	vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
+
+	if (vMtrlDiffuse.a <= 0.1f)
+		discard;
+	else
+	{
+		Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+		
+	}
+	return Out;
+}
+
+PS_OUT NONEBLUR_PS_MAIN_MODEL_UV(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Color1.a * g_Shader.z;
+
+
+		if (vMtrlDiffuse.a == 0.f)
+			discard;
+		else
+		{
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			
+		}
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+PS_OUT NONEBLUR_PS_BLACKCUT_DISSOLVE_UV(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+		//vector		vDissolve = g_DissolveTexture.Sample(DefaultSampler, In.vTexUV);
+
+
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
+
+
+		if (vMtrlDiffuse.a <= g_Dissolve)
+			discard;
+		else
+		{
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			
+		}
+
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+PS_OUT NONEBLUR_PS_BLACKCUT_UV(PS_IN_MODEL In)
+{
+
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
+
+		if (vMtrlDiffuse.a <= 0.05f)
+			discard;
+		else
+		{
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			
+		}
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+PS_OUT NONEBLUR_PS_BLACKCUT_UVx(PS_IN_MODEL In)
+{
+
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+
+
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z*(In.vRealUV.x);
+
+		if (vMtrlDiffuse.a <= 0.05f)
+			discard;
+		else
+		{
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			
+		}
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+PS_OUT NONEBLUR_PS_BLACKCUT_UVy(PS_IN_MODEL In)
+{
+
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+
+
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z*(In.vRealUV.y);
+
+		if (vMtrlDiffuse.a <= 0.05f)
+			discard;
+		else
+		{
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			
+		}
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+
+PS_OUT NONEBLUR_PS_BLACKCUT_UV_x(PS_IN_MODEL In)
+{
+
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+
+
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z* (1.f - In.vRealUV.x);
+		//vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z*(1 - (In.vTexUV.x));
+		if (vMtrlDiffuse.a <= 0.05f)
+			discard;
+		else
+		{
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			
+		}
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+PS_OUT NONEBLUR_PS_BLACKCUT_UV_y(PS_IN_MODEL In)
+{
+
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z *(1.f - In.vRealUV.y);
+		//vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z*(1 - (In.vTexUV.y));
+		if (vMtrlDiffuse.a <= 0.05f)
+			discard;
+		else
+		{
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			
+		}
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+PS_OUT NONEBLUR_PS_BLACKCUT_DISSOLVE_UVMX(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+	In.vTexUV.x = In.vTexUV.x*g_UVMax;
+	vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+	//vector		vDissolve = g_DissolveTexture.Sample(DefaultSampler, In.vTexUV);
+
+	if (vMtrlDiffuse.r <= g_Dissolve)
+		discard;
+	else
+	{
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
+	}
+
+	Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+	
+
+	return Out;
+}
+
+PS_OUT NONEBLUR_PS_BLACKCUT_DISSOLVE_UVMY(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+	In.vTexUV.y = In.vTexUV.y*g_UVMax;
+	vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+	//vector		vDissolve = g_DissolveTexture.Sample(DefaultSampler, In.vTexUV);
+
+	if (vMtrlDiffuse.r <= g_Dissolve)
+		discard;
+	else
+	{
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
+	}
+
+	Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+	
+
+	return Out;
+}
+
+PS_OUT NONEBLUR_PS_BLACKCUT_DISSOLVE_TEX(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+		vector		vDissolve = g_DissolveTexture.Sample(DefaultSampler, In.vRealUV);
+
+
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+
+
+		if (vDissolve.r <= g_Dissolve)
+			discard;
+		else
+		{
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			
+		}
+
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+PS_OUT NONEBLUR_PS_BLACKCUT_MASK_TEX(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+		vector		vDissolve = g_DissolveTexture.Sample(DefaultSampler, In.vRealUV);
+
+
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z* vDissolve.r;
+
+
+		if (vDissolve.r < g_Dissolve)
+			discard;
+		else
+		{
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			
+		}
+
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+PS_OUT NONEBLUR_PS_BLACKCUT_DISSOLVE_UVMXY(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+	In.vTexUV = In.vTexUV*g_UVMax;
+	vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+	//vector		vDissolve = g_DissolveTexture.Sample(DefaultSampler, In.vTexUV);
+
+	if (vMtrlDiffuse.r <= g_Dissolve)
+		discard;
+	else
+	{
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
+	}
+
+	Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+	
+
+	return Out;
+}
+
+PS_OUT NONEBLUR_PS_BLACKCUT_UV_x_NOA(PS_IN_MODEL In)
+{
+
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+
+
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z* (1.f - In.vRealUV.x);
+		//vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z*(1 - (In.vTexUV.x));
+		if (vMtrlDiffuse.a <= 0.05f)
+			discard;
+		else
+		{
+			vMtrlDiffuse.a = 1.f;
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			
+		}
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+PS_OUT NONEBLUR_PS_BLACKCUT_UV_y_NOA(PS_IN_MODEL In)
+{
+
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z *(1.f - In.vRealUV.y);
+		//vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z*(1 - (In.vTexUV.y));
+		if (vMtrlDiffuse.a <= 0.05f)
+			discard;
+		else
+		{
+			vMtrlDiffuse.a = 1.f;
+			Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+			
+		}
+	}
+	else
+		discard;
+
+	return Out;
+}
+PS_OUT NONEBLUR_PS_BLACKCUT_DISSOLVE_UVMX_TEX(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax)
+	{
+		In.vTexUV.x = In.vTexUV.x*g_SubUV;
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+		//vector		vDissolve = g_DissolveTexture.Sample(DefaultSampler, In.vTexUV);
+
+		if (vMtrlDiffuse.r <= g_Dissolve)
+			discard;
+		else
+		{
+			vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+			vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
+		}
+
+		Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+		
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+PS_OUT NONEBLUR_PS_BLACKCUT_DISSOLVE_UVMY_TEX(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+	if (In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		In.vTexUV.y = In.vTexUV.y*g_SubUV;
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+		//vector		vDissolve = g_DissolveTexture.Sample(DefaultSampler, In.vTexUV);
+
+		if (vMtrlDiffuse.r <= g_Dissolve)
+			discard;
+		else
+		{
+			vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+			vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
+		}
+
+		Out.vDiffuse = vMtrlDiffuse * g_Blur.x;
+		
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+//////////////////////////////////////////////////////////////
+PS_OUT NONEDIFFUSE_PS_MAIN_MODEL(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+
+	vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+	vMtrlDiffuse.a = vMtrlDiffuse.a * g_Color1.a * g_Shader.z;
+
+
+	if (vMtrlDiffuse.a == 0.f)
+		discard;
+	else
+	{
+		
+		Out.vBlur = vMtrlDiffuse * g_Blur.y;
+	}
+
+
+	return Out;
+}
+
+PS_OUT NONEDIFFUSE_PS_BLACKCUT_DISSOLVE(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+
+	vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+	//vector		vDissolve = g_DissolveTexture.Sample(DefaultSampler, In.vTexUV);
+
+	if (vMtrlDiffuse.r <= g_Dissolve)
+		discard;
+	else
+	{
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
+	}
+
+	
+	Out.vBlur = vMtrlDiffuse * g_Blur.y;
+
+	return Out;
+}
+
+PS_OUT NONEDIFFUSE_PS_BLACKCUT(PS_IN_MODEL In)
+{
+
+	PS_OUT			Out = (PS_OUT)0;
+
+	vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+
+	vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+	vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
+
+	if (vMtrlDiffuse.a <= 0.1f)
+		discard;
+	else
+	{
+		
+		Out.vBlur = vMtrlDiffuse * g_Blur.y;
+	}
+	return Out;
+}
+
+PS_OUT NONEDIFFUSE_PS_MAIN_MODEL_UV(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Color1.a * g_Shader.z;
+
+
+		if (vMtrlDiffuse.a == 0.f)
+			discard;
+		else
+		{
+			
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
+		}
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+PS_OUT NONEDIFFUSE_PS_BLACKCUT_DISSOLVE_UV(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+		//vector		vDissolve = g_DissolveTexture.Sample(DefaultSampler, In.vTexUV);
+
+
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
+
+
+		if (vMtrlDiffuse.a <= g_Dissolve)
+			discard;
+		else
+		{
+			
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
+		}
+
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+PS_OUT NONEDIFFUSE_PS_BLACKCUT_UV(PS_IN_MODEL In)
+{
+
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
+
+		if (vMtrlDiffuse.a <= 0.05f)
+			discard;
+		else
+		{
+			
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
+		}
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+PS_OUT NONEDIFFUSE_PS_BLACKCUT_UVx(PS_IN_MODEL In)
+{
+
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+
+
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z*(In.vRealUV.x);
+
+		if (vMtrlDiffuse.a <= 0.05f)
+			discard;
+		else
+		{
+			
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
+		}
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+PS_OUT NONEDIFFUSE_PS_BLACKCUT_UVy(PS_IN_MODEL In)
+{
+
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+
+
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z*(In.vRealUV.y);
+
+		if (vMtrlDiffuse.a <= 0.05f)
+			discard;
+		else
+		{
+			
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
+		}
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+
+PS_OUT NONEDIFFUSE_PS_BLACKCUT_UV_x(PS_IN_MODEL In)
+{
+
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+
+
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z* (1.f - In.vRealUV.x);
+		//vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z*(1 - (In.vTexUV.x));
+		if (vMtrlDiffuse.a <= 0.05f)
+			discard;
+		else
+		{
+			
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
+		}
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+PS_OUT NONEDIFFUSE_PS_BLACKCUT_UV_y(PS_IN_MODEL In)
+{
+
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z *(1.f - In.vRealUV.y);
+		//vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z*(1 - (In.vTexUV.y));
+		if (vMtrlDiffuse.a <= 0.05f)
+			discard;
+		else
+		{
+			
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
+		}
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+PS_OUT NONEDIFFUSE_PS_BLACKCUT_DISSOLVE_UVMX(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+	In.vTexUV.x = In.vTexUV.x*g_UVMax;
+	vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+	//vector		vDissolve = g_DissolveTexture.Sample(DefaultSampler, In.vTexUV);
+
+	if (vMtrlDiffuse.r <= g_Dissolve)
+		discard;
+	else
+	{
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
+	}
+
+	
+	Out.vBlur = vMtrlDiffuse * g_Blur.y;
+
+	return Out;
+}
+
+PS_OUT NONEDIFFUSE_PS_BLACKCUT_DISSOLVE_UVMY(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+	In.vTexUV.y = In.vTexUV.y*g_UVMax;
+	vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+	//vector		vDissolve = g_DissolveTexture.Sample(DefaultSampler, In.vTexUV);
+
+	if (vMtrlDiffuse.r <= g_Dissolve)
+		discard;
+	else
+	{
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
+	}
+
+
+	Out.vBlur = vMtrlDiffuse * g_Blur.y;
+
+	return Out;
+}
+
+PS_OUT NONEDIFFUSE_PS_BLACKCUT_DISSOLVE_TEX(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+		vector		vDissolve = g_DissolveTexture.Sample(DefaultSampler, In.vRealUV);
+
+
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+
+
+		if (vDissolve.r <= g_Dissolve)
+			discard;
+		else
+		{
+			
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
+		}
+
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+PS_OUT NONEDIFFUSE_PS_BLACKCUT_MASK_TEX(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+		vector		vDissolve = g_DissolveTexture.Sample(DefaultSampler, In.vRealUV);
+
+
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z* vDissolve.r;
+
+
+		if (vDissolve.r < g_Dissolve)
+			discard;
+		else
+		{
+			
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
+		}
+
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+PS_OUT NONEDIFFUSE_PS_BLACKCUT_DISSOLVE_UVMXY(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+	In.vTexUV = In.vTexUV*g_UVMax;
+	vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+	//vector		vDissolve = g_DissolveTexture.Sample(DefaultSampler, In.vTexUV);
+
+	if (vMtrlDiffuse.r <= g_Dissolve)
+		discard;
+	else
+	{
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
+	}
+
+	
+	Out.vBlur = vMtrlDiffuse * g_Blur.y;
+
+	return Out;
+}
+
+PS_OUT NONEDIFFUSE_PS_BLACKCUT_UV_x_NOA(PS_IN_MODEL In)
+{
+
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+
+
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z* (1.f - In.vRealUV.x);
+		//vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z*(1 - (In.vTexUV.x));
+		if (vMtrlDiffuse.a <= 0.05f)
+			discard;
+		else
+		{
+			vMtrlDiffuse.a = 1.f;
+			
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
+		}
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+PS_OUT NONEDIFFUSE_PS_BLACKCUT_UV_y_NOA(PS_IN_MODEL In)
+{
+
+	PS_OUT			Out = (PS_OUT)0;
+
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax && In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+
+		vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+
+		vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z *(1.f - In.vRealUV.y);
+		//vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z*(1 - (In.vTexUV.y));
+		if (vMtrlDiffuse.a <= 0.05f)
+			discard;
+		else
+		{
+			vMtrlDiffuse.a = 1.f;
+			
+			Out.vBlur = vMtrlDiffuse * g_Blur.y;
+		}
+	}
+	else
+		discard;
+
+	return Out;
+}
+PS_OUT NONEDIFFUSE_PS_BLACKCUT_DISSOLVE_UVMX_TEX(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+	if (In.vTexUV.x > -g_UVMax && In.vTexUV.x < g_UVMax)
+	{
+		In.vTexUV.x = In.vTexUV.x*g_SubUV;
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+		//vector		vDissolve = g_DissolveTexture.Sample(DefaultSampler, In.vTexUV);
+
+		if (vMtrlDiffuse.r <= g_Dissolve)
+			discard;
+		else
+		{
+			vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+			vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
+		}
+
+		
+		Out.vBlur = vMtrlDiffuse * g_Blur.y;
+	}
+	else
+		discard;
+
+	return Out;
+}
+
+PS_OUT NONEDIFFUSE_PS_BLACKCUT_DISSOLVE_UVMY_TEX(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+	if (In.vTexUV.y > -g_UVMax && In.vTexUV.y < g_UVMax)
+	{
+		In.vTexUV.y = In.vTexUV.y*g_SubUV;
+		vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+		//vector		vDissolve = g_DissolveTexture.Sample(DefaultSampler, In.vTexUV);
+
+		if (vMtrlDiffuse.r <= g_Dissolve)
+			discard;
+		else
+		{
+			vMtrlDiffuse = (vMtrlDiffuse.r*g_Color1) + ((1.f - vMtrlDiffuse.r) * g_Color2);
+			vMtrlDiffuse.a = vMtrlDiffuse.a * g_Shader.z;
+		}
+
+		
+		Out.vBlur = vMtrlDiffuse * g_Blur.y;
+	}
+	else
+		discard;
+
+	return Out;
+}
 technique11 DefaultTechnique
 {
 	pass Model//0
@@ -803,5 +1766,402 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_BLACKCUT_DISSOLVE_UVMY_TEX();
 	}
 	
-	
+	////////////////////////////////////////////
+	pass Mode1_NoneBlur//0
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEBLUR_PS_MAIN_MODEL();
+	}
+
+	pass Model1_NoneBlur//1
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		//PixelShader = compile ps_5_0 PS_MAIN_MODEL();
+		PixelShader = compile ps_5_0 NONEBLUR_PS_BLACKCUT_DISSOLVE();
+	}
+
+	pass Model2_NoneBlur//2
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEBLUR_PS_BLACKCUT();
+	}
+
+	pass Model3_NoneBlur//3
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEBLUR_PS_MAIN_MODEL_UV();
+	}
+
+	pass Model4_NoneBlur//4
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		//PixelShader = compile ps_5_0 PS_MAIN_MODEL();
+		PixelShader = compile ps_5_0 NONEBLUR_PS_BLACKCUT_DISSOLVE_UV();
+	}
+
+	pass Model5_NoneBlur//5
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEBLUR_PS_BLACKCUT_UV();
+	}
+	pass Model6_NoneBlur//6
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEBLUR_PS_BLACKCUT_UVx();
+	}
+	pass Model7_NoneBlur//7
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEBLUR_PS_BLACKCUT_UVy();
+	}
+	pass Model8_NoneBlur//8
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEBLUR_PS_BLACKCUT_UV_x();
+	}
+	pass Model9_NoneBlur//9
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEBLUR_PS_BLACKCUT_UV_y();
+	}
+	pass Model10_NoneBlur//10
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEBLUR_PS_BLACKCUT_DISSOLVE_UVMX();
+	}
+	pass Model11_NoneBlur//11
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEBLUR_PS_BLACKCUT_DISSOLVE_UVMY();
+	}
+	pass Model12_NoneBlur//12
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEBLUR_PS_BLACKCUT_DISSOLVE_TEX();
+	}
+	pass Model13_NoneBlur//13
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEBLUR_PS_BLACKCUT_MASK_TEX();
+	}
+	pass Model14_NoneBlur//14
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEBLUR_PS_BLACKCUT_DISSOLVE_UVMXY();
+	}
+	pass Model15_NoneBlur//15
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEBLUR_PS_BLACKCUT_UV_x_NOA();
+	}
+	pass Model16_NoneBlur//16
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEBLUR_PS_BLACKCUT_UV_y_NOA();
+	}
+	pass Model17_NoneBlur//17
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEBLUR_PS_BLACKCUT_DISSOLVE_UVMX_TEX();
+	}
+	pass Model18_NoneBlur//18
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEBLUR_PS_BLACKCUT_DISSOLVE_UVMY_TEX();
+	}
+	////////////////////////////////////////////////////////////
+
+	pass Mode1_NoneDiffuse//0
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEDIFFUSE_PS_MAIN_MODEL();
+	}
+
+	pass Model1_NoneDiffuse//1
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		//PixelShader = compile ps_5_0 PS_MAIN_MODEL();
+		PixelShader = compile ps_5_0 NONEDIFFUSE_PS_BLACKCUT_DISSOLVE();
+	}
+
+	pass Model2_NoneDiffuse//2
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEDIFFUSE_PS_BLACKCUT();
+	}
+
+	pass Model3_NoneDiffuse//3
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEDIFFUSE_PS_MAIN_MODEL_UV();
+	}
+
+	pass Model4_NoneDiffuse//4
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		//PixelShader = compile ps_5_0 PS_MAIN_MODEL();
+		PixelShader = compile ps_5_0 NONEDIFFUSE_PS_BLACKCUT_DISSOLVE_UV();
+	}
+
+	pass Model5_NoneDiffuse//5
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEDIFFUSE_PS_BLACKCUT_UV();
+	}
+	pass Model6_NoneDiffuse//6
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEDIFFUSE_PS_BLACKCUT_UVx();
+	}
+	pass Model7_NoneDiffuse//7
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEDIFFUSE_PS_BLACKCUT_UVy();
+	}
+	pass Model8_NoneDiffuse//8
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEDIFFUSE_PS_BLACKCUT_UV_x();
+	}
+	pass Model9_NoneDiffuse//9
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEDIFFUSE_PS_BLACKCUT_UV_y();
+	}
+	pass Model10_NoneDiffuse//10
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEDIFFUSE_PS_BLACKCUT_DISSOLVE_UVMX();
+	}
+	pass Model11_NoneDiffuse//11
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEDIFFUSE_PS_BLACKCUT_DISSOLVE_UVMY();
+	}
+	pass Model12_NoneDiffuse//12
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEDIFFUSE_PS_BLACKCUT_DISSOLVE_TEX();
+	}
+	pass Model13_NoneDiffuse//13
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEDIFFUSE_PS_BLACKCUT_MASK_TEX();
+	}
+	pass Model14_NoneDiffuse//14
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEDIFFUSE_PS_BLACKCUT_DISSOLVE_UVMXY();
+	}
+	pass Model15_NoneDiffuse//15
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEDIFFUSE_PS_BLACKCUT_UV_x_NOA();
+	}
+	pass Model16_NoneDiffuse//16
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEDIFFUSE_PS_BLACKCUT_UV_y_NOA();
+	}
+	pass Model17_NoneDiffuse//17
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEDIFFUSE_PS_BLACKCUT_DISSOLVE_UVMX_TEX();
+	}
+	pass Model18_NoneDiffuse//18
+	{
+		SetRasterizerState(RS_NonCull);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 NONEDIFFUSE_PS_BLACKCUT_DISSOLVE_UVMY_TEX();
+	}
+
 }

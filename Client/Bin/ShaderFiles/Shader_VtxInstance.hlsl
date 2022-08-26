@@ -150,7 +150,7 @@ struct PS_IN
 struct PS_OUT
 {
 	vector			vColor : SV_TARGET0;
-	vector			vBlur : SV_TARGET4;
+	vector			vBlur : SV_TARGET1;
 };
 
 PS_OUT PS_MAIN(PS_IN In)
@@ -163,6 +163,7 @@ PS_OUT PS_MAIN(PS_IN In)
 		discard;
 	else
 	{
+		Out.vColor = Out.vColor;
 		Out.vBlur = Out.vColor;
 	}
 
@@ -180,8 +181,8 @@ PS_OUT PS_BLACKCUT(PS_IN In)
 		discard;
 	else
 	{
-		Out.vColor = (Out.vColor.r*g_Color1) + ((1.f - Out.vColor.r) * g_Color2);
-		Out.vBlur = Out.vColor;
+		Out.vBlur = (Out.vColor.r*g_Color1) + ((1.f - Out.vColor.r) * g_Color2);
+		Out.vColor =  Out.vBlur * 0.5f;
 	}
 
 
@@ -212,8 +213,9 @@ PS_OUT PS_BLACKCUT_DISSOLVE(PS_IN In)
 		discard;
 	else
 	{
-		Out.vColor = (Out.vColor.r*g_Color1) + ((1.f - Out.vColor.r) * g_Color2);
-		Out.vBlur = Out.vColor;
+		
+		Out.vBlur = (Out.vColor.r*g_Color1) + ((1.f - Out.vColor.r) * g_Color2);
+		Out.vColor = Out.vBlur * 0.5f;
 	}
 
 
@@ -231,7 +233,7 @@ technique11 DefaultTechnique
 {
 	pass Rect//0
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_NonBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -241,7 +243,7 @@ technique11 DefaultTechnique
 	}
 	pass BlackCutRect//1
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_NonBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -251,7 +253,7 @@ technique11 DefaultTechnique
 	}
 	pass Rect_dissolve//2
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_NonBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -261,7 +263,7 @@ technique11 DefaultTechnique
 	}
 	pass BlackCutRect_dissolve//3
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_NonBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -274,7 +276,7 @@ technique11 DefaultTechnique
 
 	pass Point//4
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_NonBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 

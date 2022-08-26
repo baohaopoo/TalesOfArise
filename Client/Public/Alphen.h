@@ -328,16 +328,17 @@ public:
 
 
 public:
+	
 	//공중스킬
-	void Rising_Palcon();
-	void Hurricane_Thrust(_double TimeDelta);
-	void Mirage();
+	void Rising_Palcon();				//비상천구
+	void Hurricane_Thrust(_double TimeDelta); // 풍신검
+	void Mirage();						// 아지랑이(x)
 
 
 	//지상스킬
-	void Lightning_Thrust();
-	void Swallow_Balde();
-	void Dragon_Swarm();
+	void Lightning_Thrust();	// 순뢰(x)
+	void Swallow_Balde();		// 비연인
+	void Dragon_Swarm();		// 조룡연아참
 
 
 

@@ -239,13 +239,6 @@ void CAlphen::Tick(_double TimeDelta)
 			}
 		}
 
-
-
-
-
-
-
-
 		/*Compute_Move(TimeDelta);
 		Skill();
 		Jump(TimeDelta);
@@ -1664,23 +1657,6 @@ void CAlphen::Rising_Palcon()
 
 	Infernal_Torrent();
 
-	//else if (m_iCurrentAnimationIndex == ARI_ANIM_BTL_ATTACK_MAOUENGEKIHA_START2&& m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_NumeKeyFrames() - 2)
-	//{
-	//   m_iNextAnimationIndex = 32;
-	//}
-
-	//else if (m_iCurrentAnimationIndex == 32 && m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 20)
-	//{
-
-	//   m_iNextAnimationIndex = 31;
-	//}
-
-	//else if (m_iCurrentAnimationIndex == 31
-	//   && m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_NumeKeyFrames() - 1)
-	//{
-	//   m_bSkill = false;
-	//   m_bStartSkill = false;
-	//}
 
 }
 
@@ -1958,24 +1934,6 @@ void CAlphen::Searing_Gale(_double TimeDelta)
 		}
 
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 void CAlphen::Risiing_Phoenix()
@@ -2348,6 +2306,8 @@ void CAlphen::Lightning_Thrust()
 void CAlphen::Swallow_Balde()
 {
 
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
 	if (m_bEvade == false && m_bJump == false)
 	{
 		m_bMove = false;
@@ -2412,12 +2372,75 @@ void CAlphen::Swallow_Balde()
 			m_bOnAttackCollider = true;
 			m_pAttackSphereCom->Set(Get_PlayerPos() + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*0.4f, 1.f);
 		}
-
 	}
+
+
+	if (((_uint)m_pModelCom->Get_Animation(ARI_ANIM_BTL_ATTACK_HIENZIN)->Get_TimeAcc()) == 11)
+	{
+		CMeshEffect* EffectMesh = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_ALPHEN, 0));
+		EffectMesh->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(EffectMesh->Get_Transfrom())->Scaled(_float3(1.f, 1.f, 1.f));
+		(EffectMesh->Get_Transfrom())->GO_RUL(_float3(0.f, 1.f, 1.f));
+		EffectMesh->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(-5.f));
+		EffectMesh->Set_TimeSpeed(3.f);
+
+		CMeshEffect* EffectMesh1 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_ALPHEN, 2));
+		EffectMesh1->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(EffectMesh1->Get_Transfrom())->Scaled(_float3(1.f, 1.f, 1.f));
+		(EffectMesh1->Get_Transfrom())->GO_RUL(_float3(0.f, 1.f, 1.f));
+		EffectMesh1->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(-5.f));
+		EffectMesh1->Set_TimeSpeed(3.f);
+
+		CRect_Effect* EffectRect = (CRect_Effect*)pGameInstance->Add_GameObjectToLayer(pGameInstance->Get_LevelIndex(), TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Rect_Effect"), pGameInstance->Get_InstanceEffect_Data(UNIT_ALPHEN, 1));
+		CRect_Effect* EffectRect1 = (CRect_Effect*)pGameInstance->Add_GameObjectToLayer(pGameInstance->Get_LevelIndex(), TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Rect_Effect"), pGameInstance->Get_InstanceEffect_Data(UNIT_ALPHEN, 0));
+
+		EffectRect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		EffectRect->Get_Transfrom()->GO_RUL(_float3(0.f, 1.f, 1.f));
+		EffectRect->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(-5.f));
+
+		EffectRect1->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		EffectRect1->Get_Transfrom()->GO_RUL(_float3(0.f, 1.f, 1.f));
+		EffectRect1->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(-5.f));
+	}
+
+	if (((_uint)m_pModelCom->Get_Animation(ARI_ANIM_BTL_ATTACK_HIENZIN)->Get_TimeAcc()) == 21)
+	{
+		CMeshEffect* EffectMesh = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_ALPHEN, 0));
+		EffectMesh->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(EffectMesh->Get_Transfrom())->Scaled(_float3(1.f, 1.f, 1.f));
+		(EffectMesh->Get_Transfrom())->GO_RUL(_float3(0.f, 1.f, 0.5f));
+		EffectMesh->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(-15.f));
+		EffectMesh->Set_TimeSpeed(3.f);
+
+
+		CMeshEffect* EffectMesh1 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_ALPHEN, 1));
+		EffectMesh1->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(EffectMesh1->Get_Transfrom())->Scaled(_float3(1.f, 1.f, 1.f));
+		(EffectMesh1->Get_Transfrom())->GO_RUL(_float3(0.f, 1.f, 0.5f));
+		EffectMesh1->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(-15.f));
+		EffectMesh1->Set_TimeSpeed(3.f);
+
+		CRect_Effect* EffectRect = (CRect_Effect*)pGameInstance->Add_GameObjectToLayer(pGameInstance->Get_LevelIndex(), TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Rect_Effect"), pGameInstance->Get_InstanceEffect_Data(UNIT_ALPHEN, 1));
+		CRect_Effect* EffectRect1 = (CRect_Effect*)pGameInstance->Add_GameObjectToLayer(pGameInstance->Get_LevelIndex(), TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Rect_Effect"), pGameInstance->Get_InstanceEffect_Data(UNIT_ALPHEN, 2));
+
+		EffectRect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		EffectRect->Get_Transfrom()->GO_RUL(_float3(0.f, 1.f, 0.5f));
+		EffectRect->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(-15.f));
+
+		EffectRect1->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		EffectRect1->Get_Transfrom()->GO_RUL(_float3(0.f, 1.f, 0.5f));
+		EffectRect1->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(-15.f));
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
+
 }
 
 void CAlphen::Dragon_Swarm()
 {
+
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
 	if (m_bEvade == false && m_bJump == false)
 	{
 		m_bMove = false;
@@ -2427,6 +2450,7 @@ void CAlphen::Dragon_Swarm()
 		if (!m_bStartSkill)
 		{
 			m_iNextAnimationIndex = 64;
+			//m_dAnimSpeed = 0.4f;
 			if (m_pVecMonsters->size() > 0)
 			{
 				m_pTransformCom->TurnAxis(XMVectorSetY((*m_iter)->Get_EnemyPos(), 0.f) - XMVectorSetY(Get_PlayerPos(), 0.f));
@@ -2511,6 +2535,164 @@ void CAlphen::Dragon_Swarm()
 	70 72
 	80 82*/
 
+
+	if (((_uint)m_pModelCom->Get_Animation(ARI_ANIM_BTL_ATTACK_SHOURYURENGAZAN)->Get_TimeAcc()) == 21)
+	{
+		CMeshEffect* EffectMesh1 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_ALPHEN, 29));
+		EffectMesh1->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(EffectMesh1->Get_Transfrom())->Scaled(_float3(3.f, 3.f, 3.f));
+		(EffectMesh1->Get_Transfrom())->GO_RUL(_float3(0.f, 1.f, 1.f));
+		EffectMesh1->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(-40.f));
+		EffectMesh1->Set_TimeSpeed(3.f);
+
+		CMeshEffect* EffectMesh2 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_ALPHEN, 25));
+		EffectMesh2->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(EffectMesh2->Get_EffectDesc_Mesh())->vColor1.w = 0.1f;
+		(EffectMesh2->Get_Transfrom())->Scaled(_float3(2.f, 2.f, 2.f));
+		(EffectMesh2->Get_Transfrom())->GO_RUL(_float3(0.f, 1.f, 2.f));
+		EffectMesh2->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(-40.f));
+		EffectMesh2->Set_TimeSpeed(3.f);
+		EffectMesh2->Set_Shader(CMeshEffect::SHADER_NONEBLUR);
+
+		CMeshEffect* EffectMesh3 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_ALPHEN, 23));
+		EffectMesh3->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(EffectMesh3->Get_EffectDesc_Mesh())->vColor1.w = 0.1f;
+		(EffectMesh3->Get_Transfrom())->Scaled(_float3(1.5f, 1.5f, 1.5f));
+		(EffectMesh3->Get_Transfrom())->GO_RUL(_float3(0.f, 1.f, 2.f));
+		EffectMesh3->Set_Shader(CMeshEffect::SHADER_NONEBLUR);
+
+		CMeshEffect* EffectMesh4 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_ALPHEN, 0));
+		EffectMesh4->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(EffectMesh4->Get_Transfrom())->Scaled(_float3(1.f, 1.f, 1.f));
+		(EffectMesh4->Get_Transfrom())->GO_RUL(_float3(0.f, 1.f, 2.f));
+		EffectMesh4->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(-40.f));
+		EffectMesh4->Set_TimeSpeed(3.f);
+
+		CRect_Effect* EffectRect = (CRect_Effect*)pGameInstance->Add_GameObjectToLayer(pGameInstance->Get_LevelIndex(), TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Rect_Effect"), pGameInstance->Get_InstanceEffect_Data(UNIT_ALPHEN, 1));
+		EffectRect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		EffectRect->Get_Transfrom()->GO_RUL(_float3(0.f, 1.f, 2.f));
+		EffectRect->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(-40.f));
+		EffectRect->Set_TimeSpeed(2.f);
+	}
+
+	else if (((_uint)m_pModelCom->Get_Animation(ARI_ANIM_BTL_ATTACK_SHOURYURENGAZAN)->Get_TimeAcc()) == 47)
+	{
+		CMeshEffect* EffectMesh1 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_ALPHEN, 29));
+		EffectMesh1->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(EffectMesh1->Get_Transfrom())->Scaled(_float3(3.f, 3.f, 3.f));
+		(EffectMesh1->Get_Transfrom())->GO_RUL(_float3(0.f, 1.f, 1.f));
+		EffectMesh1->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(220.f));
+		EffectMesh1->Set_TimeSpeed(3.f);
+
+		CMeshEffect* EffectMesh2 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_ALPHEN, 26));
+		EffectMesh2->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(EffectMesh2->Get_EffectDesc_Mesh())->vColor1.w = 0.3f;
+		(EffectMesh2->Get_Transfrom())->Scaled(_float3(2.f, 2.f, 2.f));
+		(EffectMesh2->Get_Transfrom())->GO_RUL(_float3(0.f, 1.f, 2.f));
+		EffectMesh2->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(220.f));
+		EffectMesh2->Set_TimeSpeed(3.f);
+		EffectMesh2->Set_Shader(CMeshEffect::SHADER_NONEBLUR);
+
+		CMeshEffect* EffectMesh3 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_ALPHEN, 23));
+		EffectMesh3->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(EffectMesh3->Get_EffectDesc_Mesh())->vColor1.w = 0.3f;
+		(EffectMesh3->Get_Transfrom())->Scaled(_float3(1.5f, 1.5f, 1.5f));
+		(EffectMesh3->Get_Transfrom())->GO_RUL(_float3(0.f, 1.f, 2.f));
+		EffectMesh3->Set_Shader(CMeshEffect::SHADER_NONEBLUR);
+
+		CMeshEffect* EffectMesh4 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_ALPHEN, 0));
+		EffectMesh4->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(EffectMesh4->Get_Transfrom())->Scaled(_float3(1.f, 1.f, 1.f));
+		(EffectMesh4->Get_Transfrom())->GO_RUL(_float3(0.f, 1.f, 2.f));
+		EffectMesh4->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(220.f));
+		EffectMesh4->Set_TimeSpeed(3.f);
+
+		CRect_Effect* EffectRect = (CRect_Effect*)pGameInstance->Add_GameObjectToLayer(pGameInstance->Get_LevelIndex(), TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Rect_Effect"), pGameInstance->Get_InstanceEffect_Data(UNIT_ALPHEN, 1));
+		EffectRect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		EffectRect->Get_Transfrom()->GO_RUL(_float3(0.f, 1.f, 2.f));
+		EffectRect->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(220.f));
+		EffectRect->Set_TimeSpeed(2.f);
+	}
+
+	else if (((_uint)m_pModelCom->Get_Animation(ARI_ANIM_BTL_ATTACK_SHOURYURENGAZAN)->Get_TimeAcc()) == 69)
+	{
+		CMeshEffect* EffectMesh1 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_ALPHEN, 29));
+		EffectMesh1->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(EffectMesh1->Get_Transfrom())->Scaled(_float3(3.f, 3.f, 3.f));
+		(EffectMesh1->Get_Transfrom())->GO_RUL(_float3(0.f, 1.f, 1.f));
+		EffectMesh1->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(45.f));
+		EffectMesh1->Set_TimeSpeed(3.f);
+
+		CMeshEffect* EffectMesh2 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_ALPHEN, 25));
+		EffectMesh2->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(EffectMesh2->Get_EffectDesc_Mesh())->vColor1.w = 0.3f;
+		(EffectMesh2->Get_Transfrom())->Scaled(_float3(2.f, 2.f, 2.f));
+		(EffectMesh2->Get_Transfrom())->GO_RUL(_float3(0.f, 1.f, 2.f));
+		EffectMesh2->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(45.f));
+		EffectMesh2->Set_TimeSpeed(3.f);
+		EffectMesh2->Set_Shader(CMeshEffect::SHADER_NONEBLUR);
+
+		CMeshEffect* EffectMesh3 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_ALPHEN, 23));
+		EffectMesh3->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(EffectMesh3->Get_EffectDesc_Mesh())->vColor1.w = 0.3f;
+		(EffectMesh3->Get_Transfrom())->Scaled(_float3(1.5f, 1.5f, 1.5f));
+		(EffectMesh3->Get_Transfrom())->GO_RUL(_float3(0.f, 1.f, 2.f));
+		EffectMesh3->Set_Shader(CMeshEffect::SHADER_NONEBLUR);
+
+		CMeshEffect* EffectMesh4 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_ALPHEN, 0));
+		EffectMesh4->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(EffectMesh4->Get_Transfrom())->Scaled(_float3(1.f, 1.f, 1.f));
+		(EffectMesh4->Get_Transfrom())->GO_RUL(_float3(0.f, 1.f, 2.f));
+		EffectMesh4->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(45.f));
+		EffectMesh4->Set_TimeSpeed(3.f);
+
+		CRect_Effect* EffectRect = (CRect_Effect*)pGameInstance->Add_GameObjectToLayer(pGameInstance->Get_LevelIndex(), TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Rect_Effect"), pGameInstance->Get_InstanceEffect_Data(UNIT_ALPHEN, 1));
+		EffectRect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		EffectRect->Get_Transfrom()->GO_RUL(_float3(0.f, 1.f, 2.f));
+		EffectRect->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(45.f));
+		EffectRect->Set_TimeSpeed(2.f);
+	}
+
+	else if (((_uint)m_pModelCom->Get_Animation(ARI_ANIM_BTL_ATTACK_SHOURYURENGAZAN)->Get_TimeAcc()) == 79)
+	{
+		CMeshEffect* EffectMesh1 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_ALPHEN, 29));
+		EffectMesh1->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(EffectMesh1->Get_Transfrom())->Scaled(_float3(3.f, 3.f, 3.f));
+		(EffectMesh1->Get_Transfrom())->GO_RUL(_float3(0.f, 1.f, 1.f));
+		EffectMesh1->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(185.f));
+		EffectMesh1->Set_TimeSpeed(3.f);
+
+		CMeshEffect* EffectMesh2 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_ALPHEN, 26));
+		EffectMesh2->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(EffectMesh2->Get_EffectDesc_Mesh())->vColor1.w = 0.3f;
+		(EffectMesh2->Get_Transfrom())->Scaled(_float3(2.f, 2.f, 2.f));
+		(EffectMesh2->Get_Transfrom())->GO_RUL(_float3(0.f, 1.f, 2.f));
+		EffectMesh2->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(185.f));
+		EffectMesh2->Set_TimeSpeed(3.f);
+		EffectMesh2->Set_Shader(CMeshEffect::SHADER_NONEBLUR);
+
+		CMeshEffect* EffectMesh3 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_ALPHEN, 23));
+		EffectMesh3->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(EffectMesh3->Get_EffectDesc_Mesh())->vColor1.w = 0.3f;
+		(EffectMesh3->Get_Transfrom())->Scaled(_float3(1.5f, 1.5f, 1.5f));
+		(EffectMesh3->Get_Transfrom())->GO_RUL(_float3(0.f, 1.f, 2.f));
+		EffectMesh3->Set_Shader(CMeshEffect::SHADER_NONEBLUR);
+
+		CMeshEffect* EffectMesh4 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_ALPHEN, 0));
+		EffectMesh4->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(EffectMesh4->Get_Transfrom())->Scaled(_float3(1.f, 1.f, 1.f));
+		(EffectMesh4->Get_Transfrom())->GO_RUL(_float3(0.f, 1.f, 2.f));
+		EffectMesh4->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(185.f));
+		EffectMesh4->Set_TimeSpeed(3.f);
+
+		CRect_Effect* EffectRect = (CRect_Effect*)pGameInstance->Add_GameObjectToLayer(pGameInstance->Get_LevelIndex(), TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Rect_Effect"), pGameInstance->Get_InstanceEffect_Data(UNIT_ALPHEN, 1));
+		EffectRect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		EffectRect->Get_Transfrom()->GO_RUL(_float3(0.f, 1.f, 2.f));
+		EffectRect->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(185.f));
+		EffectRect->Set_TimeSpeed(2.f);
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 void CAlphen::Compute_Look()

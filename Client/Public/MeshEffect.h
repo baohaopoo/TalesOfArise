@@ -14,6 +14,9 @@ BEGIN(Client)
 
 class CMeshEffect  final : public CBlendObject
 {
+public:
+	enum SHADER { SHADER_DEFAULT, SHADER_NONEBLUR, SHADER_NONEDIFFUSE, SHADER_END};
+
 protected:
 	CMeshEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext);
 	CMeshEffect(const CMeshEffect& rhs);
@@ -45,6 +48,9 @@ public:
 	void				Set_Finish_Dead(_bool b) { m_bFinish_Dead = b; }
 
 	void				Set_LocalMatrix(_matrix LocalMatrix) { XMStoreFloat4x4(&m_LocalMatrix, LocalMatrix); }
+	void				Set_Shader(SHADER Shader, _float2 Blur = _float2(1.f, 1.f));
+
+
 	_matrix				Get_LocalMatrix() { return XMLoadFloat4x4(&m_LocalMatrix); }
 
 private:
@@ -70,6 +76,8 @@ private:
 
 	_bool			m_bFinish_Dead = true;
 
+	_float2			m_fBlur = _float2(1.f, 1.f);
+	SHADER			m_sShader = SHADER_DEFAULT;
 public:
 	static CMeshEffect* Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut);
 	virtual CBlendObject* Clone(void* pArg) override;

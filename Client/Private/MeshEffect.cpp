@@ -91,7 +91,14 @@ void CMeshEffect::Tick(_double TimeDelta)
 
 	if (m_EffectDesc_Mesh.KeyFram_1_TimeEnd >= m_Time)
 	{
-		Ratio = m_Time / m_EffectDesc_Mesh.KeyFram_1_TimeEnd;
+		
+		if (m_EffectDesc_Mesh.iTexture2 == 1)
+			Ratio = pow(m_Time / m_EffectDesc_Mesh.KeyFram_1_TimeEnd, 2);
+		else if (m_EffectDesc_Mesh.iTexture2 == 2)
+			Ratio = sqrt(m_Time / m_EffectDesc_Mesh.KeyFram_1_TimeEnd);
+		else
+			Ratio = m_Time / m_EffectDesc_Mesh.KeyFram_1_TimeEnd;
+
 		Alpha = m_EffectDesc_Mesh.KeyFram_0_Alpha + (m_EffectDesc_Mesh.KeyFram_1_Alpha - m_EffectDesc_Mesh.KeyFram_0_Alpha) * Ratio;
 
 		vSourShader = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_0_Shader);
@@ -113,7 +120,15 @@ void CMeshEffect::Tick(_double TimeDelta)
 	}
 	else if (m_EffectDesc_Mesh.KeyFram_2_TimeEnd >= m_Time)
 	{
-		Ratio = (m_Time - m_EffectDesc_Mesh.KeyFram_1_TimeEnd) / (m_EffectDesc_Mesh.KeyFram_2_TimeEnd - m_EffectDesc_Mesh.KeyFram_1_TimeEnd);
+		
+		if (m_EffectDesc_Mesh.iTexture2 == 1)
+			Ratio = pow((m_Time - m_EffectDesc_Mesh.KeyFram_1_TimeEnd) / (m_EffectDesc_Mesh.KeyFram_2_TimeEnd - m_EffectDesc_Mesh.KeyFram_1_TimeEnd), 2);
+		else if (m_EffectDesc_Mesh.iTexture2 == 2)
+			Ratio = sqrt((m_Time - m_EffectDesc_Mesh.KeyFram_1_TimeEnd) / (m_EffectDesc_Mesh.KeyFram_2_TimeEnd - m_EffectDesc_Mesh.KeyFram_1_TimeEnd));
+		else
+			Ratio = (m_Time - m_EffectDesc_Mesh.KeyFram_1_TimeEnd) / (m_EffectDesc_Mesh.KeyFram_2_TimeEnd - m_EffectDesc_Mesh.KeyFram_1_TimeEnd);
+
+
 		Alpha = m_EffectDesc_Mesh.KeyFram_1_Alpha + (m_EffectDesc_Mesh.KeyFram_2_Alpha - m_EffectDesc_Mesh.KeyFram_1_Alpha) * Ratio;
 
 		vSourShader = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_1_Shader);
@@ -135,7 +150,14 @@ void CMeshEffect::Tick(_double TimeDelta)
 	}
 	else if (m_EffectDesc_Mesh.KeyFram_3_TimeEnd >= m_Time)
 	{
-		Ratio = (m_Time - m_EffectDesc_Mesh.KeyFram_2_TimeEnd) / (m_EffectDesc_Mesh.KeyFram_3_TimeEnd - m_EffectDesc_Mesh.KeyFram_2_TimeEnd);
+		
+		if (m_EffectDesc_Mesh.iTexture2 == 1)
+			Ratio = pow((m_Time - m_EffectDesc_Mesh.KeyFram_2_TimeEnd) / (m_EffectDesc_Mesh.KeyFram_3_TimeEnd - m_EffectDesc_Mesh.KeyFram_2_TimeEnd), 2);
+		else if (m_EffectDesc_Mesh.iTexture2 == 2)
+			Ratio = sqrt((m_Time - m_EffectDesc_Mesh.KeyFram_2_TimeEnd) / (m_EffectDesc_Mesh.KeyFram_3_TimeEnd - m_EffectDesc_Mesh.KeyFram_2_TimeEnd));
+		else
+			Ratio = (m_Time - m_EffectDesc_Mesh.KeyFram_2_TimeEnd) / (m_EffectDesc_Mesh.KeyFram_3_TimeEnd - m_EffectDesc_Mesh.KeyFram_2_TimeEnd);
+
 		Alpha = m_EffectDesc_Mesh.KeyFram_2_Alpha + (m_EffectDesc_Mesh.KeyFram_3_Alpha - m_EffectDesc_Mesh.KeyFram_2_Alpha) * Ratio;
 
 		vSourShader = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_2_Shader);
@@ -157,7 +179,14 @@ void CMeshEffect::Tick(_double TimeDelta)
 	}
 	else if (m_EffectDesc_Mesh.KeyFram_4_TimeEnd >= m_Time)
 	{
-		Ratio = (m_Time - m_EffectDesc_Mesh.KeyFram_3_TimeEnd) / (m_EffectDesc_Mesh.KeyFram_4_TimeEnd - m_EffectDesc_Mesh.KeyFram_3_TimeEnd);
+		
+		if (m_EffectDesc_Mesh.iTexture2 == 1)
+			Ratio = pow((m_Time - m_EffectDesc_Mesh.KeyFram_3_TimeEnd) / (m_EffectDesc_Mesh.KeyFram_4_TimeEnd - m_EffectDesc_Mesh.KeyFram_3_TimeEnd), 2);
+		else if (m_EffectDesc_Mesh.iTexture2 == 2)
+			Ratio = sqrt((m_Time - m_EffectDesc_Mesh.KeyFram_3_TimeEnd) / (m_EffectDesc_Mesh.KeyFram_4_TimeEnd - m_EffectDesc_Mesh.KeyFram_3_TimeEnd));
+		else
+			Ratio = (m_Time - m_EffectDesc_Mesh.KeyFram_3_TimeEnd) / (m_EffectDesc_Mesh.KeyFram_4_TimeEnd - m_EffectDesc_Mesh.KeyFram_3_TimeEnd);
+
 		Alpha = m_EffectDesc_Mesh.KeyFram_3_Alpha + (m_EffectDesc_Mesh.KeyFram_4_Alpha - m_EffectDesc_Mesh.KeyFram_3_Alpha) * Ratio;
 
 		vSourShader = XMLoadFloat3(&m_EffectDesc_Mesh.KeyFram_3_Shader);
@@ -242,11 +271,29 @@ HRESULT CMeshEffect::Render()
 	}
 
 
-
-	if (FAILED(m_pModel->Render(m_pShaderCom, "g_BoneMatrices", m_EffectDesc_Mesh.iMesh, m_EffectDesc_Mesh.iShader)))
+	if (m_sShader == SHADER_DEFAULT)
 	{
-		MSG_BOX(L"Failed To CModel_Object : Render : m_pModel->Render");
-		return E_FAIL;
+		if (FAILED(m_pModel->Render(m_pShaderCom, "g_BoneMatrices", m_EffectDesc_Mesh.iMesh, m_EffectDesc_Mesh.iShader)))
+		{
+			MSG_BOX(L"Failed To CModel_Object : Render : m_pModel->Render");
+			return E_FAIL;
+		}
+	}
+	else if (m_sShader == SHADER_NONEBLUR)
+	{
+		if (FAILED(m_pModel->Render(m_pShaderCom, "g_BoneMatrices", m_EffectDesc_Mesh.iMesh, m_EffectDesc_Mesh.iShader + 19)))
+		{
+			MSG_BOX(L"Failed To CModel_Object : Render : m_pModel->Render");
+			return E_FAIL;
+		}
+	}
+	else if (m_sShader == SHADER_NONEDIFFUSE)
+	{
+		if (FAILED(m_pModel->Render(m_pShaderCom, "g_BoneMatrices", m_EffectDesc_Mesh.iMesh, m_EffectDesc_Mesh.iShader + 38)))
+		{
+			MSG_BOX(L"Failed To CModel_Object : Render : m_pModel->Render");
+			return E_FAIL;
+		}
 	}
 
 	return S_OK;
@@ -322,7 +369,8 @@ HRESULT CMeshEffect::SetUp_ConstantTable()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_Dissolve", &Alpha, sizeof(_float))))
 		return E_FAIL;
 
-
+	if (FAILED(m_pShaderCom->Set_RawValue("g_Blur", &m_fBlur, sizeof(_float2))))
+		return E_FAIL;
 
 
 
@@ -387,6 +435,12 @@ void CMeshEffect::Set_Transform(UNIT_TYPE Type, CGameObject* OBJ, CTransform * T
 	m_Parents_P = OBJ;
 	m_Parents_TF = TF;
 	m_Parents_RUL = RUL;
+}
+
+void CMeshEffect::Set_Shader(SHADER Shader, _float2 Blur)
+{
+	m_sShader = Shader;
+	m_fBlur = Blur;
 }
 
 CMeshEffect * CMeshEffect::Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)

@@ -103,7 +103,8 @@ void CCamera_Default::Tick(_double TimeDelta)
 		Camera_BattleEnter(TimeDelta);
 		break;
 	case Client::CCamera_Default::CAMERA_STATE_BATTLE:
-		Follow_Camera(TimeDelta);
+		Camera_Field(TimeDelta);
+		//Follow_Camera(TimeDelta);
 		break;
 	case Client::CCamera_Default::CAMERA_STATE_CHANGE:
 		break;
