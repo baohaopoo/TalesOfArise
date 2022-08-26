@@ -40,7 +40,7 @@ HRESULT CAlphen::NativeConstruct(void * pArg)
 {
 	CTransform::TRANSFORMDESC      TransformDesc;
 	ZeroMemory(&TransformDesc, sizeof(CTransform::TRANSFORMDESC));
-	
+
 
 	TransformDesc.SpeedPerSec = 30.0f;
 	TransformDesc.RotationPerSec = XMConvertToRadians(90.0f);
@@ -55,7 +55,7 @@ HRESULT CAlphen::NativeConstruct(void * pArg)
 	m_pModelCom->Set_AnimationIndex(m_iCurrentAnimationIndex);
 
 	CGameInstance*pGameInstance = CGameInstance::GetInstance();
-	
+
 	CEquipment::SOCKETDESC         SocketDesc;
 	ZeroMemory(&SocketDesc, sizeof(CEquipment::SOCKETDESC));
 
@@ -125,25 +125,32 @@ void CAlphen::Tick(_double TimeDelta)
 {
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
-	if (m_bBattle) {
 
-		if ((m_bSkill && pGameInstance->Key_Up(DIK_R)) || (m_bSkill && pGameInstance->Key_Up(DIK_E)) || (m_bSkill && pGameInstance->Key_Up(DIK_F))) {
-
-
-			LineMsgUI::MSGLINEUIDESC LineMsgDESC;
-			LineMsgDESC.uidesc.fX = g_iWinCX / 2;
-			LineMsgDESC.uidesc.fY = g_iWinCX / 2 - 700;
-			LineMsgDESC.uidesc.fCX = 700;//700;
-			LineMsgDESC.uidesc.fCY = 100;//250;
-			LineMsgDESC.sprite = m_eSkillUse;//2;  //1부터 쓰는 이유가 있다.
-
-			if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_LineMsgUI"), &LineMsgDESC)))
-				return;
-
-		}
+	if (m_tPlayerInfo.m_iCurrentHp < 50)
+	{
+		m_tPlayerInfo.m_iCurrentHp = 77;
 	}
 
+	//if (m_bBattle) {
+
+	//	if ((m_bSkill && pGameInstance->Key_Up(DIK_R)) || (m_bSkill && pGameInstance->Key_Up(DIK_E)) || (m_bSkill && pGameInstance->Key_Up(DIK_F))) {
+
+
+	//		LineMsgUI::MSGLINEUIDESC LineMsgDESC;
+	//		LineMsgDESC.uidesc.fX = g_iWinCX / 2;
+	//		LineMsgDESC.uidesc.fY = g_iWinCX / 2 - 700;
+	//		LineMsgDESC.uidesc.fCX = 700;//700;
+	//		LineMsgDESC.uidesc.fCY = 100;//250;
+	//		LineMsgDESC.sprite = m_eSkillUse;//2;  //1부터 쓰는 이유가 있다.
+
+	//		if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_LineMsgUI"), &LineMsgDESC)))
+	//			return;
+
+	//	}
+	//}
+
 	//m_tPlayerInfo.m_iCurrentHp--;
+
 
 
 	if (m_bBattle || m_bField)
@@ -154,20 +161,11 @@ void CAlphen::Tick(_double TimeDelta)
 
 
 
-		m_tPlayerInfo.m_iComboHits++;
-		m_tPlayerInfo.m_iCurrentAg--;
-		m_tPlayerInfo.m_iCurrentHp -= 0.00001;
-
-
-		if (m_tPlayerInfo.m_iComboHits > 999)
-			m_tPlayerInfo.m_iComboHits = 0;
-		if (m_tPlayerInfo.m_iCurrentHp < 0)
-			m_tPlayerInfo.m_iCurrentHp = m_tPlayerInfo.m_iMaxHp;
-		if (m_tPlayerInfo.m_iCurrentAg < 0)
-			m_tPlayerInfo.m_iCurrentAg = m_tPlayerInfo.m_iMaxAg;
-
-		
+		CGameInstance*      pGameInstance = GET_INSTANCE(CGameInstance);
 		m_bOnAttackCollider = false;
+
+		if (m_bBattle && !m_bStartScene)
+			StartBattle();
 
 
 		if (m_bField)
@@ -178,9 +176,10 @@ void CAlphen::Tick(_double TimeDelta)
 				{
 					if (!m_bHit)
 					{
-						Key_Input();
+						if (m_bStartScene)
+							Key_Input();
 
-						if (!m_bStop)
+						if (!m_bStop&&m_bStartScene)
 							Compute_Anim(TimeDelta*m_dTimeSpeed);
 					}
 
@@ -194,7 +193,7 @@ void CAlphen::Tick(_double TimeDelta)
 				else
 				{
 
-					if (!m_bStop)
+					if (!m_bStop&&m_bStartScene)
 						AI(TimeDelta*m_dTimeSpeed);
 					//AI구현 해야함 여기다가AI();
 				}
@@ -219,8 +218,9 @@ void CAlphen::Tick(_double TimeDelta)
 				{
 					if (!m_bHit)
 					{
-						Key_Input();
-						if (!m_bStop)
+						if (m_bStartScene)
+							Key_Input();
+						if (!m_bStop&&m_bStartScene)
 							Compute_Anim(TimeDelta*m_dTimeSpeed);
 					}
 
@@ -232,7 +232,7 @@ void CAlphen::Tick(_double TimeDelta)
 				}
 				else
 				{
-					if (!m_bStop)
+					if (!m_bStop&&m_bStartScene)
 						AI(TimeDelta*m_dTimeSpeed);
 					//AI구현 해야함 여기다가AI();
 				}
@@ -255,17 +255,9 @@ void CAlphen::Tick(_double TimeDelta)
 		m_pSphereCom->Update(m_pTransformCom->Get_WorldMatrix());
 		m_pAttackSphereCom->Update(XMMatrixIdentity());  //항등넣어야함 
 
-		m_pInteractSphereCom->Update(m_pTransformCom->Get_WorldMatrix());
 
 
-		
-		if (pGameInstance->Key_Down(DIK_T))
-		{
-			m_bDamage_Small_b = true;
-			m_bHit = true;
-		}
-
-	
+		RELEASE_INSTANCE(CGameInstance);
 	}
 }
 
@@ -579,9 +571,10 @@ void CAlphen::Key_Input()
 
 	}
 
-	if (pGameInstance->Key_Up(DIK_E) && m_bSkill)
+	if (pGameInstance->Key_Up(DIK_E))
 	{
-		m_bSkillKeyDown = false;
+		if (m_bSkill)
+			m_bSkillKeyDown = false;
 	}
 
 	if (pGameInstance->Key_Pressing(DIK_R) && m_bSkill == false)
@@ -685,7 +678,7 @@ void CAlphen::Jump(_double TimeDelta)
 		{
 			m_bJump = false;
 		}
-	
+
 		if (m_bAttack || m_bAirAttack)
 			m_bJump = false;
 
@@ -825,7 +818,7 @@ void CAlphen::Jump(_double TimeDelta)
 
 		if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
 		{
-			m_pTransformCom->Go_Straight(TimeDelta*0.5f, m_pNaviCom);
+			m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
 		}
 	}
 
@@ -1576,13 +1569,13 @@ void CAlphen::Compute_Move(_double TimeDelta)
 		vLook = vLook * (_float)TimeDelta * 5.f;
 
 		// Navi 태우기
-		m_pTransformCom->Go_Straight(TimeDelta*0.5f, m_pNaviCom);
+		m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
 
 		// y값 조정
 		if (nullptr != m_pNaviCom) {
 			m_pTransformCom->Set_Height(m_pTransformCom->Get_Height(m_pNaviCom));
 		}
-		else{
+		else {
 			m_pTransformCom->Set_Height(m_dCurrBattleMap_Height);
 		}
 	}
@@ -1630,10 +1623,10 @@ void CAlphen::Rising_Palcon()
 	{
 		m_pAttackSphereCom->Set(vPos + vLook*0.4f, 0.45f);
 		m_bOnAttackCollider = true;
-		if (XMVectorGetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION)) <= 0.f)
+		if (XMVectorGetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION)) <= m_dCurrBattleMap_Height)
 		{
 			m_bOnAttackCollider = false;
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 0.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_dCurrBattleMap_Height));
 			m_iNextAnimationIndex = ARI_ANIM_BTL_ATTACK_HITENSYOUKU_END;
 
 			m_bLand = true;
@@ -1780,7 +1773,7 @@ void CAlphen::Infernal_Torrent()
 		if (m_bSkillKeyDown)
 		{
 			m_tPlayerInfo.m_iCurrentHp--;
-	
+
 			if (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_NumeKeyFrames() - 1)
 			{
 
@@ -1857,10 +1850,10 @@ void CAlphen::Searing_Gale(_double TimeDelta)
 	else if (m_iCurrentAnimationIndex == 37)
 	{
 
-		if (XMVectorGetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION)) <= 0.f)
+		if (XMVectorGetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION)) <= m_dCurrBattleMap_Height)
 		{
 
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 0.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_dCurrBattleMap_Height));
 			m_iNextAnimationIndex = 36;
 			m_dAnimSpeed = 2.4;
 		}
@@ -1882,7 +1875,7 @@ void CAlphen::Searing_Gale(_double TimeDelta)
 	else if (m_iCurrentAnimationIndex == 36)
 	{
 
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 0.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_dCurrBattleMap_Height));
 		if (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 150)
 		{
 			m_dAnimSpeed = 2.1;
@@ -2008,9 +2001,9 @@ void CAlphen::Risiing_Phoenix()
 	else if (m_iCurrentAnimationIndex == 22)
 	{
 		m_dAnimSpeed = 9.0;
-		if (XMVectorGetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION)) <= 0.f)
+		if (XMVectorGetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION)) <= m_dCurrBattleMap_Height)
 		{
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 0.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_dCurrBattleMap_Height));
 			m_iNextAnimationIndex = 21;
 			//m_bOverlap = false;
 			m_dAnimSpeed = 2.1;
@@ -2030,7 +2023,7 @@ void CAlphen::Risiing_Phoenix()
 
 	else if (m_iCurrentAnimationIndex == 21)
 	{
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 0.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_dCurrBattleMap_Height));
 		if (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 59)
 		{
 			m_bOverlap = false;
@@ -2112,9 +2105,9 @@ void CAlphen::Mirage()
 		m_iNextAnimationIndex = 28;
 	}
 
-	if (m_iCurrentAnimationIndex == 28 && XMVectorGetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION)) <= 0.f)
+	if (m_iCurrentAnimationIndex == 28 && XMVectorGetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION)) <= m_dCurrBattleMap_Height)
 	{
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 0.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_dCurrBattleMap_Height));
 		m_iNextAnimationIndex = 27;
 	}
 
@@ -2662,6 +2655,26 @@ void CAlphen::Compute_HitInfo()
 
 }
 
+void CAlphen::StartBattle()
+{
+	if (m_bBattle && !m_bStartScene)
+	{
+		m_iNextAnimationIndex = ARI_ANIM_BTL_ADVENT;
+		m_bLoop = false;
+	}
+
+	if (m_iCurrentAnimationIndex == ARI_ANIM_BTL_ADVENT)
+	{
+		if (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_NumeKeyFrames() - 1)
+		{
+			m_bStartScene = true;
+			m_iNextAnimationIndex = ARI_ANIM_BTL_MOVE_IDLE;
+			m_bLoop = true;
+		}
+	}
+
+}
+
 void CAlphen::Pattern_Choice()
 {
 	if (m_iCurrentAnimationIndex == ARI_ANIM_BTL_MOVE_IDLE)
@@ -2703,7 +2716,7 @@ void CAlphen::Pattern_Choice()
 
 	}
 	else {
-		m_dJumpSpeed = 0.03;
+		m_dJumpSpeed = JUMP_SPEED;
 		m_iAbleJumpCount = 1;
 		m_bAIJumpStart = false;
 	}
@@ -2861,8 +2874,8 @@ void CAlphen::Move(_double TimeDelta)
 	{
 
 
-		m_pTransformCom->Go_Straight(TimeDelta*0.4f);
-		m_pTransformCom->Check_Right_Left(vLook, TimeDelta*0.6f);
+		m_pTransformCom->Go_Straight(TimeDelta*0.3f);
+		m_pTransformCom->Check_Right_Left(vLook, TimeDelta*1.2f);
 
 
 
@@ -2910,11 +2923,11 @@ void CAlphen::Chase(_double TimeDelta)
 
 	if (m_pVecMonsters->size() > 0)
 	{
-		if (fDistance > 1.2)
+		if (fDistance > 6.f)
 		{
 
-			m_pTransformCom->Go_Straight(TimeDelta*0.4f);
-			m_pTransformCom->Check_Right_Left(vDir, TimeDelta*0.6f);  //방향돌리는거 부드럽게. 
+			m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
+			m_pTransformCom->Check_Right_Left(vDir, TimeDelta*1.2f);  //방향돌리는거 부드럽게. 
 		}
 		else {
 			m_bPattern = false;
@@ -2940,10 +2953,10 @@ void CAlphen::Falling(_double TimeDelta)
 		m_bLand = false;
 
 		vPosY -= (_float)m_dFallSpeed;
-		if (vPosY <= 0)
+		if (vPosY <= m_dCurrBattleMap_Height)
 		{
 			m_bLoop = false;
-			vPosY = 0;
+			vPosY = m_dCurrBattleMap_Height;
 			m_dFallSpeed = 0.0;
 			m_iNextAnimationIndex = ARI_ANIM_BTL_LAND;
 
@@ -2959,7 +2972,7 @@ void CAlphen::Falling(_double TimeDelta)
 			m_bAir = false;
 			m_bPattern = false;
 			m_iAbleJumpCount = 1;
-			m_dJumpSpeed = 0.03;
+			m_dJumpSpeed = JUMP_SPEED;
 		}
 	}
 }

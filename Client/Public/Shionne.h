@@ -277,7 +277,7 @@ public:
 	void Compute_Hit(_double TimeDelta);
 	void Compute_Attack(); //콜라이더 온오프,데미지,공격종류등
 
-
+	void StartBattle();
 
 
 public:

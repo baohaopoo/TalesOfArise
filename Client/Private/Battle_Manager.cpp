@@ -64,7 +64,7 @@ void CBattle_Manager::Battle_Enter(CEnemy* pEnemy)
 
 	if (m_pPlayerLayer == nullptr)
 		m_pPlayerLayer = pGameInstance->Find_Layer(LEVEL_STATIC, TEXT("Layer_Player"));
-	
+
 
 	if (m_pPlayerBulletLayer == nullptr)
 		m_pPlayerBulletLayer = pGameInstance->Add_Layer(LEVEL_STATIC, TEXT("Layer_Player_Bullet"));
@@ -109,7 +109,7 @@ void CBattle_Manager::Battle_Enter(CEnemy* pEnemy)
 		switch (pEnemyClone->Get_MapType())
 		{
 		case Client::MAP_BALSELPH:
-			
+
 			Enemy_MoveToMap(pEnemyClone, _float3(-75.31, 19.25, 0.02), TEXT("Prototype_Component_Navigation_Map_Balseph"));
 
 			if (!bPlayerMove) {
@@ -132,11 +132,13 @@ void CBattle_Manager::Battle_Enter(CEnemy* pEnemy)
 			break;
 
 		case Client::MAP_BATTLE02:
-			Enemy_MoveToMap(pEnemyClone, _float3(1005.f + i * 3, 8.f, 0.f), TEXT("Prototype_Component_Navigation_Map_GrandYork_Battle_02"));
-
+			Enemy_MoveToMap(pEnemyClone, _float3(995.f + 5.f*i, 0.f, 8.f), TEXT("Prototype_Component_Navigation_Map_GrandYork_Battle_02"));
+			pEnemyTransformCom->TurnAxis(XMVectorSet(0.f, 0.f, -1.f, 0.f));
 			if (!bPlayerMove) {
-				// 플레이어의 위치를 이동한다.
-				Player_MoveToMap(pFieldPlayer, _float3(1000.f, 0.f, 0.f), TEXT("Prototype_Component_Navigation_Map_GrandYork_Battle_02"));
+				for (auto pPlayer : *pPlayerManger->Get_VecPlayers())
+				{
+					Player_MoveToMap(pPlayer, _float3(1000.f, 0.f, 0.f), TEXT("Prototype_Component_Navigation_Map_GrandYork_Battle_02"));
+				}
 				bPlayerMove = true;
 			}
 
@@ -147,7 +149,10 @@ void CBattle_Manager::Battle_Enter(CEnemy* pEnemy)
 
 			if (!bPlayerMove) {
 				// 플레이어의 위치를 이동한다.
-				Player_MoveToMap(pFieldPlayer, _float3(2005.f, 0.f, 0.f), TEXT("Prototype_Component_Navigation_Map_GrandYork_Battle_04"));
+				for (auto pPlayer : *pPlayerManger->Get_VecPlayers())
+				{
+					Player_MoveToMap(pPlayer, _float3(2005.f, 0.f, 0.f), TEXT("Prototype_Component_Navigation_Map_GrandYork_Battle_04"));
+				}
 				bPlayerMove = true;
 			}
 
@@ -173,7 +178,7 @@ void CBattle_Manager::Battle_Enter(CEnemy* pEnemy)
 
 	_uint iCnt = 0;
 
-	vector<CEnemy*>::iterator iter = m_vecMonsters.begin();
+	vector<CEnemy*>::iterator iter = m_vecMonsters.begin() + 1;
 	for (auto pPlayer : *pPlayerManger->Get_VecPlayers())
 	{
 
@@ -194,7 +199,7 @@ void CBattle_Manager::Battle_Enter(CEnemy* pEnemy)
 
 	m_bBattle = true;
 	m_pVecPlayers = pPlayerManger->Get_VecPlayers();
-	m_pCamera->Set_CameraState(CCamera_Default::CAMERA_STATE_BATTLE); 
+	m_pCamera->Set_CameraState(CCamera_Default::CAMERA_STATE_BATTLE_ENTER);
 
 
 	Safe_Release(pGameInstance);
@@ -780,6 +785,8 @@ HRESULT CBattle_Manager::Player_MoveToMap(CPlayer * pPlayer, _float3 fPos, const
 
 	// 이동된 좌표에서 네비메쉬에 따라 y값을 계산하여 해당 높이로 이동
 	pPlayerTransformCom->Move(fPos.x, fHeight, fPos.z);
+
+	pPlayerTransformCom->TurnAxis(XMVectorSet(0.f, 0.f, 1.f, 0.f));
 
 	// y값을 계산하였으니 필요없어진 NaviCom을 지운다.
 	return pPlayer->Delete_NaviCom();

@@ -241,6 +241,9 @@ protected:
 	_double m_MoveTime = 0.0;
 
 
+	//스타트신
+	_bool m_bStartScene = false;
+
 
 
 

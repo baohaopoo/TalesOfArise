@@ -117,9 +117,9 @@ void PlayerMovingHP::Tick(_double TimeDelta)
 	}
 	if (pPlayerManager->Get_MainPlayerIndex() == 1)
 	{
-		hp = dynamic_cast<CShionne*>(player)->Get_PlayerInfo().m_iCurrentHp;
+		hp = player->Get_PlayerInfo().m_iCurrentHp;
 
-		percent = hp / dynamic_cast<CAlphen*>(player)->Get_PlayerInfo().m_iMaxHp;
+		percent =  player->Get_PlayerInfo().m_iMaxHp;
 
 	}
 

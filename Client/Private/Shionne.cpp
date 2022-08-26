@@ -2,14 +2,16 @@
 #include "..\Public\Shionne.h"
 #include "GameInstance.h"
 
-
+#include "Navigation.h"
 #include "Animation.h"
 #include "Channel.h"
 #include "Gun.h"
 #include "Normal_Bullet.h"
 #include "Lunar_Blast.h"
 #include "Annihilation.h"
+#include "UI_Manager.h"
 
+#define JUMP_SPEED 0.4
 
 CShionne::CShionne(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
 	: CPlayer(pDeviceOut, pDeviceContextOut)
@@ -35,7 +37,7 @@ HRESULT CShionne::NativeConstruct(void * pArg)
 	CTransform::TRANSFORMDESC      TransformDesc;
 	ZeroMemory(&TransformDesc, sizeof(CTransform::TRANSFORMDESC));
 
-	TransformDesc.SpeedPerSec = 5.0f;
+	TransformDesc.SpeedPerSec = 30.f;
 	TransformDesc.RotationPerSec = XMConvertToRadians(90.0f);
 
 	if (FAILED(__super::NativeConstruct(pArg, &TransformDesc)))
@@ -51,7 +53,8 @@ HRESULT CShionne::NativeConstruct(void * pArg)
 	CEquipment::SOCKETDESC         SocketDesc;
 	ZeroMemory(&SocketDesc, sizeof(CEquipment::SOCKETDESC));
 
-
+	CUI_Manager* m_pUIManager = CUI_Manager::GetInstance();
+	Safe_AddRef(m_pUIManager);
 
 	SocketDesc.pModelCom = m_pModelSKLCom;
 	SocketDesc.iIndex = 0;
@@ -79,7 +82,7 @@ HRESULT CShionne::NativeConstruct(void * pArg)
 	m_tPlayerInfo.m_iCurrentAg = 7;
 
 
-	m_dJumpSpeed = 0.03;
+	m_dJumpSpeed = JUMP_SPEED;
 
 	m_bAuto = true;
 	m_bBattle = false;
@@ -94,6 +97,9 @@ HRESULT CShionne::NativeConstruct(void * pArg)
 	m_eSkillAirThird = SKILL_AIR_AQEOUS_IMPACT;
 	m_eSkillGroundThird = SKILL_GROUND_LUNAR_BLAST;
 
+	m_pUIManager->SetPlayer(1, this);
+
+	Safe_Release(m_pUIManager);
 
 	return S_OK;
 }
@@ -111,10 +117,11 @@ void CShionne::Tick(_double TimeDelta)
 
 		CGameInstance*      pGameInstance = GET_INSTANCE(CGameInstance);
 
-
-		//Compute_Look();
-
 		m_bOnAttackCollider = false;
+
+
+		if (m_bBattle && !m_bStartScene)
+			StartBattle();
 
 
 		if (m_bField)
@@ -512,7 +519,7 @@ void CShionne::Jump(_double TimeDelta)
 		{
 			m_bJump = false;
 		}
-		m_dGravityPower = 0.08;
+
 		if (m_bAttack || m_bAirAttack)
 			m_bJump = false;
 
@@ -546,13 +553,32 @@ void CShionne::Jump(_double TimeDelta)
 		m_bAir = true;
 		_vector  vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		_float vPosY = XMVectorGetY(vPos);
-		m_dJumpSpeed -= TimeDelta*m_dGravityPower;
+		m_dJumpSpeed -= TimeDelta*m_dGravityPower*2.f;
 
 		vPosY += (_float)m_dJumpSpeed;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetY(vPos, vPosY));
+		if (nullptr == m_pNaviCom) {
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetY(vPos, vPosY));
+		}
+
+		// 수정
+		else {
+			_float3 fPos;
+			XMStoreFloat3(&fPos, vPos);
+
+
+			// Navi 태우기
+			if (nullptr != m_pNaviCom) {
+				if (m_pNaviCom->Move_OnNavigation(vPos))
+					m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(fPos.x, vPosY, fPos.z, 1.f));
+			}
+		}
+
+
+
+
 		if (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_NumeKeyFrames() - 1)
 		{
-			m_dJumpSpeed = 0.03;
+			m_dJumpSpeed = JUMP_SPEED;
 			m_iNextAnimationIndex = SIO_ANIM_BTL_FALL;
 			m_bJump = false;
 			m_bAIJump = true;
@@ -632,7 +658,7 @@ void CShionne::Jump(_double TimeDelta)
 
 			if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
 			{
-				m_pTransformCom->Go_Straight(TimeDelta);
+				m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
 
 			}
 
@@ -675,8 +701,8 @@ void CShionne::Evade()
 					m_iNextAnimationIndex = SIO_ANIM_BTL_STEP_AIR;
 					m_bJump = false;
 					m_bAirAttack = false;
-					m_dJumpSpeed = 0.03;
-					m_dAnimSpeed = 2.5;
+					m_dJumpSpeed = JUMP_SPEED;
+					m_dAnimSpeed = 2.7;
 				}
 				else {
 					m_bEvade = false;
@@ -706,6 +732,7 @@ void CShionne::Evade()
 					}
 					m_pTransformCom->TurnAxis(vLook[m_ePlayerDir]);
 					m_iNextAnimationIndex = SIO_ANIM_BTL_STEP_LAND;
+					m_dAnimSpeed = 2.7;
 				}
 
 			}
@@ -1270,7 +1297,7 @@ void CShionne::AI(_double TimeDelta)
 	//{
 	//	m_pTransformCom->Check_Right_Left(vDir, TimeDelta);
 	//	m_iNextAnimationIndex = SIO_ANIM_BTL_MOVE_RUN;
-	//	m_pTransformCom->Go_Straight(TimeDelta*0.4f);
+	//	m_pTransformCom->Go_Straight(TimeDelta*0.3f,m_pNaviCom);
 	//}
 	//else {
 
@@ -1358,7 +1385,7 @@ void CShionne::Pattern_Choice()
 	//전투관련 거리에따라 행동을 나누자.
 
 
-	if (fDistance > 3.5f)  //일정거리 이상 멀어진다면 타깃을 쫒아간다.
+	if (fDistance > 8.f)  //일정거리 이상 멀어진다면 타깃을 쫒아간다.
 	{
 
 		m_ePattern = SIO_AI_CHASE;
@@ -1366,7 +1393,7 @@ void CShionne::Pattern_Choice()
 		return;
 	}
 
-	else if (fDistance < 1.f)
+	else if (fDistance < 3.f)
 	{
 		m_ePattern = SIO_AI_EVADE;     //일정거리 미만이면 도망~ 런 
 		m_bPattern = true;
@@ -1458,7 +1485,7 @@ void CShionne::Compute_Anim(_double TimeDelta)
 		m_iAbleAirEvadeCount = 1;
 		m_iAbleAirAttackCount = 1;
 		m_dFallSpeed = 0.0;
-		m_dJumpSpeed = 0.03;
+		m_dJumpSpeed = JUMP_SPEED;
 	}
 	if (m_bKeyInput == false)
 	{
@@ -1492,18 +1519,40 @@ void CShionne::Compute_Anim(_double TimeDelta)
 	if (m_iCurrentAnimationIndex == SIO_ANIM_BTL_FALL)
 	{
 		//m_bMove = false;
-		m_dFallSpeed += TimeDelta*m_dGravityPower;
+		m_dFallSpeed += TimeDelta*m_dGravityPower*2.f;
 		m_bLand = false;
 
 		vPosY -= (_float)m_dFallSpeed;
-		if (vPosY <= 0)
-		{
-			m_bLoop = false;
-			vPosY = 0;
-			m_dFallSpeed = 0.0;
-			m_iNextAnimationIndex = SIO_ANIM_BTL_LAND;
 
+		// 네비메쉬가 존재할 경우
+		if (nullptr != m_pNaviCom) {
+			// 현재 위치에서 네비 메쉬의 높이를 가져온다.
+			_float fHeight = m_pTransformCom->Get_Height(m_pNaviCom);
+
+			// 만약 떨어지고 난 다음의 높이가 네비 메쉬의 y값보다 더 작다면
+			if (vPosY < fHeight) {
+				// 현재 위치의 y값을 네비 메쉬의 y값으로 수정하고, 이후 애니메이션을 착지 애니메이션으로, 점프 관련 변수를 초기화 한다.
+				m_bLoop = false;
+				vPosY = fHeight;
+				m_dFallSpeed = 0.0;
+				m_iNextAnimationIndex = SIO_ANIM_BTL_LAND;
+			}
 		}
+		else {
+			// 현재 위치에서 네비 메쉬의 높이를 가져온다.
+			_float fHeight = m_dCurrBattleMap_Height;
+
+			// 만약 떨어지고 난 다음의 높이가 네비 메쉬의 y값보다 더 작다면
+			if (vPosY < fHeight) {
+				// 현재 위치의 y값을 네비 메쉬의 y값으로 수정하고, 이후 애니메이션을 착지 애니메이션으로, 점프 관련 변수를 초기화 한다.
+				m_bLoop = false;
+				vPosY = fHeight;
+				m_dFallSpeed = 0.0;
+				m_iNextAnimationIndex = SIO_ANIM_BTL_LAND;
+			}
+		}
+
+		vPos = XMVectorSetY(vPos, vPosY);
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetY(vPos, vPosY));
 	}
 
@@ -1520,10 +1569,19 @@ void CShionne::Compute_Anim(_double TimeDelta)
 	//   Skill();
 	//}
 
-	if (vPosY <= 0.f)
-	{
-		m_bAir = false;
+	if (nullptr != m_pNaviCom) {
+		if (vPosY <= m_pTransformCom->Get_Height(m_pNaviCom))
+		{
+			m_bAir = false;
 
+		}
+	}
+	else {
+		if (vPosY <= m_dCurrBattleMap_Height)
+		{
+			m_bAir = false;
+
+		}
 	}
 
 
@@ -1650,7 +1708,7 @@ void CShionne::Compute_Move(_double TimeDelta)
 	{
 
 		m_pTransformCom->Check_Right_Left(vGoalLook, TimeDelta*6.5f);
-		m_pTransformCom->Go_Straight(TimeDelta);
+		m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
 	}
 
 
@@ -2335,6 +2393,27 @@ void CShionne::Compute_Attack()
 {
 }
 
+void CShionne::StartBattle()
+{
+
+	if (m_bBattle && !m_bStartScene)
+	{
+		m_iNextAnimationIndex = SIO_ANIM_BTL_ADVENT;
+		m_bLoop = false;
+	}
+
+	if (m_iCurrentAnimationIndex == SIO_ANIM_BTL_ADVENT)
+	{
+		if (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_NumeKeyFrames() - 1)
+		{
+			m_bStartScene = true;
+			m_iNextAnimationIndex = SIO_ANIM_BTL_MOVE_IDLE;
+			m_bLoop = true;
+		}
+	}
+
+}
+
 void CShionne::Lunar_Blast()
 {
 	if (m_bEvade == false && m_bJump == false)
@@ -2737,10 +2816,10 @@ void CShionne::Aqeous_Impact()
 
 	else if (m_iCurrentAnimationIndex == 36)
 	{
-		if (XMVectorGetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION)) <= 0.f)
+		if (XMVectorGetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION)) <= m_dCurrBattleMap_Height)
 		{
 			m_dAnimSpeed = 2.1;
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 0.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_dCurrBattleMap_Height));
 			m_iNextAnimationIndex = 35;
 			m_bLand = true;
 			m_bAir = false;
@@ -2867,8 +2946,8 @@ void CShionne::Move(_double TimeDelta)
 	{
 
 
-		m_pTransformCom->Go_Straight(TimeDelta*0.4f);
-		m_pTransformCom->Check_Right_Left(vLook, TimeDelta*0.6f);
+		m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
+		m_pTransformCom->Check_Right_Left(vLook, TimeDelta*1.2f);
 
 
 
@@ -2916,11 +2995,11 @@ void CShionne::Chase(_double TimeDelta)
 
 	if (m_pVecMonsters->size() > 0)
 	{
-		if (fDistance > 1.2)
+		if (fDistance > 6.f)
 		{
 
-			m_pTransformCom->Go_Straight(TimeDelta*0.4f);
-			m_pTransformCom->Check_Right_Left(vDir, TimeDelta*0.6f);  //방향돌리는거 부드럽게. 
+			m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
+			m_pTransformCom->Check_Right_Left(vDir, TimeDelta*1.2f);  //방향돌리는거 부드럽게. 
 		}
 		else {
 			m_bPattern = false;
@@ -2964,11 +3043,11 @@ void CShionne::Evade(_double TimeDelta)
 
 	if (m_pVecMonsters->size() > 0)
 	{
-		if (fDistance < 2.5f)
+		if (fDistance < 4.f)
 		{
 
-			m_pTransformCom->Go_Straight(TimeDelta*0.4f);
-			m_pTransformCom->Check_Right_Left(-vDir, TimeDelta*0.6f);  //방향돌리는거 부드럽게. 
+			m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
+			m_pTransformCom->Check_Right_Left(-vDir, TimeDelta*1.2f);  //방향돌리는거 부드럽게. 
 		}
 		else {
 			m_bPattern = false;
@@ -3038,10 +3117,10 @@ void CShionne::Falling(_double TimeDelta)
 		m_bLand = false;
 
 		vPosY -= (_float)m_dFallSpeed;
-		if (vPosY <= 0)
+		if (vPosY <= m_dCurrBattleMap_Height)
 		{
 			m_bLoop = false;
-			vPosY = 0;
+			vPosY = m_dCurrBattleMap_Height;
 			m_dFallSpeed = 0.0;
 			m_iNextAnimationIndex = SIO_ANIM_BTL_LAND;
 
@@ -3057,7 +3136,7 @@ void CShionne::Falling(_double TimeDelta)
 			m_bAir = false;
 			m_bPattern = false;
 			m_iAbleJumpCount = 1;
-			m_dJumpSpeed = 0.03;
+			m_dJumpSpeed = JUMP_SPEED;
 		}
 	}
 }
