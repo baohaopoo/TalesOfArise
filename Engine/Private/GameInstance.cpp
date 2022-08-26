@@ -293,6 +293,38 @@ void CGameInstance::Set_RadialNlurStrength(_float fStrength)
 	return m_pPostProcessing->Set_RadialNlurStrength(fStrength);
 }
 
+_float CGameInstance::Get_MiddleGray()
+{
+	if (nullptr == m_pPostProcessing)
+		return 0.f;
+
+	return m_pPostProcessing->Get_MiddleGray();
+}
+
+_float CGameInstance::Get_White()
+{
+	if (nullptr == m_pPostProcessing)
+		return 0.f;
+
+	return m_pPostProcessing->Get_White();
+}
+
+void CGameInstance::Set_MiddleGray(_float fMiddleGray)
+{
+	if (nullptr == m_pPostProcessing)
+		return;
+
+	return m_pPostProcessing->Set_MiddleGray(fMiddleGray);
+}
+
+void CGameInstance::Set_White(_float fWhite)
+{
+	if (nullptr == m_pPostProcessing)
+		return;
+
+	return m_pPostProcessing->Set_White(fWhite);
+}
+
 //HRESULT CGameInstance::Init_Sound(const _tchar* pSoundFilePath)
 //{
 //	if (nullptr == m_pSound_Manager)

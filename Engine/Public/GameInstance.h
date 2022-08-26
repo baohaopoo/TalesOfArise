@@ -121,6 +121,11 @@ public:/*For.PostProcessing */
 	void Set_RadialBlur(_bool bRadialBlur);
 	void Set_RadialBlurLength(_float fLength);
 	void Set_RadialNlurStrength(_float fStrength);
+
+	_float Get_MiddleGray();
+	_float Get_White();
+	void Set_MiddleGray(_float fMiddleGray);
+	void Set_White(_float fWhite);
 #ifdef _DEBUG
 public://For Console_Debug
 	HRESULT Init_Console_Debug(_bool bInit);
