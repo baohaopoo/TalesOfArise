@@ -158,11 +158,12 @@ void CBoar::Tick(_double TimeDelta)
 				m_bStart = true;
 				
 
-				if (m_iMotion == 5)
+				m_iMotion = 3;
+				/*if (m_iMotion == 5)
 					m_iMotion = 0;
 
 				else
-					m_iMotion++;
+					m_iMotion++;*/
 
 			}
 
@@ -692,12 +693,14 @@ void CBoar::AttackPattern5(_double TimeDelta)
 		//m_bEffectOnlyOnce = false;
 	}
 
-
 	if ((((_uint)m_pModelCom->Get_Animation(GIGANT_RUSH_END)->Get_TimeAcc()) == 136))
 	{
 		CRect_Effect* Effect = (CRect_Effect*)pGameInstance->Add_GameObjectToLayer(pGameInstance->Get_LevelIndex(), TEXT("Layer_Monster_Effect"), TEXT("Prototype_GameObject_Rect_Effect"), pGameInstance->Get_InstanceEffect_Data(UNIT_MONSTER, 0));
+		Effect->Get_CreateDesc()->fScale = 0.165f;
+		Effect->Get_CreateDesc()->vRotation= XMFLOAT4(-0.5f, -0.5f, -0.5f, 0.f);
 		Effect->Set_Transform(UNIT_MONSTER, this, m_pTransformCom, _float3(0.f, 0.f, 1.f));
 	}
+
 	RELEASE_INSTANCE(CGameInstance);
 }
 

@@ -607,7 +607,7 @@ technique11 DefaultTechnique
 {
 	pass Model//0
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -618,7 +618,7 @@ technique11 DefaultTechnique
 
 	pass Model1//1
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -630,7 +630,7 @@ technique11 DefaultTechnique
 
 	pass Model2//2
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -641,7 +641,7 @@ technique11 DefaultTechnique
 
 	pass Model3//3
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -652,7 +652,7 @@ technique11 DefaultTechnique
 
 	pass Model4//4
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -664,7 +664,7 @@ technique11 DefaultTechnique
 
 	pass Model5//5
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -674,7 +674,7 @@ technique11 DefaultTechnique
 	}
 	pass Model6//6
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -684,7 +684,7 @@ technique11 DefaultTechnique
 	}
 	pass Model7//7
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -694,7 +694,7 @@ technique11 DefaultTechnique
 	}
 	pass Model8//8
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -704,7 +704,7 @@ technique11 DefaultTechnique
 	}
 	pass Model9//9
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -714,7 +714,7 @@ technique11 DefaultTechnique
 	}
 	pass Model10//10
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -724,7 +724,7 @@ technique11 DefaultTechnique
 	}
 	pass Model11//11
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -734,7 +734,7 @@ technique11 DefaultTechnique
 	}
 	pass Model12//12
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -744,7 +744,7 @@ technique11 DefaultTechnique
 	}
 	pass Model13//13
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -754,7 +754,7 @@ technique11 DefaultTechnique
 	}
 	pass Model14//14
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -764,7 +764,7 @@ technique11 DefaultTechnique
 	}
 	pass Model15//15
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -774,7 +774,7 @@ technique11 DefaultTechnique
 	}
 	pass Model16//16
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -784,7 +784,7 @@ technique11 DefaultTechnique
 	}
 	pass Model17//17
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -794,7 +794,7 @@ technique11 DefaultTechnique
 	}
 	pass Model18//18
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_NonCull);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 

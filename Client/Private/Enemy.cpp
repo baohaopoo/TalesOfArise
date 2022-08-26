@@ -124,44 +124,25 @@ void CEnemy::Compute_Gravity(_double TimeDelta)
 		_vector  vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		_float vPosY = XMVectorGetY(vPos);
 
-
-
-
 		vPosY += m_HitDamageInfo.fPowerUp;
 		XMVectorSet(0.f, 1.f, 0.f, 1.f)*m_HitDamageInfo.fPowerUp;
-		if (vPosY <= 0)
+		if (vPosY <= m_dCurrBattleMap_Height)
 		{
 
-			vPosY = 0;
+			vPosY = m_dCurrBattleMap_Height;
 
 		}
 		vPos = XMVectorSetY(vPos, vPosY);
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetY(vPos, vPosY));
 
-
-
-
-
-
-
-
-
-
-
+		
 		if (m_HitDamageInfo.fPowerBack > 0.f)
 		{
 			m_HitDamageInfo.fPowerBack -= TimeDelta*Gravity;
 			Set_EnemyPos(Get_EnemyPos() + XMLoadFloat3(&m_vKnockBackDir)*m_HitDamageInfo.fPowerBack);
-
-
-
 		}
-
 	}
-
-
-
 
 	// 네비 메쉬를 타고 있을 경우, y값만 조정
 	if (nullptr != m_pNaviCom) {
@@ -169,7 +150,6 @@ void CEnemy::Compute_Gravity(_double TimeDelta)
 		m_pNaviCom->Find_My_Cell(m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 		m_pTransformCom->Set_Height(m_pTransformCom->Get_Height(m_pNaviCom));
 	}
-
 
 }
 
@@ -223,6 +203,8 @@ _bool CEnemy::Delete_NaviCom(void)
 		Safe_Release(m_pNaviCom);
 
 	Delete_Component(TEXT("Com_Navigation"));
+
+	m_pNaviCom = nullptr;
 
 	return (nullptr == m_pNaviCom);
 }

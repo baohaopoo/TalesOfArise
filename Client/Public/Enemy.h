@@ -94,6 +94,7 @@ protected:
 public:
 	CNavigation* SetUp_Navigation(const TCHAR* pTagNaviCompoent);	// 타고 움직일 Navi_Component를 설정하는 함수
 	_bool Delete_NaviCom(void);		// 네비 컴포넌트를 삭제하는 함수
+	void Set_CurBattleMap_Height(_double dHeight) { m_dCurrBattleMap_Height = dHeight; }
 
 public:
 	virtual CGameObject* Clone(void* pArg) override = 0;
@@ -161,6 +162,10 @@ public:
 
 private:
 	MAP_TYPE m_eMapType = MAP_END;
+
+protected:
+	_double m_dCurrBattleMap_Height = 0.f;
+
 };
 
 END

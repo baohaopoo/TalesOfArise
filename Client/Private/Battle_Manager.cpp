@@ -144,6 +144,8 @@ void CBattle_Manager::Battle_Enter(CEnemy* pEnemy)
 		case Client::MAP_BATTLE02:
 			Enemy_MoveToMap(pEnemyClone, _float3(995.f + 5.f*i, 0.f, 8.f), TEXT("Prototype_Component_Navigation_Map_GrandYork_Battle_02"));
 			pEnemyTransformCom->TurnAxis(XMVectorSet(0.f, 0.f, -1.f, 0.f));
+
+
 			if (!bPlayerMove) {
 				for (auto pPlayer : *pPlayerManger->Get_VecPlayers())
 				{
@@ -753,6 +755,9 @@ HRESULT CBattle_Manager::Enemy_MoveToMap(CEnemy * pEnemy, _float3 fPos, const TC
 
 	// 이동된 좌표에서 네비메쉬에 따라 y값을 계산하여 해당 높이로 이동
 	pEnemyTransformCom->Move(fPos.x, pEnemyTransformCom->Get_Height(pNavigation), fPos.z);
+
+	_float fHeight = pEnemyTransformCom->Get_Height(pNavigation);
+	pEnemy->Set_CurBattleMap_Height(fHeight);
 
 	// y값을 계산하였으니 필요없어진 NaviCom을 지운다.
 	return pEnemy->Delete_NaviCom();
