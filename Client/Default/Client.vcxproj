@@ -191,9 +191,11 @@
     <ClInclude Include="..\public\Equipment.h" />
     <ClInclude Include="..\Public\Explosion.h" />
     <ClInclude Include="..\public\Falling_Rock.h" />
+    <ClInclude Include="..\Public\FireAvatar_InstanceRect.h" />
     <ClInclude Include="..\Public\FireAvatar_Rock.h" />
     <ClInclude Include="..\Public\Fire_Avatar.h" />
     <ClInclude Include="..\Public\Fire_Deco.h" />
+    <ClInclude Include="..\Public\Fire_Effect.h" />
     <ClInclude Include="..\Public\Gravitas_Field.h" />
     <ClInclude Include="..\Public\Gun.h" />
     <ClInclude Include="..\Public\imconfig.h" />
@@ -287,9 +289,11 @@
     <ClCompile Include="..\private\Equipment.cpp" />
     <ClCompile Include="..\Private\Explosion.cpp" />
     <ClCompile Include="..\private\Falling_Rock.cpp" />
+    <ClCompile Include="..\Private\FireAvatar_InstanceRect.cpp" />
     <ClCompile Include="..\Private\FireAvatar_Rock.cpp" />
     <ClCompile Include="..\Private\Fire_Avatar.cpp" />
     <ClCompile Include="..\Private\Fire_Deco.cpp" />
+    <ClCompile Include="..\Private\Fire_Effect.cpp" />
     <ClCompile Include="..\Private\Gravitas_Field.cpp" />
     <ClCompile Include="..\Private\Gun.cpp" />
     <ClCompile Include="..\Private\imgui.cpp">

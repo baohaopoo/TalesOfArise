@@ -1,0 +1,163 @@
+﻿  UIGlow.cpp
+  Client.cpp
+  UIName.cpp
+  Time_Manager.cpp
+  Shionne.cpp
+  Mantis.cpp
+  Level_Lobby.cpp
+  ImGui_Manager.cpp
+c:\users\user\desktop\team3d\client\private\imgui_manager.cpp(181): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\user\desktop\team3d\client\private\imgui_manager.cpp(427): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\imgui_manager.cpp(433): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\imgui_manager.cpp(444): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\imgui_manager.cpp(459): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\imgui_manager.cpp(469): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\imgui_manager.cpp(475): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\imgui_manager.cpp(507): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\user\desktop\team3d\client\private\imgui_manager.cpp(590): warning C4244: '+=': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\imgui_manager.cpp(603): warning C4244: '-=': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\imgui_manager.cpp(654): warning C4101: 'fDist' :참조되지 않은 지역 변수입니다.
+c:\users\user\desktop\team3d\client\private\imgui_manager.cpp(1385): warning C4101: 'vPos' :참조되지 않은 지역 변수입니다.
+c:\users\user\desktop\team3d\client\private\imgui_manager.cpp(1384): warning C4101: 'vDist' :참조되지 않은 지역 변수입니다.
+  Falling_Rock.cpp
+  Equipment.cpp
+  Boar.cpp
+  Battle_Manager.cpp
+c:\users\user\desktop\team3d\client\private\battle_manager.cpp(113): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+c:\users\user\desktop\team3d\client\private\battle_manager.cpp(117): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+c:\users\user\desktop\team3d\client\private\battle_manager.cpp(124): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+c:\users\user\desktop\team3d\client\private\battle_manager.cpp(128): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+  Alphen.cpp
+c:\users\user\desktop\team3d\client\private\alphen.cpp(159): warning C4244: '-=': 'double'에서 'Engine::_int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\alphen.cpp(1404): warning C4244: '초기화 중': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\alphen.cpp(1586): warning C4244: '인수': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  UI_SmashEffect.cpp
+  UI_Smash.cpp
+  UI_Owl.cpp
+  UI_Manager.cpp
+  UIStatusBall.cpp
+c:\users\user\desktop\team3d\client\private\uistatusball.cpp(47): warning C4305: '=': 'double'에서 'Engine::_float'(으)로 잘립니다.
+  UIStatus.cpp
+c:\users\user\desktop\team3d\client\public\uistatus.h(30): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
+c:\users\user\desktop\team3d\client\private\uistatus.cpp(87): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\uistatus.cpp(91): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  UINumber.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  UILIne.cpp
+  UIFlag.cpp
+  UIExplain.cpp
+  UIEmblem.cpp
+  UICharacter.cpp
+  UIBillBoard.cpp
+  UIBar.cpp
+c:\users\user\desktop\team3d\client\private\uibar.cpp(63): warning C4244: '=': 'Engine::_int'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\uibar.cpp(69): warning C4244: '-=': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  UIBackground.cpp
+  TutorialMsg.cpp
+  TutoLineMsg.cpp
+  Sword.cpp
+  Spear_Sweep.cpp
+  SmashNum.cpp
+  Sky.cpp
+  Sample.cpp
+c:\users\user\desktop\team3d\client\private\sample.cpp(186): warning C4244: '인수': 'physx::PxExtended'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\sample.cpp(218): warning C4244: '인수': 'physx::PxExtended'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\sample.cpp(225): warning C4244: '인수': 'physx::PxExtended'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\sample.cpp(237): warning C4244: '인수': 'physx::PxExtended'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\sample.cpp(275): warning C4244: '인수': 'physx::PxExtended'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Rect_Effect.cpp
+c:\users\user\desktop\team3d\client\private\rect_effect.cpp(69): warning C4244: '-=': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Punisher.cpp
+  Practice.cpp
+  Point_Effect.cpp
+  Player_Manager.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  PlayerMovingHP.cpp
+c:\users\user\desktop\team3d\client\private\playermovinghp.cpp(108): warning C4244: '=': 'Engine::_int'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\playermovinghp.cpp(113): warning C4244: '=': 'Engine::_int'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\playermovinghp.cpp(120): warning C4244: '=': 'Engine::_int'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\playermovinghp.cpp(144): warning C4244: '-=': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\playermovinghp.cpp(199): warning C4244: '인수': 'const unsigned int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Player.cpp
+  Picking_Rect.cpp
+  Owl.cpp
+  Normal_Bullet.cpp
+  MouseUI.cpp
+c:\users\user\desktop\team3d\client\private\mouseui.cpp(58): warning C4244: '=': 'LONG'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\mouseui.cpp(59): warning C4244: '=': 'LONG'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  MiniMapView.cpp
+  MiniMap.cpp
+  MeshEffect.cpp
+  MapObject.cpp
+  MainApp.cpp
+c:\users\user\desktop\team3d\client\public\uistatus.h(30): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
+  Lunar_Blast.cpp
+  Lord_Balseph.cpp
+  LobbyBtn.cpp
+  Loader_etc.cpp
+  Loader_Player.cpp
+  Loader_Monster.cpp
+  Loader_MapObject.cpp
+  Loader_Map.cpp
+  Loader_Effect.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  LineSprite.cpp
+c:\users\user\desktop\team3d\client\private\linesprite.cpp(62): warning C4244: '+=': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\linesprite.cpp(71): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\linesprite.cpp(72): warning C4244: '+=': 'Engine::_double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\linesprite.cpp(81): warning C4244: '+=': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  LineMsgUI.cpp
+  Level_Tutorial.cpp
+c:\users\user\desktop\team3d\client\public\uistatus.h(30): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
+c:\users\user\desktop\team3d\client\private\level_tutorial.cpp(122): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\level_tutorial.cpp(124): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Level_Logo.cpp
+  Level_Loading.cpp
+c:\users\user\desktop\team3d\client\private\level_loading.cpp(59): warning C4244: '+=': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Level_BossLevel1.cpp
+  InfoFadeUI.cpp
+  Gun.cpp
+  Gravitas_Field.cpp
+  Fire_Deco.cpp
+  Fire_Avatar.cpp
+  FireAvatar_Rock.cpp
+  FireAvatar_InstanceRect.cpp
+c:\users\user\desktop\team3d\client\private\fireavatar_instancerect.cpp(47): warning C4244: '-=': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Explosion.cpp
+  Enemy.cpp
+c:\users\user\desktop\team3d\client\private\enemy.cpp(154): warning C4244: '-=': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Effect.cpp
+  Dot.cpp
+  Displode.cpp
+c:\users\user\desktop\team3d\client\private\displode.cpp(67): warning C4138: '*/'가 주석 외부에 있습니다.
+  Camera_MapTool.cpp
+  Camera_Default.cpp
+c:\users\user\desktop\team3d\client\private\camera_default.cpp(453): warning C4244: '+=': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\camera_default.cpp(467): warning C4244: '+=': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\camera_default.cpp(548): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\camera_default.cpp(550): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\camera_default.cpp(577): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\camera_default.cpp(579): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\camera_default.cpp(634): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\camera_default.cpp(636): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\camera_default.cpp(654): warning C4244: '+=': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\camera_default.cpp(672): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\team3d\client\private\camera_default.cpp(674): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
+c:\users\user\desktop\team3d\client\private\level_bosslevel1.cpp(29): warning C4715: 'Client::CLevel_BossLevel1::NativeConstruct': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  컴파일하고 있습니다...
+  Button_Super.cpp
+  BalsephAxe.cpp
+  BackGround.cpp
+  AutoTargetUI.cpp
+c:\users\user\desktop\team3d\client\private\autotargetui.cpp(24): warning C4244: '인수': 'const unsigned int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Annihilation.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  Fire_Effect.cpp
+  코드를 생성하고 있습니다...
+  Client.vcxproj -> C:\Users\user\Desktop\Team3D\Client\Default\..\Bin\Client.exe
+  Client.vcxproj -> ..\Bin\Client.pdb (Full PDB)

@@ -253,6 +253,21 @@
     <Filter Include="96. Imgui\02. Dot">
       <UniqueIdentifier>{071490a5-84b8-494a-b805-8580457e463a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\11.Fire\Deco">
+      <UniqueIdentifier>{2026cd5e-29d1-4d13-bba3-637a4d694c28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\11.Fire\Effect">
+      <UniqueIdentifier>{feba5c21-a5bd-43e0-8989-44e33dc90dbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04.Enemy\Fire Avatar\Instance">
+      <UniqueIdentifier>{6f2b0c8c-467c-473d-94e7-4892752b5cd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04.Enemy\Fire Avatar\Falling_Rock">
+      <UniqueIdentifier>{f871e45b-fffc-4c43-a0fe-be92e226ac21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04.Enemy\Fire Avatar\Rock">
+      <UniqueIdentifier>{a9a9a71d-00f1-48b1-8c81-811c64cfd1c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -456,17 +471,11 @@
     <ClInclude Include="..\Public\MapObject.h">
       <Filter>02. GameObject\10.MapObject</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\FireAvatar_Rock.h">
-      <Filter>02. GameObject\04.Enemy\Fire Avatar</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\LineSprite.h">
       <Filter>02. GameObject\02.UI\01.UIBattle\LineSprite</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\AutoTargetUI.h">
       <Filter>02. GameObject\02.UI\01.UIBattle\AutoTagetUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Falling_Rock.h">
-      <Filter>02. GameObject\04.Enemy\Fire Avatar</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UIFlag.h">
       <Filter>02. GameObject\02.UI\01.UIBattle\Flag</Filter>
@@ -522,9 +531,6 @@
     <ClInclude Include="..\Public\PlayerMovingHP.h">
       <Filter>02. GameObject\02.UI\01.UIBattle\HP</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Fire_Deco.h">
-      <Filter>02. GameObject\11.Fire</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Picking_Rect.h">
       <Filter>96. Imgui\01. Picking_Rect</Filter>
     </ClInclude>
@@ -542,6 +548,21 @@
     </ClInclude>
     <ClInclude Include="..\Public\Level_BossLevel1.h">
       <Filter>01. Levels\04. BossLevel1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Fire_Deco.h">
+      <Filter>02. GameObject\11.Fire\Deco</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Fire_Effect.h">
+      <Filter>02. GameObject\11.Fire\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FireAvatar_InstanceRect.h">
+      <Filter>02. GameObject\04.Enemy\Fire Avatar\Instance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Falling_Rock.h">
+      <Filter>02. GameObject\04.Enemy\Fire Avatar\Falling_Rock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FireAvatar_Rock.h">
+      <Filter>02. GameObject\04.Enemy\Fire Avatar\Rock</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -731,9 +752,6 @@
     <ClCompile Include="..\Private\MapObject.cpp">
       <Filter>02. GameObject\10.MapObject</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\FireAvatar_Rock.cpp">
-      <Filter>02. GameObject\04.Enemy\Fire Avatar</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\LineSprite.cpp">
       <Filter>02. GameObject\02.UI\01.UIBattle\LineSprite</Filter>
     </ClCompile>
@@ -754,9 +772,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\AutoTargetUI.cpp">
       <Filter>02. GameObject\02.UI\01.UIBattle\AutoTagetUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Falling_Rock.cpp">
-      <Filter>02. GameObject\04.Enemy\Fire Avatar</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UIFlag.cpp">
       <Filter>02. GameObject\02.UI\01.UIBattle\Flag</Filter>
@@ -812,9 +827,6 @@
     <ClCompile Include="..\Private\PlayerMovingHP.cpp">
       <Filter>02. GameObject\02.UI\01.UIBattle\HP</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Fire_Deco.cpp">
-      <Filter>02. GameObject\11.Fire</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Picking_Rect.cpp">
       <Filter>96. Imgui\01. Picking_Rect</Filter>
     </ClCompile>
@@ -832,6 +844,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_BossLevel1.cpp">
       <Filter>01. Levels\04. BossLevel1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Fire_Deco.cpp">
+      <Filter>02. GameObject\11.Fire\Deco</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Fire_Effect.cpp">
+      <Filter>02. GameObject\11.Fire\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FireAvatar_InstanceRect.cpp">
+      <Filter>02. GameObject\04.Enemy\Fire Avatar\Instance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Falling_Rock.cpp">
+      <Filter>02. GameObject\04.Enemy\Fire Avatar\Falling_Rock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FireAvatar_Rock.cpp">
+      <Filter>02. GameObject\04.Enemy\Fire Avatar\Rock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
