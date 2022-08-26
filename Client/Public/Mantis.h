@@ -60,7 +60,7 @@ public:
 
 private:
 	_double	m_TimeDelta = 0.0;
-	_bool m_bStartScene = false;		// 실제 게임에서는 false로 시작해야 함
+	//_bool m_bStartScene = false;		// 실제 게임에서는 false로 시작해야 함
 	_bool m_bTime = false;
 	_bool m_bStart = false;
 	_bool m_bOnce = false;

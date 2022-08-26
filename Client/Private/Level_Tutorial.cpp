@@ -79,11 +79,11 @@ HRESULT CLevel_Tutorial::NativeConstruct()
 	//if (FAILED(Ready_Layer_Mantis(TEXT("Layer_Mantis"))))
 	//	return E_FAIL;
 
-	//if (FAILED(Ready_Layer_Punisher(TEXT("Layer_Punisher"))))
-	//	return E_FAIL;
-
-	if (FAILED(Ready_Layer_Boar(TEXT("Layer_Boar"))))
+	if (FAILED(Ready_Layer_Punisher(TEXT("Layer_Punisher"))))
 		return E_FAIL;
+
+	//if (FAILED(Ready_Layer_Boar(TEXT("Layer_Boar"))))
+	//	return E_FAIL;
 
 	//if (FAILED(Ready_Layer_Practice(TEXT("Layer_Practice"))))
 	//	return E_FAIL;

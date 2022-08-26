@@ -41,6 +41,7 @@ HRESULT CMantis::NativeConstruct(void * pArg)
 
 	m_pModelCom->Set_AnimationIndex(MOVE_IDLE);
 
+	m_isBoss = true;
 	m_bOnce = false;
 	m_bStart = true;
 	m_bBattle = false;

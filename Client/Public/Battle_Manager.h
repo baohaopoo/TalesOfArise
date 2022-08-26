@@ -84,7 +84,7 @@ private:
 	_bool m_bBattle = false;
 
 	_int m_iCp = 0;
-
+	_uint m_iEnemyNum = 0;
 public:
 	virtual void Free() override;
 };

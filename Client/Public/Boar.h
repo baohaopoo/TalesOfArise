@@ -64,7 +64,7 @@ private:
 	_bool m_bStoreOnce = false;
 	_bool m_bTime = false;
 	_bool m_bStart = false;
-	_bool m_bStartScene = false;
+	//_bool m_bStartScene = false;
 	_bool m_bOnce = false;
 	_bool m_bSky = false; // 공중으로 뜨는 공격맞았다면 m_bSky=true가 된다
 	_bool m_bFront = false;

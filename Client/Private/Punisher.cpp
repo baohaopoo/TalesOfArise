@@ -40,6 +40,7 @@ HRESULT CPunisher::NativeConstruct(void * pArg)
 
 	m_pModelCom->Set_AnimationIndex(MOVE_IDLE);
 
+	m_isBoss = true;
 	m_bOnce = false;
 	m_bStart = true;
 	m_bBattle = false;
@@ -211,6 +212,8 @@ void CPunisher::Tick(_double TimeDelta)
 			{
 
 				m_bStart = true;
+
+//				m_iMotion = 2;
 
 				if (m_iMotion == 8)
 					m_iMotion = 0;
@@ -759,7 +762,7 @@ void CPunisher::AttackPattern4()
 		m_bAttackRevenge = false;
 	}
 
-	if (((_uint)m_pModelCom->Get_Animation(HANDSTAND_FOOTPRESS)->Get_TimeAcc()) == 1)
+	if (((_uint)m_pModelCom->Get_Animation(HANDSTAND_FOOTPRESS)->Get_TimeAcc()) == 2)
 	{
 		for (int i = 0; i < 6; ++i)
 		{
@@ -935,6 +938,7 @@ void CPunisher::AttackPattern6()
 		m_bOnce = true;
 		m_bCutAnimation = false;
 		m_iNextAnimationIndex = SWING_360;
+		m_bEffectOnlyOnce = true;
 	}
 
 	else if ((m_iCurrentAnimationIndex == SWING_360) && (m_pModelCom->Get_CurAnimation()->Get_MainChannel()->Get_CurrentKeyFrameIndex() >= m_pModelCom->Get_CurAnimation()->Get_MainChannel()->Get_NumeKeyFrames() - 1))
@@ -956,7 +960,7 @@ void CPunisher::AttackPattern6()
 		}
 	}
 
-	if (((_uint)m_pModelCom->Get_Animation(SWING_360)->Get_TimeAcc()) == 65)
+	if ((((_uint)m_pModelCom->Get_Animation(SWING_360)->Get_TimeAcc()) == 65) && m_bEffectOnlyOnce)
 	{
 		for (int i = 0; i < 6; ++i)
 		{
@@ -964,6 +968,8 @@ void CPunisher::AttackPattern6()
 			HE[i]->Set_Finish_Dead(false);
 			HE[i]->Set_TimeSpeed(2.f);
 		}
+
+		m_bEffectOnlyOnce = false;
 	}
 
 	if (((_uint)m_pModelCom->Get_Animation(SWING_360)->Get_TimeAcc()) == 119)

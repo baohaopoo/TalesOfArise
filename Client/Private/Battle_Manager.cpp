@@ -75,15 +75,25 @@ void CBattle_Manager::Battle_Enter(CEnemy* pEnemy)
 	}
 
 
-	_vector vPos[3];
-	vPos[0] = XMVectorSet(5.f, 0.f, 8.f, 1.f);
-	vPos[1] = XMVectorSet(8.f, 0.f, 8.f, 1.f);
-	vPos[2] = XMVectorSet(11.f, 0.f, 8.f, 1.f);
+	_vector vPos[3] = {};
+	if ((CEnemy*)pEnemy->Get_IsBoss())
+	{
+		m_iEnemyNum = 1;
+		vPos[0] = XMVectorSet(8.f, 0.f, 8.f, 1.f);
+	}
+
+	else
+	{
+		m_iEnemyNum = 3;
+		vPos[0] = XMVectorSet(5.f, 0.f, 8.f, 1.f);
+		vPos[1] = XMVectorSet(8.f, 0.f, 8.f, 1.f);
+		vPos[2] = XMVectorSet(11.f, 0.f, 8.f, 1.f);
+	}
 
 	// Player 위치 이동 여부를 판별하는 변수, 이동시 true가 된다.
 	_bool bPlayerMove = false;
 
-	for (_uint i = 0; i < 3; ++i) {
+	for (_uint i = 0; i < m_iEnemyNum; ++i) {
 
 		// 적 오브젝트 생성 요소 정의
 		CEnemy::EnemyDesc Desc;
@@ -170,15 +180,13 @@ void CBattle_Manager::Battle_Enter(CEnemy* pEnemy)
 		m_vecMonsters.push_back(pEnemyClone);
 	}
 
-
-	vPos[0] = XMVectorSet(5.f, 0.f, 2.f, 1.f);
-	vPos[1] = XMVectorSet(8.f, 0.f, 2.f, 1.f);
-	vPos[2] = XMVectorSet(11.f, 0.f, 2.f, 1.f);
-
+	//vPos[0] = XMVectorSet(5.f, 0.f, 2.f, 1.f);
+	//vPos[1] = XMVectorSet(8.f, 0.f, 2.f, 1.f);
+	//vPos[2] = XMVectorSet(11.f, 0.f, 2.f, 1.f);
 
 	_uint iCnt = 0;
 
-	vector<CEnemy*>::iterator iter = m_vecMonsters.begin() + 1;
+	vector<CEnemy*>::iterator iter = m_vecMonsters.begin();
 	for (auto pPlayer : *pPlayerManger->Get_VecPlayers())
 	{
 
@@ -204,19 +212,6 @@ void CBattle_Manager::Battle_Enter(CEnemy* pEnemy)
 
 	Safe_Release(pGameInstance);
 	Safe_Release(pPlayerManger);
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 void CBattle_Manager::Battle_End()

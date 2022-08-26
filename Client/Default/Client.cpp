@@ -83,7 +83,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 		TimeAcc += pGameInstance->Compute_TimeDelta(TEXT("Timer_Default"));
 
-		if (TimeAcc > 1.0f / 200.0f)
+		if (TimeAcc > 1.0f / 60.0f)
 		{
 			TimeAcc = 0.0;
 
