@@ -77,3 +77,14 @@ static POINT		Get_Mouse(HWND hWnd)
 
 	return pt;
 }
+
+#include <random>
+
+static float Get_RandomFloat(float fStart, float fEnd)
+{
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<float> dist(fStart, fEnd);
+
+	return dist(gen);
+}
