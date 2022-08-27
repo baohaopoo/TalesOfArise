@@ -281,7 +281,7 @@ HRESULT CMeshEffect::Render()
 	}
 	else if (m_sShader == SHADER_NONEBLUR)
 	{
-		if (FAILED(m_pModel->Render(m_pShaderCom, "g_BoneMatrices", m_EffectDesc_Mesh.iMesh, m_EffectDesc_Mesh.iShader + 19)))
+		if (FAILED(m_pModel->Render(m_pShaderCom, "g_BoneMatrices", m_EffectDesc_Mesh.iMesh, m_EffectDesc_Mesh.iShader + 21)))
 		{
 			MSG_BOX(L"Failed To CModel_Object : Render : m_pModel->Render");
 			return E_FAIL;
@@ -289,7 +289,7 @@ HRESULT CMeshEffect::Render()
 	}
 	else if (m_sShader == SHADER_NONEDIFFUSE)
 	{
-		if (FAILED(m_pModel->Render(m_pShaderCom, "g_BoneMatrices", m_EffectDesc_Mesh.iMesh, m_EffectDesc_Mesh.iShader + 38)))
+		if (FAILED(m_pModel->Render(m_pShaderCom, "g_BoneMatrices", m_EffectDesc_Mesh.iMesh, m_EffectDesc_Mesh.iShader + 42)))
 		{
 			MSG_BOX(L"Failed To CModel_Object : Render : m_pModel->Render");
 			return E_FAIL;
