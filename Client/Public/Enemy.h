@@ -159,12 +159,15 @@ protected:
 
 public:
 	MAP_TYPE Get_MapType(void) { return m_eMapType; }
-
-private:
-	MAP_TYPE m_eMapType = MAP_END;
+	void Set_CurBattlePos(_fvector vPos) { XMStoreFloat3(&m_vBattlePos, vPos); }
+	void Set_CurBattleRadius(_float fRadius) { m_fBattleRadius = fRadius; }
+	void Set_Move_In_Circle(_fvector vPos) { m_pTransformCom->Move_In_Circle(XMLoadFloat3(&m_vBattlePos), vPos, m_fBattleRadius); }
 
 protected:
-	_double m_dCurrBattleMap_Height = 0.f;
+	MAP_TYPE m_eMapType = MAP_END;
+	_float3 m_vBattlePos;
+	_float m_fBattleRadius = 0.f;
+	_double m_dCurrBattleMap_Height = 0.0;
 
 };
 

@@ -592,7 +592,7 @@ void CShionne::Jump(_double TimeDelta)
 		{
 			CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
-			CTransform* pTargetTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_TUTORIAL, TEXT("Layer_Camera"), TEXT("Com_Transform"), 0);
+			CTransform* pTargetTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_STATIC, TEXT("Layer_Camera"), TEXT("Com_Transform"), 0);
 			_vector vTargetLook = pTargetTransform->Get_State(CTransform::STATE_LOOK);
 
 			_matrix      RotationMatrix;
@@ -719,7 +719,7 @@ void CShionne::Evade()
 				else
 				{
 					CGameInstance* pGameInstance = CGameInstance::GetInstance();
-					CTransform* pTargetTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_TUTORIAL, TEXT("Layer_Camera"), TEXT("Com_Transform"), 0);
+					CTransform* pTargetTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_STATIC, TEXT("Layer_Camera"), TEXT("Com_Transform"), 0);
 					_vector vTargetLook = pTargetTransform->Get_State(CTransform::STATE_LOOK);
 
 					_matrix      RotationMatrix;
@@ -1600,7 +1600,7 @@ void CShionne::Compute_Move(_double TimeDelta)
 	Safe_AddRef(pGameInstance);
 
 
-	CTransform* pTargetTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_TUTORIAL, TEXT("Layer_Camera"), TEXT("Com_Transform"), 0);
+	CTransform* pTargetTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_STATIC, TEXT("Layer_Camera"), TEXT("Com_Transform"), 0);
 	_vector vTargetLook = pTargetTransform->Get_State(CTransform::STATE_LOOK);
 
 	_matrix      RotationMatrix;

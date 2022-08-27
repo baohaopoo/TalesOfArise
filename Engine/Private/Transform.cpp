@@ -62,6 +62,63 @@ HRESULT CTransform::Check_Right_Left(_fvector vTargetLook, _double TimeDelta)
 	return S_OK;
 }
 
+HRESULT CTransform::Move_In_Circle(_fvector vCirclePos, _fvector vPos, _float fLimitDistance)
+{
+	//_vector vMyPos = Get_State(STATE_POSITION);
+
+	//if (fLimitDistance > XMVectorGetX(XMVector3Length(  XMVectorSetY( vMyPos+vPos,0.f) - XMVectorSetY(vCirclePos,0.f))))
+	//{
+	//	Set_State(CTransform::STATE_POSITION, XMVectorSetW( vMyPos + vPos,1.f));
+
+	//}
+	_vector vMyPos = Get_State(STATE_POSITION);
+
+	if (fLimitDistance >= XMVectorGetX(XMVector3Length(XMVectorSetY(vMyPos + vPos, 0.f) - XMVectorSetY(vCirclePos, 0.f))))
+	{
+
+		Set_State(CTransform::STATE_POSITION, XMVectorSetW(vMyPos + vPos, 1.f));
+
+	}
+	//슬라이딩
+	else
+	{
+
+		_vector vDir = XMVector3Normalize(XMVectorSetY(vMyPos + vPos - vCirclePos, 0.f));
+		Set_State(CTransform::STATE_POSITION, XMVectorSetW(XMVectorSetY(vCirclePos + vDir*fLimitDistance, XMVectorGetY(vMyPos + vPos)), 1.f));
+
+
+	}
+
+
+
+
+
+	return S_OK;
+}
+
+HRESULT CTransform::Go_Straight_In_Circle(_double TimeDelta, _fvector vCirclePos, _float fLimitDistance)
+{
+
+
+
+	_vector		vPosition = Get_State(CTransform::STATE_POSITION);
+	_vector		vLook = Get_State(CTransform::STATE_LOOK);
+
+	vPosition += XMVector3Normalize(vLook) * (_float)m_TransformDesc.SpeedPerSec * (_float)TimeDelta;
+
+	_vector vDir = XMVector3Normalize(XMVectorSetY(vPosition - vCirclePos, 0.f));
+
+	if (fLimitDistance >= XMVectorGetX(XMVector3Length(vPosition - vCirclePos)))
+	{
+		Set_State(CTransform::STATE_POSITION, vPosition);
+	}
+	else {
+		Set_State(CTransform::STATE_POSITION, XMVectorSetW(XMVectorSetY(vCirclePos + vDir*fLimitDistance, XMVectorGetY(vPosition)), 1.f));
+	}
+
+	return S_OK;
+}
+
 _matrix CTransform::Get_WorldMatrix()
 {
 	return XMLoadFloat4x4(&m_WorldMatrix);

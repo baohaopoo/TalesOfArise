@@ -49,6 +49,8 @@ void CLevel_Balseph::Tick(_double TimeDelta)
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
+	m_pBattle_Manager->Tick(TimeDelta);
+
 	Safe_Release(pGameInstance);
 }
 

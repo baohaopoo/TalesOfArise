@@ -262,13 +262,16 @@ protected:
 	_bool m_bBlur = false;
 
 
-
 public:
 	void Set_CurBattleMap_Height(_double dHeight) { m_dCurrBattleMap_Height = dHeight; }
 	_double Get_CurBattleMap_Height(void) { return m_dCurrBattleMap_Height; }
+	void Set_CurBattlePos(_fvector vPos) { XMStoreFloat3(&m_vBattlePos, vPos); } //배틀장의 중심좌표 설정 .
+	void Set_CurBattleRadius(_float fRadius) { m_fBattleRadius = fRadius; }
 
 protected:
 	_double m_dCurrBattleMap_Height = 0.f;
+	_float3 m_vBattlePos; //배틀장의 중심좌표.
+	_float  m_fBattleRadius = 0.f;
 };
 
 END

@@ -208,7 +208,8 @@
     <ClInclude Include="..\Public\imstb_textedit.h" />
     <ClInclude Include="..\Public\imstb_truetype.h" />
     <ClInclude Include="..\Public\InfoFadeUI.h" />
-    <ClInclude Include="..\Public\Level_BossLevel1.h" />
+    <ClInclude Include="..\Public\Level_Balseph.h" />
+    <ClInclude Include="..\Public\Level_FireAvatar.h" />
     <ClInclude Include="..\Public\Level_Tutorial.h" />
     <ClInclude Include="..\Public\Level_Loading.h" />
     <ClInclude Include="..\public\Level_Lobby.h" />
@@ -263,6 +264,8 @@
     <ClInclude Include="..\Public\UI_Owl.h" />
     <ClInclude Include="..\Public\UI_Smash.h" />
     <ClInclude Include="..\Public\UI_SmashEffect.h" />
+    <ClInclude Include="..\Public\WayPoint.h" />
+    <ClInclude Include="..\Public\WayPoint_Pos.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -326,7 +329,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Private\InfoFadeUI.cpp" />
-    <ClCompile Include="..\Private\Level_BossLevel1.cpp" />
+    <ClCompile Include="..\Private\Level_Balseph.cpp" />
+    <ClCompile Include="..\Private\Level_FireAvatar.cpp" />
     <ClCompile Include="..\Private\Level_Tutorial.cpp" />
     <ClCompile Include="..\Private\Level_Loading.cpp" />
     <ClCompile Include="..\private\Level_Lobby.cpp" />
@@ -386,6 +390,8 @@
     <ClCompile Include="..\Private\UI_Owl.cpp" />
     <ClCompile Include="..\Private\UI_Smash.cpp" />
     <ClCompile Include="..\Private\UI_SmashEffect.cpp" />
+    <ClCompile Include="..\Private\WayPoint.cpp" />
+    <ClCompile Include="..\Private\WayPoint_Pos.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

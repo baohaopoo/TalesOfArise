@@ -18,7 +18,7 @@ public:
 	{
 		class CTransform* pParent = nullptr;
 		_uint	iCurrentIndex = -1;
-		_matrix NaviWorldMatrix = XMMatrixIdentity();
+		_matrix NaviWorldMatrix = DirectX::XMMatrixIdentity();
 	}NAVIDESC;
 
 private:
@@ -63,6 +63,11 @@ private:
 	class CVIBuffer_Triangle*		m_pVIBuffer = nullptr;
 	class CShader*					m_pShader = nullptr;
 #endif // _DEBUG
+
+
+public:
+	void Set_NaviDesc(NAVIDESC NaviDesc) { m_NaviDesc = NaviDesc; }
+	NAVIDESC Get_NaviDesc(void) { return m_NaviDesc; }
 
 private:
 	NAVIDESC m_NaviDesc;

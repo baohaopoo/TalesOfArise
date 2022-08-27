@@ -1,3 +1,181 @@
-﻿  Punisher.cpp
-  Client.vcxproj -> C:\Users\LEE JUHYUN\Documents\TalesOfArise\Client\Default\..\Bin\Client.exe
+﻿  UIGlow.cpp
+  Client.cpp
+  UIName.cpp
+  UI.cpp
+  Time_Manager.cpp
+  Shionne.cpp
+c:\users\jingu\documents\talesofarise\client\private\shionne.cpp(1543): warning C4244: '초기화 중': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\shionne.cpp(2822): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\shionne.cpp(3123): warning C4244: '=': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Mantis.cpp
+  ImGui_Manager.cpp
+c:\users\jingu\documents\talesofarise\client\private\imgui_manager.cpp(181): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\jingu\documents\talesofarise\client\private\imgui_manager.cpp(427): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\imgui_manager.cpp(433): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\imgui_manager.cpp(444): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\imgui_manager.cpp(459): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\imgui_manager.cpp(469): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\imgui_manager.cpp(475): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\imgui_manager.cpp(507): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\jingu\documents\talesofarise\client\private\imgui_manager.cpp(590): warning C4244: '+=': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\imgui_manager.cpp(603): warning C4244: '-=': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\imgui_manager.cpp(654): warning C4101: 'fDist' :참조되지 않은 지역 변수입니다.
+c:\users\jingu\documents\talesofarise\client\private\imgui_manager.cpp(1385): warning C4101: 'vPos' :참조되지 않은 지역 변수입니다.
+c:\users\jingu\documents\talesofarise\client\private\imgui_manager.cpp(1384): warning C4101: 'vDist' :참조되지 않은 지역 변수입니다.
+  Falling_Rock.cpp
+  Equipment.cpp
+  Boar.cpp
+  Battle_Manager.cpp
+c:\users\jingu\documents\talesofarise\client\private\battle_manager.cpp(126): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+c:\users\jingu\documents\talesofarise\client\private\battle_manager.cpp(130): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+c:\users\jingu\documents\talesofarise\client\private\battle_manager.cpp(137): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+c:\users\jingu\documents\talesofarise\client\private\battle_manager.cpp(141): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+  Alphen.cpp
+c:\users\jingu\documents\talesofarise\client\private\alphen.cpp(1391): warning C4244: '초기화 중': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\alphen.cpp(1573): warning C4244: '인수': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\alphen.cpp(1623): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\alphen.cpp(1833): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\alphen.cpp(1855): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\alphen.cpp(1965): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\alphen.cpp(1985): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\alphen.cpp(2069): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\alphen.cpp(3142): warning C4244: '=': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  WayPoint_Pos.cpp
+  WayPoint.cpp
+  UI_SmashEffect.cpp
+  UI_Smash.cpp
+  UI_Owl.cpp
+  UI_Manager.cpp
+  UIStatusBall.cpp
+c:\users\jingu\documents\talesofarise\client\private\uistatusball.cpp(47): warning C4305: '=': 'double'에서 'Engine::_float'(으)로 잘립니다.
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  UIStatus.cpp
+c:\users\jingu\documents\talesofarise\client\public\uistatus.h(30): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
+c:\users\jingu\documents\talesofarise\client\private\uistatus.cpp(87): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\uistatus.cpp(91): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  UINumber.cpp
+  UILIne.cpp
+  UIFlag.cpp
+  UIExplain.cpp
+  UIEmblem.cpp
+  UICharacter.cpp
+  UIBillBoard.cpp
+  UIBar.cpp
+c:\users\jingu\documents\talesofarise\client\private\uibar.cpp(63): warning C4244: '=': 'Engine::_int'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\uibar.cpp(69): warning C4244: '-=': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  UIBackground.cpp
+  TutorialMsg.cpp
+  TutoLineMsg.cpp
+  Sword.cpp
+  Spear_Sweep.cpp
+  SmashNum.cpp
+  Sky.cpp
+  Sample.cpp
+c:\users\jingu\documents\talesofarise\client\private\sample.cpp(186): warning C4244: '인수': 'physx::PxExtended'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\sample.cpp(218): warning C4244: '인수': 'physx::PxExtended'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\sample.cpp(225): warning C4244: '인수': 'physx::PxExtended'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\sample.cpp(237): warning C4244: '인수': 'physx::PxExtended'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\sample.cpp(275): warning C4244: '인수': 'physx::PxExtended'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Rect_Effect.cpp
+c:\users\jingu\documents\talesofarise\client\private\rect_effect.cpp(69): warning C4244: '-=': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Punisher.cpp
+  Practice.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  Point_Effect.cpp
+  Player_Manager.cpp
+  PlayerMovingHP.cpp
+c:\users\jingu\documents\talesofarise\client\private\playermovinghp.cpp(108): warning C4244: '=': 'Engine::_int'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\playermovinghp.cpp(113): warning C4244: '=': 'Engine::_int'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\playermovinghp.cpp(120): warning C4244: '=': 'Engine::_int'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\playermovinghp.cpp(122): warning C4244: '=': 'Engine::_int'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\playermovinghp.cpp(144): warning C4244: '-=': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\playermovinghp.cpp(199): warning C4244: '인수': 'const unsigned int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Player.cpp
+  Picking_Rect.cpp
+  Owl.cpp
+  Normal_Bullet.cpp
+  MouseUI.cpp
+c:\users\jingu\documents\talesofarise\client\private\mouseui.cpp(58): warning C4244: '=': 'LONG'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\mouseui.cpp(59): warning C4244: '=': 'LONG'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  MiniMapView.cpp
+  MiniMap.cpp
+  MeshEffect.cpp
+  MapObject.cpp
+  MainApp.cpp
+c:\users\jingu\documents\talesofarise\client\public\uistatus.h(30): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
+  Lunar_Blast.cpp
+  Lord_Balseph.cpp
+  LobbyBtn.cpp
+  Loader_Player.cpp
+  Loader_Monster.cpp
+  Loader_MapObject.cpp
+  Loader_Map.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  Loader_Effect.cpp
+  LineSprite.cpp
+c:\users\jingu\documents\talesofarise\client\private\linesprite.cpp(62): warning C4244: '+=': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\linesprite.cpp(71): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\linesprite.cpp(72): warning C4244: '+=': 'Engine::_double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\linesprite.cpp(81): warning C4244: '+=': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  LineMsgUI.cpp
+  LightDepth.cpp
+  Level_Tutorial.cpp
+c:\users\jingu\documents\talesofarise\client\public\uistatus.h(30): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
+c:\users\jingu\documents\talesofarise\client\private\level_tutorial.cpp(125): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\level_tutorial.cpp(127): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Level_Logo.cpp
+  Level_FireAvatar.cpp
+  Level_Balseph.cpp
+c:\users\jingu\documents\talesofarise\client\private\level_balseph.cpp(41): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+c:\users\jingu\documents\talesofarise\client\private\level_balseph.cpp(133): warning C4305: '인수': 'double'에서 'Engine::_float'(으)로 잘립니다.
+c:\users\jingu\documents\talesofarise\client\private\level_balseph.cpp(134): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+c:\users\jingu\documents\talesofarise\client\private\level_balseph.cpp(135): warning C4305: '인수': 'double'에서 'Engine::_float'(으)로 잘립니다.
+  InfoFadeUI.cpp
+  Gun.cpp
+  Gravitas_Field.cpp
+  Fire_Effect.cpp
+  Fire_Deco.cpp
+  Fire_Avatar.cpp
+  FireAvatar_Rock.cpp
+  FireAvatar_InstanceRect.cpp
+c:\users\jingu\documents\talesofarise\client\private\fireavatar_instancerect.cpp(47): warning C4244: '-=': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Explosion.cpp
+  Enemy.cpp
+c:\users\jingu\documents\talesofarise\client\private\enemy.cpp(132): warning C4244: '=': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\enemy.cpp(142): warning C4244: '-=': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Effect.cpp
+  Dot.cpp
+  코드를 생성하고 있습니다...
+c:\users\jingu\documents\talesofarise\client\private\level_balseph.cpp(43): warning C4715: 'Client::CLevel_Balseph::NativeConstruct': 모든 제어 경로에서 값을 반환하지는 않습니다.
+c:\users\jingu\documents\talesofarise\client\private\level_fireavatar.cpp(26): warning C4715: 'Client::CLevel_FireAvatar::NativeConstruct': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  컴파일하고 있습니다...
+  Displode.cpp
+c:\users\jingu\documents\talesofarise\client\private\displode.cpp(67): warning C4138: '*/'가 주석 외부에 있습니다.
+  Camera_MapTool.cpp
+  Camera_Default.cpp
+c:\users\jingu\documents\talesofarise\client\private\camera_default.cpp(450): warning C4244: '+=': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\camera_default.cpp(464): warning C4244: '+=': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\camera_default.cpp(545): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\camera_default.cpp(547): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\camera_default.cpp(574): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\camera_default.cpp(576): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\camera_default.cpp(607): warning C4244: '+=': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\camera_default.cpp(608): warning C4244: '+=': 'Engine::_double'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\camera_default.cpp(592): warning C4101: 'vCameraPos' :참조되지 않은 지역 변수입니다.
+c:\users\jingu\documents\talesofarise\client\private\camera_default.cpp(745): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\camera_default.cpp(747): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\camera_default.cpp(767): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jingu\documents\talesofarise\client\private\camera_default.cpp(769): warning C4244: '인수': 'Engine::_double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Button_Super.cpp
+  Bullet.cpp
+  BalsephAxe.cpp
+  BackGround.cpp
+  AutoTargetUI.cpp
+c:\users\jingu\documents\talesofarise\client\private\autotargetui.cpp(24): warning C4244: '인수': 'const unsigned int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Annihilation.cpp
+  코드를 생성하고 있습니다...
+  Client.vcxproj -> C:\Users\JinGu\Documents\TalesOfArise\Client\Default\..\Bin\Client.exe
   Client.vcxproj -> ..\Bin\Client.pdb (Full PDB)

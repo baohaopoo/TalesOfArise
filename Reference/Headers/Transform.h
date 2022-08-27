@@ -83,6 +83,8 @@ public:
 	HRESULT Chase(_fvector vTargetPos, _double TimeDelta);
 	HRESULT Set_WorldMatrix(_fmatrix WorldMatrix);
 	HRESULT Check_Right_Left(_fvector vTargetLook, _double TimeDelta);
+	HRESULT Move_In_Circle(_fvector vCirclePos, _fvector vPos, _float fLimitDistance);
+	HRESULT Go_Straight_In_Circle(_double TimeDelta, _fvector vCirclePos, _float fLimitDistance);
 	_bool FrontPlayer(_fvector vTargetPos);				// 적 기준으로 플레이어가 앞에서 때리는지 뒤에서 때리는지 판별하기 위한 함수
 	_bool LeftPlayer(_fvector vTargetPos);				// 적 기준으로 플레이어가 왼쪽에 있는지 오른쪽에 있는지 판별하기 위한 함수
 

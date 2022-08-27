@@ -52,6 +52,7 @@ public:
 	void Camera_Field(_double TimeDelta);
 	void Camera_Battle(_double TimeDelta);
 	void Camera_BattleEnter(_double TimeDelta);
+	void Camera_Change(_double TimeDelta);
 	void Set_CameraState(CAMERA_STATE eCameraState) { m_eCameraState = eCameraState; }
 
 
@@ -75,7 +76,11 @@ public:
 	void Set_TargetDist(_float dist) { m_fTargetDist = dist; }
 	void Set_SpringConstant(_float spring) { m_fSpringConstant = spring; }
 	void SnapToIdeal();
+	void SnapToIdealAt();
 	void SnapToBattleStart();
+
+	//공전 카메라
+
 
 
 
@@ -83,6 +88,10 @@ public:
 public:
 	//전투관련
 	void Set_PreTargetPos(_fvector vPos) { XMStoreFloat3(&m_vPreTargetPos, vPos); }
+
+
+	//체인지관련
+	void Set_NewTarget(_bool bNewTarget) { m_bNewTarget = bNewTarget; }
 
 public:
 	static CCamera_Default* Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut);
@@ -173,8 +182,12 @@ private:
 
 
 
-
-
+	//카메라 체인지 관련
+	_bool m_bNewTarget = false;
+	_float m_fCameraChangeAtLerp = 0.f;
+	_float m_fCameraChangeEyeLerp = 0.f;
+	_float3 m_vCameraChangeStartAt;
+	_float3 m_vCameraChangeStartEye;
 
 	//새로운 카메라
 
@@ -199,7 +212,18 @@ private:
 	_float m_fSpringConstant = 64.f;
 
 	// 스프링 상수(높을 수록 복원력이 강하다)
-	_float m_fSpringConstantAt = 16.f;
+	_float m_fSpringConstantAt = 32.f;
+
+
+
+	//공전 카메라
+	_float3 m_vOffSet;
+	_float3 m_vUp = _float3(0.f, 1.f, 0.f);
+	_float m_fPitchSpeed = 0.f;
+	_float m_fYawSpeed = 0.f;
+
+	_bool m_bInitializeSpherical = false;
+
 
 };
 

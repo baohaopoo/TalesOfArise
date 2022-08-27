@@ -22,7 +22,7 @@ public:
 	virtual ~CModel() = default;
 
 public:
-	virtual HRESULT NativeConstruct_Prototype(TYPE eType, const char* pModelFilePath, const char* pModelFileName, _fmatrix PivotMatrix);
+	virtual HRESULT NativeConstruct_Prototype(TYPE eType, const char* pModelFilePath, const char* pModelFileName, _fmatrix PivotMatrix, _bool bMakeDat = true);
 	virtual HRESULT NativeConstruct(void* pArg) override;
 	void Update(_double TimeDelta, _bool bRoof);
 	void Monster_Update(_double TimeDelta, _bool bRoof);
@@ -113,7 +113,7 @@ private:
 	CHierarchyNode* m_pRootNode = nullptr;
 
 public:
-	static CModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext, TYPE eType, const char* pModelFilePath, const char* pModelFileName, _fmatrix PivotMatrix = XMMatrixIdentity());
+	static CModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext, TYPE eType, const char* pModelFilePath, const char* pModelFileName, _fmatrix PivotMatrix = XMMatrixIdentity(), _bool bMakeDat = true);
 	virtual CComponent* Clone(void* pArg);
 	virtual void Free() override;
 };
