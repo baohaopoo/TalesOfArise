@@ -75,6 +75,9 @@ public:
 	virtual HRESULT Render() override;
 	virtual HRESULT Render_LightDepth() override;
 
+public:
+	CNavigation* Get_NaviCom(void) { return m_pNaviCom; }
+
 protected:
 	CRenderer*			m_pRendererCom = nullptr;
 	CShader*			m_pShaderCom = nullptr;

@@ -59,7 +59,7 @@ void PlayerMovingHP::Tick(_double TimeDelta)
 
 	//카메라랑 AUTO tARGET의 위치 받아와서 거리에 따라 auto target을 그렸다 껐다. 하자.
 
-	CTransform* CameraTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_TUTORIAL, TEXT("Layer_Camera"), TEXT("Com_Transform"));
+	CTransform* CameraTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_STATIC, TEXT("Layer_Camera"), TEXT("Com_Transform"));
 
 	_vector      vCameraForward = CameraTransform->Get_State(CTransform::STATE_LOOK);
 	_vector		 vCameraPosition = CameraTransform->Get_State(CTransform::STATE_POSITION);

@@ -45,7 +45,7 @@ CModel::CModel(const CModel& rhs)
 		Safe_AddRef(pAnimation);
 }
 
-HRESULT CModel::NativeConstruct_Prototype(TYPE eType, const char* pModelFilePath, const char* pModelFileName, _fmatrix PivotMatrix)
+HRESULT CModel::NativeConstruct_Prototype(TYPE eType, const char* pModelFilePath, const char* pModelFileName, _fmatrix PivotMatrix, _bool bMakeDat)
 {
 	char			szFullPath[MAX_PATH] = "";
 
@@ -120,11 +120,14 @@ HRESULT CModel::NativeConstruct_Prototype(TYPE eType, const char* pModelFilePath
 		}
 		if (m_eType != TYPE_EFFECT)
 		{
-			if (FAILED(Save_Data(datFullPath))) {
-				MSG_BOX(L"Failed to Save FBX at .dat File");
-				return E_FAIL;
+			// dat 파일을 만드는 옵션이 켜져 있을 경우에
+			if (bMakeDat) {
+				// dat 파일을 만든다.
+				if (FAILED(Save_Data(datFullPath))) {
+					MSG_BOX(L"Failed to Save FBX at .dat File");
+					return E_FAIL;
+				}
 			}
-
 		}
 	}
 	else { //2진화 파일이 있으면
@@ -856,10 +859,10 @@ HRESULT CModel::Set_HierarchyNodes()
 	return S_OK;
 }
 
-CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext, TYPE eType, const char* pModelFilePath, const char* pModelFileName, _fmatrix PivotMatrix)
+CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext, TYPE eType, const char* pModelFilePath, const char* pModelFileName, _fmatrix PivotMatrix, _bool bMakeDat)
 {
 	CModel*	pInstance = new CModel(pDevice, pDeviceContext);
-	if (FAILED(pInstance->NativeConstruct_Prototype(eType, pModelFilePath, pModelFileName, PivotMatrix)))
+	if (FAILED(pInstance->NativeConstruct_Prototype(eType, pModelFilePath, pModelFileName, PivotMatrix, bMakeDat)))
 	{
 		MSG_BOX(L"CModel -> Create -> pInstance->NativeConstruct_Prototype");
 		Safe_Release(pInstance);

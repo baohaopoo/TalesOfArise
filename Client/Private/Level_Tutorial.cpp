@@ -106,6 +106,9 @@ HRESULT CLevel_Tutorial::NativeConstruct()
 	if (FAILED(Ready_Map_Battle04(XMVectorSet(2000.f, 0.f, 0.f, 1.f))))
 		return E_FAIL;
 
+	if (FAILED(Ready_WatPoint(LEVEL_LORD_BALSEPH, XMVectorSet(-141.27f, -11.068f, -16.93f, 1.f))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -385,7 +388,7 @@ HRESULT CLevel_Tutorial::Ready_Layer_Camera(const _tchar * pLayerTag)
 	CameraDesc.fFovy = XMConvertToRadians(60.0f);
 	CameraDesc.fAspect = (_float)g_iWinCX / g_iWinCY;
 
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, pLayerTag, TEXT("Prototype_GameObject_Camera_Default"), &CameraDesc))
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, pLayerTag, TEXT("Prototype_GameObject_Camera_Default"), &CameraDesc))
 		return E_FAIL;
 
 	//for.lightdepth
@@ -400,7 +403,7 @@ HRESULT CLevel_Tutorial::Ready_Layer_Camera(const _tchar * pLayerTag)
 	CameraDesc.fFovy = XMConvertToRadians(120.f);
 	CameraDesc.fAspect = (_float)g_iLightCX / g_iLightCY;
 
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, pLayerTag, TEXT("Prototype_GameObject_LightDepth"), &CameraDesc))
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, pLayerTag, TEXT("Prototype_GameObject_LightDepth"), &CameraDesc))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
@@ -2117,13 +2120,9 @@ HRESULT CLevel_Tutorial::Ready_Map(const char * pModelFilePath, const char * pMo
 
 			// WayPoint Desc값을 채운다.
 			CWayPoint::WayPoint_DESC WayPointDesc;
-			WayPointDesc.iPointNumber = iWayPointNumber++;
 
 			// 위치 설정
 			memcpy(&WayPointDesc.fPos, &Desc.TransformMatrix.m[CTransform::STATE_POSITION][0], sizeof(_float3));
-
-			// 방향 설정
-			memcpy(&WayPointDesc.fDir, &Desc.TransformMatrix.m[CTransform::STATE_LOOK][0], sizeof(_float3));
 
 			CWayPoint* pWayPoint = dynamic_cast<CWayPoint*>(pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, LAYER_MAPTOOL_WayPoints, TEXT("Prototype_GameObject_WayPoint"), &WayPointDesc));
 			m_vWayPoints.push_back(pWayPoint);
@@ -2139,6 +2138,26 @@ HRESULT CLevel_Tutorial::Ready_Map(const char * pModelFilePath, const char * pMo
 	CloseHandle(hFile);
 
 	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLevel_Tutorial::Ready_WatPoint(LEVEL eNextLevel, _vector vPos)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CWayPoint::WayPoint_DESC WayDesc;
+	WayDesc.eLevel = LEVEL_LORD_BALSEPH;		// 이동할다음 레벨
+	XMStoreFloat3(&WayDesc.fPos, vPos);			// 오브젝트 생성위치
+	WayDesc.pTargetPlayer = m_pPlayerAlphen;	// 타겟이 되는 플레이어 오브젝트 정보
+
+	CWayPoint* pWayPoint = dynamic_cast<CWayPoint*>(pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, LAYER_WayPoints, TEXT("Prototype_GameObject_WayPoint"), &WayDesc));
+	pWayPoint->Set_TargetPlayer(m_pPlayerAlphen);
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	if (nullptr == pWayPoint)
+		return E_FAIL;
 
 	return S_OK;
 }

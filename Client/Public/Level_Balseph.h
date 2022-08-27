@@ -13,11 +13,11 @@ END
 
 BEGIN(Client)
 
-class CLevel_BossLevel1 final : public CLevel
+class CLevel_Balseph final : public CLevel
 {
 private:
-	explicit CLevel_BossLevel1(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut);
-	virtual ~CLevel_BossLevel1() = default;
+	explicit CLevel_Balseph(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut);
+	virtual ~CLevel_Balseph() = default;
 
 public:
 	virtual HRESULT NativeConstruct() override;
@@ -27,18 +27,14 @@ public:
 private:
 	HRESULT Ready_Lights();
 	HRESULT Ready_Layer_Balseph(const _tchar * pLayerTag);
-	HRESULT Ready_Layer_FireAvatar(const _tchar * pLayerTag);
 	HRESULT Ready_Layer_Fire_Deco(const _tchar * pLayerTag);
 
-	
-private:
-	HRESULT Ready_Map(const char * pModelFilePath, const char * pModelFileName, _vector vCenterPos);
-	HRESULT Ready_Map_Battle02(_vector vCenterPos);		// CenterPos를 기준으로 Battle02의 오브젝트들을 생성
-	HRESULT Ready_Map_Battle04(_vector vCenterPos);		// CenterPos를 기준으로 Battle04의 오브젝트들을 생성
+	HRESULT Ready_Layer_Player(const _tchar* pLayerTag);
 
 private:
-	_float4x4  matBattle02World;		// Prototype_Component_Model_Map_GrandYork_Battle_02
-	_float4x4  matBattle04World;		// Prototype_Component_Model_Map_GrandYork_Battle_04
+	HRESULT Ready_Map(const char * pModelFilePath, const char * pModelFileName, _vector vCenterPos);
+	HRESULT Ready_WatPoint(LEVEL eNextLevel, _vector vPos);
+	HRESULT Ready_WatPoint_Pos(_vector vPos, _vector vMovePos);
 
 private:
 	vector<CMapObject*>	m_vMapObject;	// 배치된 맵 오브젝트 vector
@@ -79,7 +75,7 @@ private:
 	float HitPos, DamagePos;
 	bool m_bFirstBattleUI = false;
 public:
-	static CLevel_BossLevel1* Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut);
+	static CLevel_Balseph* Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut);
 	virtual void Free() override;
 };
 

@@ -157,6 +157,9 @@ void CObject_Manager::Tick(_double TimeDelta)
 {
 	for (_uint i = 0; i < m_iNumLevels; ++i)
 	{
+		if (m_pLayers[i].empty())
+			continue;
+
 		for (auto& Pair : m_pLayers[i])
 		{
 			Pair.second->Tick(TimeDelta);
@@ -168,6 +171,9 @@ void CObject_Manager::LateTick(_double TimeDelta)
 {
 	for (_uint i = 0; i < m_iNumLevels; ++i)
 	{
+		if (m_pLayers[i].empty())
+			continue;
+
 		for (auto& Pair : m_pLayers[i])
 		{
 			Pair.second->LateTick(TimeDelta);

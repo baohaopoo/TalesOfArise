@@ -1,31 +1,33 @@
 #include "stdafx.h"
-#include "..\Public\WayPoint.h"
+#include "..\Public\WayPoint_Pos.h"
 #include "Player.h"
 
 #include "Level_Loading.h"
+#include "Navigation.h"
+#include "Player.h"
 
-CWayPoint::CWayPoint(ID3D11Device * pDevice, ID3D11DeviceContext * pDeviceContext)
+CWayPoint_Pos::CWayPoint_Pos(ID3D11Device * pDevice, ID3D11DeviceContext * pDeviceContext)
 	: CGameObject(pDevice, pDeviceContext)
 {
 }
 
-CWayPoint::CWayPoint(const CWayPoint & rhs)
+CWayPoint_Pos::CWayPoint_Pos(const CWayPoint_Pos & rhs)
 	: CGameObject(rhs)
 {
 }
 
-HRESULT CWayPoint::NativeConstruct_Prototype()
+HRESULT CWayPoint_Pos::NativeConstruct_Prototype()
 {
 	if (FAILED(__super::NativeConstruct_Prototype()))
 	{
-		MSG_BOX(L"CWayPoint -> NativeConstruct_Prototype -> NativeConstruct_Prototype");
+		MSG_BOX(L"CWayPoint_Pos -> NativeConstruct_Prototype -> NativeConstruct_Prototype");
 		return E_FAIL;
 	}
 
 	return S_OK;
 }
 
-HRESULT CWayPoint::NativeConstruct(void * pArg, CTransform::TRANSFORMDESC* pTransformDesc)
+HRESULT CWayPoint_Pos::NativeConstruct(void * pArg, CTransform::TRANSFORMDESC* pTransformDesc)
 {
 	CTransform::TRANSFORMDESC		TransformDesc;
 	ZeroMemory(&TransformDesc, sizeof(CTransform::TRANSFORMDESC));
@@ -42,7 +44,7 @@ HRESULT CWayPoint::NativeConstruct(void * pArg, CTransform::TRANSFORMDESC* pTran
 	return S_OK;
 }
 
-void CWayPoint::Tick(_double TimeDelta)
+void CWayPoint_Pos::Tick(_double TimeDelta)
 {
 	__super::Tick(TimeDelta);
 
@@ -54,7 +56,7 @@ void CWayPoint::Tick(_double TimeDelta)
 	Check_TargetPlayer_Collision();
 }
 
-void CWayPoint::LateTick(_double TimeDelta)
+void CWayPoint_Pos::LateTick(_double TimeDelta)
 {
 	__super::LateTick(TimeDelta);
 
@@ -68,7 +70,7 @@ void CWayPoint::LateTick(_double TimeDelta)
 #endif // _DEBUG
 }
 
-HRESULT CWayPoint::Render()
+HRESULT CWayPoint_Pos::Render()
 {
 #ifdef _DEBUG
 	m_pSphereCom->Render();
@@ -77,7 +79,7 @@ HRESULT CWayPoint::Render()
 	return S_OK;
 }
 
-HRESULT CWayPoint::SetUp_Components(void * pArg)
+HRESULT CWayPoint_Pos::SetUp_Components(void * pArg)
 {
 	if (nullptr == pArg)
 		return E_FAIL;
@@ -87,8 +89,7 @@ HRESULT CWayPoint::SetUp_Components(void * pArg)
 	// 위치 설정
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(Desc.fPos.x, Desc.fPos.y, Desc.fPos.z, 1.f));
 
-	// 다음 레벨 설정
-	m_eNextLevel = Desc.eLevel;
+	m_fMovePos = Desc.fMovePos;
 
 	/* For.Com_Renderer */
 	if (FAILED(__super::SetUp_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -109,81 +110,65 @@ HRESULT CWayPoint::SetUp_Components(void * pArg)
 	return S_OK;
 }
 
-HRESULT CWayPoint::SetUp_ConstantTable()
+HRESULT CWayPoint_Pos::SetUp_ConstantTable()
 {
 
 	return S_OK;
 }
 
-HRESULT CWayPoint::Check_TargetPlayer_Collision(void)
+HRESULT CWayPoint_Pos::Check_TargetPlayer_Collision(void)
 {
 	if (m_bMove)
 		return S_OK;
 
 	if (nullptr == m_pTargetPlayer) {
-		MSG_BOX(L"CWayPoint : No Player Detected!");
+		MSG_BOX(L"CWayPoint_Pos : No Player Detected!");
 		return E_FAIL;
 	}
 
 	CCollider* pPlayer_Collider = dynamic_cast<CCollider*>(m_pTargetPlayer->Get_Component(TEXT("Com_SPHERE_Interaction")));
 
 	if (nullptr == pPlayer_Collider) {
-		MSG_BOX(L"CWayPoint : No Collider Detected!");
+		MSG_BOX(L"CWayPoint_Pos : No Collider Detected!");
 		return E_FAIL;
 	}
 
 	// 자신의 충돌체와 플레이어의 상호작용 충돌체가 충돌했을 경우
 	if (m_pSphereCom->Collision(pPlayer_Collider)) {
+		dynamic_cast<CTransform*>(m_pTargetPlayer->Get_Component(TEXT("Com_Transform")))->Move(m_fMovePos);
 
-		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+		CNavigation* pNaviCom = m_pTargetPlayer->Get_NaviCom();
 
-		switch (m_eNextLevel)
-		{
-		case Client::LEVEL_TUTORIAL:
-			break;
-		case Client::LEVEL_LORD_BALSEPH:
-			pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pDeviceContext, LEVEL_LORD_BALSEPH));
-			m_bMove = true;
-			break;
-		case Client::LEVEL_FIRE_AVATAR:
-			pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pDeviceContext, LEVEL_FIRE_AVATAR));
-			m_bMove = true;
-			break;
-		case Client::LEVEL_END:
-			break;
-		default:
-			break;
-		}
-
-		RELEASE_INSTANCE(CGameInstance);
+		pNaviCom->Find_My_Cell(XMVectorSet(m_fMovePos.x, m_fMovePos.y, m_fMovePos.z, 1.f));
+		m_bMove = true;
 	}
 
 	return S_OK;
 }
 
-CWayPoint * CWayPoint::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pDeviceContext)
+CWayPoint_Pos * CWayPoint_Pos::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pDeviceContext)
 {
-	CWayPoint* pInstance = new CWayPoint(pDevice, pDeviceContext);
+	CWayPoint_Pos* pInstance = new CWayPoint_Pos(pDevice, pDeviceContext);
 	if (FAILED(pInstance->NativeConstruct_Prototype()))
 	{
-		MSG_BOX(L"CWayPoint -> Create -> pInstance->NativeConstruct_Prototype");
+		MSG_BOX(L"CWayPoint_Pos -> Create -> pInstance->NativeConstruct_Prototype");
 		Safe_Release(pInstance);
 	}
 	return pInstance;
 }
 
-CGameObject * CWayPoint::Clone(void * pArg)
+CGameObject * CWayPoint_Pos::Clone(void * pArg)
 {
-	CWayPoint* pInstance = new CWayPoint(*this);
+	CWayPoint_Pos* pInstance = new CWayPoint_Pos(*this);
 	if (FAILED(pInstance->NativeConstruct(pArg)))
 	{
-		MSG_BOX(L"CWayPoint -> Clone -> pInstance->NativeConstruct");
+		MSG_BOX(L"CWayPoint_Pos -> Clone -> pInstance->NativeConstruct");
 		Safe_Release(pInstance);
 	}
 	return pInstance;
 }
 
-void CWayPoint::Free()
+void CWayPoint_Pos::Free()
 {
 	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pSphereCom);

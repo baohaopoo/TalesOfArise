@@ -48,11 +48,11 @@ unsigned int APIENTRY ThreadEntryFunc_Map(void* pArg)
 		pLoader->Loading_ForTutorialLevel();
 		break;
 
-	case LEVEL_BOSS1:
+	case LEVEL_LORD_BALSEPH:
 		pLoader->Loading_ForBoss1Level();
 		break;
 
-	case LEVEL_BOSS2:
+	case LEVEL_FIRE_AVATAR:
 		pLoader->Loading_ForBoss2Level();
 		break;
 	}
@@ -149,6 +149,42 @@ HRESULT CLoader_Map::Loading_Tutorial_Model()
 		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Bin/Resources/UMap/Map_GrandYork/", "Map_GrandYork_NaviMap.fbx", PivotMatrix))))
 		return E_FAIL;
 
+
+
+	lstrcpy(m_szLoading, L"Loader_Map : Prototype_Component_Model_Map_Boss_Balseph");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Map_Boss_Balseph"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM,
+			"../Bin/Resources/UMap/Map_GrandYork/",
+			"Map_Boss_Balseph.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoading, L"Loader_Map : Prototype_Component_Model_Map_Boss_Balseph_NaviMap");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Map_Boss_Balseph_NaviMap"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM,
+			"../Bin/Resources/UMap/Map_GrandYork/",
+			"Map_Boss_Balseph_NaviMap.fbx", PivotMatrix))))
+		return E_FAIL;
+
+
+
+
+	//lstrcpy(m_szLoading, TEXT("Map_Boss_FireAvatar를 로드중입니다."));
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Map_Boss_FireAvatar"),
+	//	CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM,
+	//		"../Bin/Resources/UMap/Map_GrandYork/",
+	//		"Map_Boss_FireAvatar.fbx", PivotMatrix))))
+	//	return E_FAIL;
+
+	//lstrcpy(m_szLoading, TEXT("Map_Boss_FireAvatar_NaviMap을 로드중입니다."));
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Map_Boss_FireAvatar_NaviMap"),
+	//	CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM,
+	//		"../Bin/Resources/UMap/Map_GrandYork/",
+	//		"Map_Boss_FireAvatar_NaviMap.fbx", PivotMatrix))))
+	//	return E_FAIL;
+
+
+
+
 	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
@@ -199,12 +235,12 @@ HRESULT CLoader_Map::Loading_Boss1_Model()
 	PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
 
 	lstrcpy(m_szLoading, L"Loader_Map : Prototype_Component_Model_Map_Boss_Balseph");
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BOSS1, TEXT("Prototype_Component_Model_Map_Boss_Balseph"),
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LORD_BALSEPH, TEXT("Prototype_Component_Model_Map_Boss_Balseph"),
 		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Bin/Resources/UMap/Map_GrandYork/", "Map_Boss_Balseph.fbx", PivotMatrix))))
 		return E_FAIL;
 
 	lstrcpy(m_szLoading, L"Loader_Map : Prototype_Component_Model_Map_Boss_Balseph_NaviMap");
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BOSS1, TEXT("Prototype_Component_Model_Map_Boss_Balseph_NaviMap"),
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LORD_BALSEPH, TEXT("Prototype_Component_Model_Map_Boss_Balseph_NaviMap"),
 		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Bin/Resources/UMap/Map_GrandYork/", "Map_Boss_Balseph_NaviMap.fbx", PivotMatrix))))
 		return E_FAIL;
 
@@ -250,12 +286,12 @@ HRESULT CLoader_Map::Loading_Boss2_Model()
 	PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
 
 	lstrcpy(m_szLoading, L"Loader_Map : Prototype_Component_Model_Map_GrandYork_HeightMapMesh");
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BOSS2, TEXT("Prototype_Component_Model_Map_Boss_FireAvatar"),
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_FIRE_AVATAR, TEXT("Prototype_Component_Model_Map_Boss_FireAvatar"),
 		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Bin/Resources/UMap/Map_GrandYork/", "Map_Boss_FireAvatar.fbx", PivotMatrix))))
 		return E_FAIL;
 
 	lstrcpy(m_szLoading, L"Loader_Map : Prototype_Component_Model_Map_Boss_FireAvatar_NaviMap");
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_BOSS2, TEXT("Prototype_Component_Model_Map_Boss_FireAvatar_NaviMap"),
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_FIRE_AVATAR, TEXT("Prototype_Component_Model_Map_Boss_FireAvatar_NaviMap"),
 		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Bin/Resources/UMap/Map_GrandYork/", "Map_Boss_FireAvatar_NaviMap.fbx", PivotMatrix))))
 		return E_FAIL;
 

@@ -31,12 +31,6 @@
     <Filter Include="01. Levels\03. Tutorial">
       <UniqueIdentifier>{1ecb7871-83a4-41c8-b36d-f8e2d0e0907c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Levels\04. BossLevel1">
-      <UniqueIdentifier>{d3522e6b-8af2-48b7-8e82-c0dca50e71d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Levels\05. BossLevel2">
-      <UniqueIdentifier>{46e94aaa-d69e-4a20-9a5b-a0e508c18848}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01. Levels\02. Lobby">
       <UniqueIdentifier>{c12455ef-6cfe-499f-b791-86e26c78f8d9}</UniqueIdentifier>
     </Filter>
@@ -267,6 +261,21 @@
     </Filter>
     <Filter Include="02. GameObject\04.Enemy\Fire Avatar\Rock">
       <UniqueIdentifier>{a9a9a71d-00f1-48b1-8c81-811c64cfd1c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\10.MapObject\02. WayPoint">
+      <UniqueIdentifier>{87ecaea2-2e94-4513-8e84-e54b102ffeea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\05. Boss_FireAvatar">
+      <UniqueIdentifier>{46e94aaa-d69e-4a20-9a5b-a0e508c18848}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\04. Boss_Balseph">
+      <UniqueIdentifier>{d3522e6b-8af2-48b7-8e82-c0dca50e71d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\10.MapObject\02. WayPoint\01. MoveLevel">
+      <UniqueIdentifier>{a262c5be-35f5-4ccd-8c73-8d3b5f1bf830}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\10.MapObject\02. WayPoint\02. MovePos">
+      <UniqueIdentifier>{1329e33d-722f-445f-be5f-2cec6831c8b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -546,9 +555,6 @@
     <ClInclude Include="..\Public\Dot.h">
       <Filter>96. Imgui\02. Dot</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Level_BossLevel1.h">
-      <Filter>01. Levels\04. BossLevel1</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Fire_Deco.h">
       <Filter>02. GameObject\11.Fire\Deco</Filter>
     </ClInclude>
@@ -563,6 +569,18 @@
     </ClInclude>
     <ClInclude Include="..\Public\FireAvatar_Rock.h">
       <Filter>02. GameObject\04.Enemy\Fire Avatar\Rock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Balseph.h">
+      <Filter>01. Levels\04. Boss_Balseph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_FireAvatar.h">
+      <Filter>01. Levels\05. Boss_FireAvatar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WayPoint.h">
+      <Filter>02. GameObject\10.MapObject\02. WayPoint\01. MoveLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WayPoint_Pos.h">
+      <Filter>02. GameObject\10.MapObject\02. WayPoint\02. MovePos</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -842,9 +860,6 @@
     <ClCompile Include="..\Private\Dot.cpp">
       <Filter>96. Imgui\02. Dot</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Level_BossLevel1.cpp">
-      <Filter>01. Levels\04. BossLevel1</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Fire_Deco.cpp">
       <Filter>02. GameObject\11.Fire\Deco</Filter>
     </ClCompile>
@@ -859,6 +874,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\FireAvatar_Rock.cpp">
       <Filter>02. GameObject\04.Enemy\Fire Avatar\Rock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Balseph.cpp">
+      <Filter>01. Levels\04. Boss_Balseph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_FireAvatar.cpp">
+      <Filter>01. Levels\05. Boss_FireAvatar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WayPoint.cpp">
+      <Filter>02. GameObject\10.MapObject\02. WayPoint\01. MoveLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WayPoint_Pos.cpp">
+      <Filter>02. GameObject\10.MapObject\02. WayPoint\02. MovePos</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

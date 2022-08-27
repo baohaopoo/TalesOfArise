@@ -53,7 +53,7 @@ HRESULT CLord_Balseph::NativeConstruct(void * pArg)
 	SocketDesc.pModelCom = m_pModelSKL;
 	SocketDesc.pBoneName = "KK_R";
 	SocketDesc.pTargetTransform = m_pTransformCom;
-	if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, TEXT("Layer_Balseph"), TEXT("Prototype_GameObject_BalsephAxe"), &SocketDesc)))
+	if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_LORD_BALSEPH, TEXT("Layer_Balseph"), TEXT("Prototype_GameObject_BalsephAxe"), &SocketDesc)))
 		return E_FAIL;
 
 
@@ -398,15 +398,15 @@ HRESULT CLord_Balseph::SetUp_Components()
 		return E_FAIL;
 
 	/* For.Com_Model */
-	if (FAILED(__super::SetUp_Components(TEXT("Com_Model"), LEVEL_TUTORIAL, TEXT("Prototype_Component_Model_Balseph"), (CComponent**)&m_pModelCom)))
+	if (FAILED(__super::SetUp_Components(TEXT("Com_Model"), LEVEL_LORD_BALSEPH, TEXT("Prototype_Component_Model_Balseph"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
 	/* For.Com_Model */
-	if (FAILED(__super::SetUp_Components(TEXT("Com_ModelFace"), LEVEL_TUTORIAL, TEXT("Prototype_Component_Model_BalsephFace"), (CComponent**)&m_pModelFaceCom)))
+	if (FAILED(__super::SetUp_Components(TEXT("Com_ModelFace"), LEVEL_LORD_BALSEPH, TEXT("Prototype_Component_Model_BalsephFace"), (CComponent**)&m_pModelFaceCom)))
 		return E_FAIL;
 
 	///* For.Com_Model */
-	if (FAILED(__super::SetUp_Components(TEXT("Com_ModelSKL"), LEVEL_TUTORIAL, TEXT("Prototype_Component_Model_BalsephSKL"), (CComponent**)&m_pModelSKL)))
+	if (FAILED(__super::SetUp_Components(TEXT("Com_ModelSKL"), LEVEL_LORD_BALSEPH, TEXT("Prototype_Component_Model_BalsephSKL"), (CComponent**)&m_pModelSKL)))
 		return E_FAIL;
 
 

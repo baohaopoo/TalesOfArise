@@ -6,6 +6,8 @@
 
 #include "Level_Lobby.h"
 #include "Level_Tutorial.h"
+#include "Level_Balseph.h"
+#include "Level_FireAvatar.h"
 
 #include "Loader_etc.h"
 #include "Loader_Map.h"
@@ -87,6 +89,14 @@ void CLevel_Loading::Tick(_double TimeDelta)
 
 			case LEVEL_TUTORIAL:
 				pLevel = CLevel_Tutorial::Create(m_pDevice, m_pDeviceContext);
+				break;
+
+			case LEVEL_LORD_BALSEPH:
+				pLevel = CLevel_Balseph::Create(m_pDevice, m_pDeviceContext);
+				break;
+
+			case LEVEL_FIRE_AVATAR:
+				pLevel = CLevel_FireAvatar::Create(m_pDevice, m_pDeviceContext);
 				break;
 			}
 			if (FAILED(pGameInstance->Open_Level(m_eNextLevel, pLevel)))

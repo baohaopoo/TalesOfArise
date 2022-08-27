@@ -50,17 +50,17 @@ void CMapObject::Tick(_double TimeDelta)
 {
 	__super::Tick(TimeDelta);
 
-	m_pModelCom->Update(TimeDelta, false);
+	//m_pModelCom->Update(TimeDelta, false);
 
 
 	_matrix matWorld = XMMatrixIdentity();
 	_float4x4 matWorld4x4;
 	XMStoreFloat4x4(&matWorld4x4, matWorld);
 
-	
+
 	XMStoreFloat4((_float4*)&matWorld4x4.m[CTransform::STATE_POSITION][0], m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 	m_pSphereCom->Update(XMLoadFloat4x4(&matWorld4x4));
-	
+
 	// 해당 모델의 타입이 애님일 경우
 	if (m_pModelCom->Get_Model_Type() == CModel::TYPE_ANIM) {
 		// 해당 모델의 Update를 돌린다.
@@ -77,7 +77,7 @@ void CMapObject::LateTick(_double TimeDelta)
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 	if (nullptr != m_pRendererCom) {
-		if(m_bMap)
+		if (m_bMap)
 			m_pRendererCom->Add_RenderGroup(CRenderer::GROUP_NONBLEND, this);
 		else {
 			m_pRendererCom->Add_RenderGroup(CRenderer::GROUP_NONBLEND, this);
@@ -92,13 +92,17 @@ void CMapObject::LateTick(_double TimeDelta)
 
 HRESULT CMapObject::Render()
 {
-	if (nullptr == m_pShaderNonAnimCom || nullptr == m_pModelCom)
+	if (
+		nullptr == m_pShaderNonAnimCom ||
+		nullptr == m_pShaderAnimCom ||
+		nullptr == m_pModelCom
+		)
 		return E_FAIL;
 
 	if (FAILED(SetUp_ConstantTable()))
 		return E_FAIL;
 
-	_uint iNumMeshContainers = m_pModelCom->Get_NumMeshContainer();
+	_uint		iNumMeshContainers = m_pModelCom->Get_NumMeshContainer();
 
 	if (m_pModelCom->Get_Model_Type() == CModel::TYPE_ANIM) {
 		for (_uint i = 0; i < iNumMeshContainers; ++i)
@@ -134,6 +138,8 @@ HRESULT CMapObject::Render()
 		}
 	}
 
+
+
 #ifdef _DEBUG
 	if (CImGUI_Manager::GetInstance()->Get_Level() == CImGUI_Manager::UL_SetObject)
 		m_pSphereCom->Render();
@@ -154,7 +160,11 @@ HRESULT CMapObject::SetUp_Components(void* pArg)
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(__super::SetUp_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxNonAnim"), (CComponent**)&m_pShaderNonAnimCom)))
+	if (FAILED(__super::SetUp_Components(TEXT("Com_Shader_NonAnim"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxNonAnim"), (CComponent**)&m_pShaderNonAnimCom)))
+		return E_FAIL;
+
+	/* For.Com_Shader */
+	if (FAILED(__super::SetUp_Components(TEXT("Com_Shader_Anim"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnim"), (CComponent**)&m_pShaderAnimCom)))
 		return E_FAIL;
 
 	/* For.Com_Model */
@@ -175,20 +185,37 @@ HRESULT CMapObject::SetUp_Components(void* pArg)
 
 	if (FAILED(__super::SetUp_Components(TEXT("Com_Sphere"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;
-	
+
 	return S_OK;
 }
 
 HRESULT CMapObject::SetUp_ConstantTable()
 {
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (FAILED(m_pTransformCom->Bind_WorldMatrixOnShader(m_pShaderNonAnimCom, "g_WorldMatrix")))
-		return E_FAIL;
-	if (FAILED(m_pShaderNonAnimCom->Set_RawValue("g_ViewMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
-		return E_FAIL;
-	if (FAILED(m_pShaderNonAnimCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
-		return E_FAIL;
+	if (m_pModelCom->Get_Model_Type() == CModel::TYPE_ANIM) {
+
+		if (FAILED(m_pTransformCom->Bind_WorldMatrixOnShader(m_pShaderAnimCom, "g_WorldMatrix")))
+			return E_FAIL;
+		if (FAILED(m_pShaderAnimCom->Set_RawValue("g_ViewMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
+			return E_FAIL;
+		if (FAILED(m_pShaderAnimCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderAnimCom->Set_RawValue("g_vCamPosition", &pGameInstance->Get_CamPositionFloat4(), sizeof(_float4))))
+			return E_FAIL;
+	}
+	else if (m_pModelCom->Get_Model_Type() == CModel::TYPE_NONANIM) {
+		if (FAILED(m_pTransformCom->Bind_WorldMatrixOnShader(m_pShaderNonAnimCom, "g_WorldMatrix")))
+			return E_FAIL;
+		if (FAILED(m_pShaderNonAnimCom->Set_RawValue("g_ViewMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
+			return E_FAIL;
+		if (FAILED(m_pShaderNonAnimCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderNonAnimCom->Set_RawValue("g_PreviewDiffuse", &_float4(0.f, 1.f, 0.f, 1.f), sizeof(_float4))))
+			return E_FAIL;
+	}
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -226,6 +253,7 @@ void CMapObject::Free()
 	__super::Free();
 
 	Safe_Release(m_pShaderNonAnimCom);
+	Safe_Release(m_pShaderAnimCom);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pSphereCom);

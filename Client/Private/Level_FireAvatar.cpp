@@ -1,15 +1,15 @@
 #include "stdafx.h"
-#include "..\Public\Level_BossLevel1.h"
+#include "..\Public\Level_FireAvatar.h"
 #include "GameInstance.h"
 
-CLevel_BossLevel1::CLevel_BossLevel1(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext)
+CLevel_FireAvatar::CLevel_FireAvatar(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext)
 	: CLevel(pDevice, pDeviceContext)
 	, m_pBattle_Manager(CBattle_Manager::GetInstance())
 {
 	Safe_AddRef(m_pBattle_Manager);
 }
 
-HRESULT CLevel_BossLevel1::NativeConstruct()
+HRESULT CLevel_FireAvatar::NativeConstruct()
 {
 	if (FAILED(__super::NativeConstruct()))
 		return E_FAIL;
@@ -20,29 +20,24 @@ HRESULT CLevel_BossLevel1::NativeConstruct()
 	//if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 	//	return E_FAIL;
 
-	if (FAILED(Ready_Layer_Balseph(TEXT("Layer_Balseph"))))
-		return E_FAIL;
-
 	if (FAILED(Ready_Layer_FireAvatar(TEXT("Layer_FireAvatar"))))
 		return E_FAIL;
 
 }
 
-void CLevel_BossLevel1::Tick(_double TimeDelta)
+void CLevel_FireAvatar::Tick(_double TimeDelta)
 {
 	__super::Tick(TimeDelta);
 
-	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	Safe_Release(pGameInstance);
+	RELEASE_INSTANCE(CGameInstance);
 }
 
-HRESULT CLevel_BossLevel1::Render()
+HRESULT CLevel_FireAvatar::Render()
 {
 	if (FAILED(__super::Render()))
 		return E_FAIL;
-
 
 	SetWindowText(g_hWnd, TEXT("튜토리얼 레벨입니다."));
 
@@ -70,37 +65,28 @@ HRESULT CLevel_BossLevel1::Render()
 	}
 
 	return S_OK;
-
 }
 
-HRESULT CLevel_BossLevel1::Ready_Layer_Balseph(const _tchar * pLayerTag)
+HRESULT CLevel_FireAvatar::Ready_Layer_FireAvatar(const _tchar * pLayerTag)
 {
 	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_BOSS1, pLayerTag, TEXT("Prototype_GameObject_Balseph")))
-		return E_FAIL;
-
-	Safe_Release(pGameInstance);
-
-	return S_OK;
-}
-
-HRESULT CLevel_BossLevel1::Ready_Layer_FireAvatar(const _tchar * pLayerTag)
-{
-	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_BOSS1, pLayerTag, TEXT("Prototype_GameObject_FireAvatar")))
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_LORD_BALSEPH, pLayerTag, TEXT("Prototype_GameObject_FireAvatar")))
 		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 	return S_OK;
 }
 
-CLevel_BossLevel1 * CLevel_BossLevel1::Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
+HRESULT CLevel_FireAvatar::Ready_Map(const char * pModelFilePath, const char * pModelFileName, _vector vCenterPos)
 {
-	CLevel_BossLevel1*	pInstance = new CLevel_BossLevel1(pDeviceOut, pDeviceContextOut);
+	return S_OK;
+}
+
+CLevel_FireAvatar * CLevel_FireAvatar::Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
+{
+	CLevel_FireAvatar*	pInstance = new CLevel_FireAvatar(pDeviceOut, pDeviceContextOut);
 
 	if (FAILED(pInstance->NativeConstruct()))
 	{
@@ -111,9 +97,7 @@ CLevel_BossLevel1 * CLevel_BossLevel1::Create(ID3D11Device* pDeviceOut, ID3D11De
 	return pInstance;
 }
 
-
-
-void CLevel_BossLevel1::Free()
+void CLevel_FireAvatar::Free()
 {
 	__super::Free();
 

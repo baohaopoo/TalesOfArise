@@ -57,6 +57,22 @@ private:
 public:
 	static CLoader_MapObject* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext, LEVEL eLevel);
 	virtual void Free() override;
+
+
+
+
+
+
+
+	// 모델 로드 함수
+private:
+	HRESULT Loading_LEVEL_MapTool_Model_BrokenHouse(LEVEL eLevel);
+	HRESULT Loading_LEVEL_MapTool_Model_DRTHouse(LEVEL eLevel);	
+	
+	HRESULT Loading_LEVEL_MapTool_Model_TorchLight(LEVEL eLevel);
+	HRESULT Loading_LEVEL_MapTool_Model_Furniture(LEVEL eLevel);
+
+	HRESULT Loading_LEVEL_MapTool_Model_Anim_Objects(LEVEL eLevel);
 };
 
 END

@@ -5,7 +5,7 @@ namespace Client
 	const unsigned int	g_iWinCX = 1920;//1280; // 1280;
 	const unsigned int	g_iWinCY = 1080;//720; // 720;
 
-	enum LEVEL { LEVEL_STATIC, LEVEL_LOADING, LEVEL_LOGO, LEVEL_LOBBY, LEVEL_TUTORIAL, LEVEL_BOSS1, LEVEL_BOSS2, LEVEL_MapTool, LEVEL_END };
+	enum LEVEL { LEVEL_STATIC, LEVEL_LOADING, LEVEL_LOGO, LEVEL_LOBBY, LEVEL_TUTORIAL, LEVEL_LORD_BALSEPH, LEVEL_FIRE_AVATAR, LEVEL_MapTool, LEVEL_END };
 
 	enum MAP_TYPE { MAP_GYT, MAP_BALSELPH, MAP_FIREAVATAR, MAP_BATTLE02, MAP_BATTLE04, MAP_END };
 
@@ -23,6 +23,7 @@ namespace Client
 #define  LAYER_MAPTOOL_PlacedObjects			TEXT("Layer_MapTool_PlacedObjects")
 #define  LAYER_MAPTOOL_Owls						TEXT("Layer_MapTool_Owls")
 #define  LAYER_MAPTOOL_WayPoints				TEXT("Layer_MapTool_WayPoints")
+#define  LAYER_WayPoints						TEXT("Layer_WayPoints")
 #define  LAYER_MAPTOOL_Picking_Rect				TEXT("Layer_MapTool_PickingB_Rect")
 #define  LAYER_MAPTOOL_Dot						TEXT("Layer_MapTool_Dot")
 

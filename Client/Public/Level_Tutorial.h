@@ -72,6 +72,7 @@ private:
 	HRESULT Ready_Fonts();
 private:
 	HRESULT Ready_Map(const char * pModelFilePath, const char * pModelFileName, _vector vCenterPos);
+	HRESULT Ready_WatPoint(LEVEL eNextLevel, _vector vPos);
 	HRESULT Ready_Map_Battle02(_vector vCenterPos);		// CenterPos를 기준으로 Battle02의 오브젝트들을 생성
 	HRESULT Ready_Map_Battle04(_vector vCenterPos);		// CenterPos를 기준으로 Battle04의 오브젝트들을 생성
 

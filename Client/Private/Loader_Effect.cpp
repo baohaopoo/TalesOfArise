@@ -43,11 +43,11 @@ unsigned int APIENTRY ThreadEntryFunc_Effect(void* pArg)
 		pLoader->Loading_ForTutorialLevel();
 		break;
 
-	case LEVEL_BOSS1:
+	case LEVEL_LORD_BALSEPH:
 		pLoader->Loading_ForBoss1Level();
 		break;
 
-	case LEVEL_BOSS2:
+	case LEVEL_FIRE_AVATAR:
 		pLoader->Loading_ForBoss2Level();
 		break;
 	}
