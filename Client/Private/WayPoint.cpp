@@ -84,6 +84,9 @@ HRESULT CWayPoint::SetUp_Components(void * pArg)
 
 	WayPoint_DESC Desc = *((WayPoint_DESC*)pArg);
 
+	// 타겟 플레이어 설정
+	m_pTargetPlayer = Desc.pTargetPlayer;
+
 	// 위치 설정
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(Desc.fPos.x, Desc.fPos.y, Desc.fPos.z, 1.f));
 

@@ -39,6 +39,7 @@ public:
 
 public:
 	_int Get_Hp() { return m_iEnemyInfo.m_iHp; }
+	_int Get_MaxHp() { return m_iEnemyInfo.m_iMaxHp; }
 	void Set_Battle(_bool bBattle) { m_bBattle = bBattle; }
 	_vector Get_EnemyPos() { return m_pTransformCom->Get_State(CTransform::STATE_POSITION); }
 	_vector Get_EnemyLook() { return m_pTransformCom->Get_State(CTransform::STATE_LOOK); }
@@ -146,8 +147,9 @@ protected:
 	_bool m_bAttackRevenge = false;
 	typedef struct tagEnemyInfo
 	{
-		_int m_iHp = 0;					// 몬스터 체력
-		_uint m_iBreakCount = 0;			// 플레이어에게 맞은 횟수가 일정시간 동안 20번 이상이라면 m_bHit은 true로 변환된다
+		_int m_iHp = 0;				// 몬스터 체력
+		_int m_iMaxHp = 0;			// 몬스터 최대 체력
+		_uint m_iBreakCount = 0;	// 플레이어에게 맞은 횟수가 일정시간 동안 20번 이상이라면 m_bHit은 true로 변환된다
 	}ENEMYINFO;
 
 	ENEMYINFO m_iEnemyInfo;

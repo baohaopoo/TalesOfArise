@@ -12,6 +12,7 @@ END
 BEGIN(Client)
 
 class CPlayer;
+class CLord_Balseph;
 
 class CBattle_Manager final : public CBase
 {
@@ -56,6 +57,11 @@ public:
 
 	vector<class CEnemy*>* Get_VecMonster() { return &m_vecMonsters; }
 
+public:
+	CLord_Balseph* Get_Lord_Balseph(void) { return m_pLord_Balseph; }
+
+private:
+	CLord_Balseph* m_pLord_Balseph = nullptr;
 
 
 private:

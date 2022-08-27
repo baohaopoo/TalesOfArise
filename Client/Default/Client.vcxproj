@@ -177,6 +177,7 @@
     <ClInclude Include="..\Public\AutoTargetUI.h" />
     <ClInclude Include="..\Public\BackGround.h" />
     <ClInclude Include="..\Public\BalsephAxe.h" />
+    <ClInclude Include="..\Public\Balseph_Stair.h" />
     <ClInclude Include="..\public\Battle_Manager.h" />
     <ClInclude Include="..\public\Boar.h" />
     <ClInclude Include="..\Public\Bullet.h" />
@@ -279,6 +280,7 @@
     <ClCompile Include="..\Private\AutoTargetUI.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\Private\BalsephAxe.cpp" />
+    <ClCompile Include="..\Private\Balseph_Stair.cpp" />
     <ClCompile Include="..\private\Battle_Manager.cpp" />
     <ClCompile Include="..\private\Boar.cpp" />
     <ClCompile Include="..\Private\Bullet.cpp" />

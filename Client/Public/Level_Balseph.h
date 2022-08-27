@@ -8,6 +8,7 @@ BEGIN(Client)
 class CMapObject;
 class CWayPoint;
 class CPlayer;
+class CLord_Balseph;
 
 END
 
@@ -52,6 +53,7 @@ public:
 
 private:
 	CPlayer* m_pPlayerAlphen = nullptr;
+	CLord_Balseph* m_pLord_Balseph = nullptr;
 
 private:
 	_tchar HitMsg[MAX_PATH] = TEXT("");

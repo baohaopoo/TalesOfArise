@@ -6,6 +6,7 @@
 #include "UI_Owl.h"
 #include "WayPoint.h"
 #include "WayPoint_Pos.h"
+#include "Balseph_Stair.h"
 
 CLoader_MapObject::CLoader_MapObject(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext)
 	:m_pDevice(pDevice), m_pDeviceContext(pDeviceContext)
@@ -257,6 +258,15 @@ HRESULT CLoader_MapObject::Loading_Boss1_Texture()
 
 HRESULT CLoader_MapObject::Loading_Boss1_Object()
 {
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	lstrcpy(m_szLoading, L"Loader_MapObject : Prototype_GameObject_Balseph_Stair");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Balseph_Stair"),
+		CBalseph_Stair::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
+
 	return S_OK;
 }
 

@@ -10,6 +10,8 @@
 #include "Level_Loading.h"
 #include "Owl.h"
 #include "UI_Owl.h"
+#include "Balseph_Stair.h"
+#include "Lord_Balseph.h"
 
 CLevel_Balseph::CLevel_Balseph(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext)
 	: CLevel(pDevice, pDeviceContext)
@@ -94,12 +96,25 @@ HRESULT CLevel_Balseph::Ready_Layer_Balseph(const _tchar * pLayerTag)
 	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	CGameObject* pObject = pGameInstance->Add_GameObjectToLayer(LEVEL_LORD_BALSEPH, pLayerTag, TEXT("Prototype_GameObject_Balseph"));
+	m_pLord_Balseph = dynamic_cast<CLord_Balseph*>(pGameInstance->Add_GameObjectToLayer(LEVEL_LORD_BALSEPH, pLayerTag, TEXT("Prototype_GameObject_Balseph")));
 
-	if (nullptr == pObject)
+	if (nullptr == m_pLord_Balseph)
 		return E_FAIL;
 
-	dynamic_cast<CTransform*>(pObject->Get_Component(TEXT("Com_Transform")))->Move(_float3(-84.9f, 12.55f, 0.09f));
+	dynamic_cast<CTransform*>(m_pLord_Balseph->Get_Component(TEXT("Com_Transform")))->Move(_float3(-84.9f, 12.55f, 0.09f));
+
+	CNavigation* pNavigation = nullptr;
+	CTransform* pBalseph_TransformCom = nullptr;
+
+
+	// 맵의 Navigation Mesh를 Alphen이 타게 함.
+	pNavigation = m_pLord_Balseph->SetUp_Navigation(TEXT("Prototype_Component_Navigation_Map_Balseph"));
+
+	pBalseph_TransformCom = dynamic_cast<CTransform*>(m_pLord_Balseph->Get_Component(TEXT("Com_Transform")));
+	pBalseph_TransformCom->Move(-84.9f, 12.55f, 0.09f);
+	pNavigation->Find_My_Cell(XMVectorSet(-84.9f, 12.55f, 0.09f, 1.f));
+	pBalseph_TransformCom->Move(-84.9f, pBalseph_TransformCom->Get_Height(pNavigation), 0.09f);
+
 
 	Safe_Release(pGameInstance);
 
@@ -109,6 +124,10 @@ HRESULT CLevel_Balseph::Ready_Layer_Balseph(const _tchar * pLayerTag)
 HRESULT CLevel_Balseph::Ready_Layer_Player(const _tchar * pLayerTag)
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	// Skybox 생성
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_LORD_BALSEPH, LAYER_MAPTOOL_Skybox, TEXT("Prototype_GameObject_Sky")))
+		return E_FAIL;
 
 	// Alphen 생성
 	CLayer* pLayerPlayer = pGameInstance->Find_Layer(LEVEL_STATIC, pLayerTag);
@@ -225,18 +244,15 @@ HRESULT CLevel_Balseph::Ready_Map(const char * pModelFilePath, const char * pMod
 			// 여기서 UI 매니저에 Owl의 정보와 UI를 생성하여 넣어준다.
 			// ~~
 		}
-		// 해당 오브젝트의 이름이 WarpGate 일 경우
-		else if (!_tcscmp(Desc.pPrototype_ObjectName, TEXT("Prototype_Component_Model_WarpGate"))) {
-			static _uint iWayPointNumber = 0;
+		// 해당 오브젝트의 이름이 Prototype_Component_Model_Stair_Object 일 경우
+		else if (!_tcscmp(Desc.pPrototype_ObjectName, TEXT("Prototype_Component_Model_Stair_Object"))) {
+			CBalseph_Stair::Balseph_StairDesc StairDesc;
+			StairDesc.pModelTag = TEXT("Prototype_Component_Model_Stair_Object");
+			StairDesc.pTargetEnemy = m_pLord_Balseph;
+			StairDesc.TransformMatrix = Desc.TransformMatrix;
+			StairDesc.pTargetPlayer = m_pPlayerAlphen;
 
-			// WayPoint Desc값을 채운다.
-			CWayPoint::WayPoint_DESC WayPointDesc;
-
-			// 위치 설정
-			memcpy(&WayPointDesc.fPos, &Desc.TransformMatrix.m[CTransform::STATE_POSITION][0], sizeof(_float3));
-
-			CWayPoint* pWayPoint = dynamic_cast<CWayPoint*>(pGameInstance->Add_GameObjectToLayer(LEVEL_LORD_BALSEPH, LAYER_MAPTOOL_WayPoints, TEXT("Prototype_GameObject_WayPoint"), &WayPointDesc));
-			m_vWayPoints.push_back(pWayPoint);
+			CBalseph_Stair* pStairObject = dynamic_cast<CBalseph_Stair*>(pGameInstance->Add_GameObjectToLayer(LEVEL_LORD_BALSEPH, LAYER_MAPTOOL_Balseph_Stair, TEXT("Prototype_GameObject_Balseph_Stair"), &StairDesc));
 		}
 		else {
 			// 맵 오브젝트 생성

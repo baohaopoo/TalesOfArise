@@ -53,7 +53,9 @@ HRESULT CLord_Balseph::NativeConstruct(void * pArg)
 	SocketDesc.pModelCom = m_pModelSKL;
 	SocketDesc.pBoneName = "KK_R";
 	SocketDesc.pTargetTransform = m_pTransformCom;
-	if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_LORD_BALSEPH, TEXT("Layer_Balseph"), TEXT("Prototype_GameObject_BalsephAxe"), &SocketDesc)))
+	m_pAxe = dynamic_cast<CBalsephAxe*>(pGameInstance->Clone_Prototype(TEXT("Prototype_GameObject_BalsephAxe"), &SocketDesc));
+
+	if (nullptr == m_pAxe)
 		return E_FAIL;
 
 
@@ -63,12 +65,20 @@ HRESULT CLord_Balseph::NativeConstruct(void * pArg)
 	m_bOnce = false;
 	m_bStart = true;
 	m_bBattle = false;
-	m_iEnemyInfo.m_iHp = 50;
+	
+	m_iEnemyInfo.m_iMaxHp = 8;	// 원래 최대 체력 50
+	m_iEnemyInfo.m_iHp = m_iEnemyInfo.m_iMaxHp;
+
+	m_eMapType = MAP_BALSELPH;
+
 	return S_OK;
 }
 
 void CLord_Balseph::Tick(_double TimeDelta)
 {
+	if (nullptr != m_pAxe)
+		m_pAxe->Tick(TimeDelta);
+
 	m_bOnAttackCollider = false;
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
@@ -185,6 +195,9 @@ void CLord_Balseph::Tick(_double TimeDelta)
 
 void CLord_Balseph::LateTick(_double TimeDelta)
 {
+	if (nullptr != m_pAxe)
+		m_pAxe->LateTick(TimeDelta);
+
 	__super::LateTick(TimeDelta);
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
@@ -1358,5 +1371,8 @@ void CLord_Balseph::Free()
 	Safe_Release(m_pModelSKL);
 	Safe_Release(m_pModelFaceCom);
 	Safe_Release(m_pModelCom);
+
+	Safe_Release(m_pAxe);
+
 	__super::Free();
 }

@@ -268,6 +268,7 @@ HRESULT CRenderer::Add_RenderGroup(RENDERGROUP eGroup, CGameObject * pGameObject
 
 HRESULT CRenderer::Render_GameObjects()
 {
+	m_pTarget_Manager->Clear_MRT(m_pDeviceContext, L"MRT_HDR");
 	m_pTarget_Manager->Clear_MRT(m_pDeviceContext, L"MRT_Effect");
 
 	if (FAILED(Render_Priority()))

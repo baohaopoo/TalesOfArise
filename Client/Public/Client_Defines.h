@@ -23,6 +23,8 @@ namespace Client
 #define  LAYER_MAPTOOL_PlacedObjects			TEXT("Layer_MapTool_PlacedObjects")
 #define  LAYER_MAPTOOL_Owls						TEXT("Layer_MapTool_Owls")
 #define  LAYER_MAPTOOL_WayPoints				TEXT("Layer_MapTool_WayPoints")
+#define  LAYER_MAPTOOL_Balseph_Stair			TEXT("Layer_MapTool_Balseph_Stair")
+#define  LAYER_MAPTOOL_Skybox					TEXT("Layer_MapTool_Skybox")
 #define  LAYER_WayPoints						TEXT("Layer_WayPoints")
 #define  LAYER_MAPTOOL_Picking_Rect				TEXT("Layer_MapTool_PickingB_Rect")
 #define  LAYER_MAPTOOL_Dot						TEXT("Layer_MapTool_Dot")

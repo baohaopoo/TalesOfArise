@@ -5,6 +5,8 @@
 
 BEGIN(Client)
 
+class CBalsephAxe;
+
 class CLord_Balseph final : public CEnemy
 {
 public:
@@ -76,6 +78,10 @@ private:
 	_bool m_bTime = false;
 	_bool m_bOnce = false;
 	_bool m_bCatch = false;
+
+
+private:
+	CBalsephAxe* m_pAxe = nullptr;
 };
 
 END

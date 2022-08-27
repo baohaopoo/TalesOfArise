@@ -168,21 +168,19 @@ HRESULT CLoader_Map::Loading_Tutorial_Model()
 
 
 
-	//lstrcpy(m_szLoading, TEXT("Map_Boss_FireAvatar를 로드중입니다."));
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Map_Boss_FireAvatar"),
-	//	CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM,
-	//		"../Bin/Resources/UMap/Map_GrandYork/",
-	//		"Map_Boss_FireAvatar.fbx", PivotMatrix))))
-	//	return E_FAIL;
+	lstrcpy(m_szLoading, L"Loader_Map : Prototype_Component_Model_Map_Boss_FireAvatar");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Map_Boss_FireAvatar"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM,
+			"../Bin/Resources/UMap/Map_GrandYork/",
+			"Map_Boss_FireAvatar.fbx", PivotMatrix))))
+		return E_FAIL;
 
-	//lstrcpy(m_szLoading, TEXT("Map_Boss_FireAvatar_NaviMap을 로드중입니다."));
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Map_Boss_FireAvatar_NaviMap"),
-	//	CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM,
-	//		"../Bin/Resources/UMap/Map_GrandYork/",
-	//		"Map_Boss_FireAvatar_NaviMap.fbx", PivotMatrix))))
-	//	return E_FAIL;
-
-
+	lstrcpy(m_szLoading, L"Loader_Map : Prototype_Component_Model_Map_Boss_FireAvatar_NaviMap");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Map_Boss_FireAvatar_NaviMap"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM,
+			"../Bin/Resources/UMap/Map_GrandYork/",
+			"Map_Boss_FireAvatar_NaviMap.fbx", PivotMatrix))))
+		return E_FAIL;
 
 
 	RELEASE_INSTANCE(CGameInstance);

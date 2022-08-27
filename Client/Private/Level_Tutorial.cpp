@@ -532,7 +532,7 @@ HRESULT CLevel_Tutorial::Ready_Layer_BackGround(const _tchar * pLayerTag)
 	//if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, pLayerTag, TEXT("Prototype_GameObject_Terrain")))
 	//	return E_FAIL;
 
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, pLayerTag, TEXT("Prototype_GameObject_Sky")))
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, LAYER_MAPTOOL_Skybox, TEXT("Prototype_GameObject_Sky")))
 		return E_FAIL;
 
 

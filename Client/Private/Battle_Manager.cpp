@@ -15,6 +15,9 @@
 #include "MapObject.h"
 #include "Navigation.h"
 
+#include "Balseph_Stair.h"
+#include "Lord_Balseph.h"
+
 
 IMPLEMENT_SINGLETON(CBattle_Manager)
 
@@ -116,73 +119,79 @@ void CBattle_Manager::Battle_Enter(CEnemy* pEnemy)
 		CNavigation* pNavigation = nullptr;
 
 		// 몬스터가 가지고 있는 맵 타입의 정보를 가져와 해당 맵의 위치로 이동한다.
-
-		if (!pEnemyClone->Get_IsBoss())
+		CLayer* pLayer = nullptr;
+		CBalseph_Stair* pStair = nullptr;
+		switch (pEnemyClone->Get_MapType())
 		{
-			switch (pEnemyClone->Get_MapType())
-			{
-			case Client::MAP_BALSELPH:
+		case Client::MAP_BALSELPH:
 
-				Enemy_MoveToMap(pEnemyClone, _float3(-75.31, 19.25, 0.02), TEXT("Prototype_Component_Navigation_Map_Balseph"));
+			Enemy_MoveToMap(pEnemyClone, _float3(-75.31, 19.25, 0.02), TEXT("Prototype_Component_Navigation_Map_Balseph"));
 
-				if (!bPlayerMove) {
-					// 플레이어의 위치를 이동한다.
-					Player_MoveToMap(pFieldPlayer, _float3(-75.31, 19.25, 0.02), TEXT("Prototype_Component_Navigation_Map_Balseph"));
-					bPlayerMove = true;
-				}
-
-				break;
-
-			case Client::MAP_FIREAVATAR:
-				Enemy_MoveToMap(pEnemyClone, _float3(-91.22, 2.42, 0.32), TEXT("Prototype_Component_Navigation_Map_FireAvatar"));
-
-				if (!bPlayerMove) {
-					// 플레이어의 위치를 이동한다.
-					Player_MoveToMap(pFieldPlayer, _float3(-91.22, 2.42, 0.32), TEXT("Prototype_Component_Navigation_Map_FireAvatar"));
-					bPlayerMove = true;
-				}
-
-				break;
-
-			case Client::MAP_BATTLE02:
-				Enemy_MoveToMap(pEnemyClone, _float3(995.f + 5.f*i, 0.f, 8.f), TEXT("Prototype_Component_Navigation_Map_GrandYork_Battle_02"));
-				pEnemyTransformCom->TurnAxis(XMVectorSet(0.f, 0.f, -1.f, 0.f));
-				pEnemyClone->Set_CurBattlePos(XMVectorSet(1005.7f, 0.f, 2.31f, 1.f));
-				pEnemyClone->Set_CurBattleRadius(18.f);
-				if (!bPlayerMove) {
-					for (auto pPlayer : *pPlayerManger->Get_VecPlayers())
-					{
-						pPlayer->Set_CurBattlePos(XMVectorSet(1005.7f, 0.f, 2.31f, 1.f));
-						pPlayer->Set_CurBattleRadius(18.f);
-
-						Player_MoveToMap(pPlayer, _float3(1000.f, 0.f, 0.f), TEXT("Prototype_Component_Navigation_Map_GrandYork_Battle_02"));
-					}
-					bPlayerMove = true;
-				}
-
-				break;
-
-			case Client::MAP_BATTLE04:
-				Enemy_MoveToMap(pEnemyClone, _float3(2005.f, 0.f, 0.f), TEXT("Prototype_Component_Navigation_Map_GrandYork_Battle_04"));
-
-				if (!bPlayerMove) {
-					// 플레이어의 위치를 이동한다.
-					for (auto pPlayer : *pPlayerManger->Get_VecPlayers())
-					{
-						Player_MoveToMap(pPlayer, _float3(2005.f, 0.f, 0.f), TEXT("Prototype_Component_Navigation_Map_GrandYork_Battle_04"));
-					}
-					bPlayerMove = true;
-				}
-
-				break;
-
-			default:
-				MSG_BOX(TEXT("Wrong Enemy MapData Detected! Set Battle or Dungeon Map_Type"));
-				break;
+			if (!bPlayerMove) {
+				// 플레이어의 위치를 이동한다.
+				Player_MoveToMap(pFieldPlayer, _float3(-75.31, 19.25, 0.02), TEXT("Prototype_Component_Navigation_Map_Balseph"));
+				bPlayerMove = true;
 			}
-		}
 
-	
+			pLayer = pGameInstance->Find_Layer(LEVEL_LORD_BALSEPH, LAYER_MAPTOOL_Balseph_Stair);
+
+			if (nullptr != pLayer) {
+				pStair = dynamic_cast<CBalseph_Stair*>(*pLayer->Get_ObjectList().begin());
+				pStair->Set_EnemyTarget(dynamic_cast<CLord_Balseph*>(pEnemyClone));
+			}
+
+			m_pLord_Balseph = dynamic_cast<CLord_Balseph*>(pEnemyClone);
+
+			break;
+
+		case Client::MAP_FIREAVATAR:
+			Enemy_MoveToMap(pEnemyClone, _float3(-91.22, 2.42, 0.32), TEXT("Prototype_Component_Navigation_Map_FireAvatar"));
+
+			if (!bPlayerMove) {
+				// 플레이어의 위치를 이동한다.
+				Player_MoveToMap(pFieldPlayer, _float3(-91.22, 2.42, 0.32), TEXT("Prototype_Component_Navigation_Map_FireAvatar"));
+				bPlayerMove = true;
+			}
+
+			break;
+
+		case Client::MAP_BATTLE02:
+			Enemy_MoveToMap(pEnemyClone, _float3(995.f + 5.f*i, 0.f, 8.f), TEXT("Prototype_Component_Navigation_Map_GrandYork_Battle_02"));
+			pEnemyTransformCom->TurnAxis(XMVectorSet(0.f, 0.f, -1.f, 0.f));
+			pEnemyClone->Set_CurBattlePos(XMVectorSet(1005.7f, 0.f, 2.31f, 1.f));
+			pEnemyClone->Set_CurBattleRadius(18.f);
+			if (!bPlayerMove) {
+				for (auto pPlayer : *pPlayerManger->Get_VecPlayers())
+				{
+					pPlayer->Set_CurBattlePos(XMVectorSet(1005.7f, 0.f, 2.31f, 1.f));
+					pPlayer->Set_CurBattleRadius(18.f);
+
+					Player_MoveToMap(pPlayer, _float3(1000.f, 0.f, 0.f), TEXT("Prototype_Component_Navigation_Map_GrandYork_Battle_02"));
+				}
+				bPlayerMove = true;
+			}
+
+			break;
+
+		case Client::MAP_BATTLE04:
+			Enemy_MoveToMap(pEnemyClone, _float3(2005.f, 0.f, 0.f), TEXT("Prototype_Component_Navigation_Map_GrandYork_Battle_04"));
+
+			if (!bPlayerMove) {
+				// 플레이어의 위치를 이동한다.
+				for (auto pPlayer : *pPlayerManger->Get_VecPlayers())
+				{
+					Player_MoveToMap(pPlayer, _float3(2005.f, 0.f, 0.f), TEXT("Prototype_Component_Navigation_Map_GrandYork_Battle_04"));
+				}
+				bPlayerMove = true;
+			}
+
+			break;
+
+		default:
+			MSG_BOX(TEXT("Wrong Enemy MapData Detected! Set Battle or Dungeon Map_Type"));
+			break;
+		}
+		
 
 		pEnemyClone->Set_Battle(true);
 
@@ -227,7 +236,6 @@ void CBattle_Manager::Battle_Enter(CEnemy* pEnemy)
 
 void CBattle_Manager::Battle_End()
 {
-
 	CPlayer_Manager* pPlayerManger = CPlayer_Manager::GetInstance();
 	Safe_AddRef(pPlayerManger);
 	CPlayer* pFieldPlayer = pPlayerManger->Get_FieldPlayer();

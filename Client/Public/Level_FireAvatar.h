@@ -29,6 +29,7 @@ private:
 	HRESULT Ready_Layer_FireAvatar(const _tchar * pLayerTag);
 	HRESULT Ready_Layer_Fire_Deco(const _tchar * pLayerTag);
 
+	HRESULT Ready_Layer_Player(const _tchar* pLayerTag);
 	
 private:
 	HRESULT Ready_Map(const char * pModelFilePath, const char * pModelFileName, _vector vCenterPos);
